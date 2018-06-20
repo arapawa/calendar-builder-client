@@ -1,14 +1,14 @@
-# calendar-builder
+# calendar-builder-client
 
-Builds a program calendar for the program year and allows sharing with the client
+Pulls an individual calendar from Airtable for editing by Client or Admin
 
 ### Getting Started
 
 Follow these steps to get started:
 
 ```
-	> git clone https://github.com/dannytpeck/calendar-builder.git
-	> cd calendar-builder
+	> git clone https://github.com/dannytpeck/calendar-builder-client.git
+	> cd calendar-builder-client
 	> npm install
 	> npm start
 ```
