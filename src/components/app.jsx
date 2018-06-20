@@ -19,7 +19,7 @@ class App extends Component {
 
     this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
     this.deleteChallengeFromCalendar = this.deleteChallengeFromCalendar.bind(this);
-    this.selectChallenge = this.selectChallenge.bind(this);    
+    this.selectChallenge = this.selectChallenge.bind(this);
   }
 
   // Make airtable calls when app starts
@@ -137,20 +137,13 @@ class App extends Component {
         </div>
 
         <EditCalendar
-          hash={hash}
-
           calendar={this.state.calendar}
           challenges={this.state.challenges}
           selectedClient={this.state.selectedClient}
-
-          addChallengeToCalendar={this.addChallengeToCalendar}
-          deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
           selectChallenge={this.selectChallenge}
-
-          selectedCalendar={this.state.selectedCalendar}
-          handleDoneClick={this.viewShowCalendars}
-          handleEditChallengeClick={this.viewEditChallenge}
-          selectedChallenge={this.state.selectedChallenge} />
+          selectedChallenge={this.state.selectedChallenge}
+          addChallengeToCalendar={this.addChallengeToCalendar}
+          deleteChallengeFromCalendar={this.deleteChallengeFromCalendar} />
       </div>
     );
   }

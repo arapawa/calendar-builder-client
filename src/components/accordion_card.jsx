@@ -320,7 +320,6 @@ class AccordionCard extends Component {
                       challenges={this.props.challenges}
                       selectChallenge={this.props.selectChallenge}
                       selectedClient={this.props.selectedClient}
-                      selectedCalendar={this.props.selectedCalendar}
                       selectedChallenge={this.props.selectedChallenge}
                       addChallengeToCalendar={this.props.addChallengeToCalendar}
                       phase={this.props.title}
