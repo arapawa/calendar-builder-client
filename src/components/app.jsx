@@ -40,23 +40,25 @@ class App extends Component {
     }).eachPage((records, fetchNextPage) => {
       const calendar = records[0];
 
-      base('Clients').select({
-        filterByFormula: `{Limeade e=}='${calendar.fields['client']}'`
-      }).eachPage((records, fetchNextPage) => {
-        const client = records[0];
+      if (calendar) {
+        base('Clients').select({
+          filterByFormula: `{Limeade e=}='${calendar.fields['client']}'`
+        }).eachPage((records, fetchNextPage) => {
+          const client = records[0];
 
-        this.setState({
-          calendarName: calendar.fields['name'],
-          selectedClient: client,
+          this.setState({
+            calendarName: calendar.fields['name'],
+            selectedClient: client,
+          });
+
+          fetchNextPage();
+        }, (err) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
         });
-
-        fetchNextPage();
-      }, (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-      });
+      }
 
       fetchNextPage();
     }, (err) => {
@@ -91,7 +93,7 @@ class App extends Component {
     const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appa7mnDuYdgwx2zP');
 
     base('Challenges').select().eachPage((records, fetchNextPage) => {
-      console.log(records);
+
       this.setState({ challenges: [...this.state.challenges, ...records] });
 
       fetchNextPage();
