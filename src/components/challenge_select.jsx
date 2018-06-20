@@ -36,12 +36,13 @@ class ChallengeSelect extends Component {
     const employerName = this.props.selectedClient.fields['Limeade e='];
     const startDate = this.props.startDate ? this.props.startDate : moment().format('YYYY-MM-DD');
     const endDate = this.props.endDate ? this.props.endDate : moment().format('YYYY-MM-DD');
-    const hash = this.props.selectedCalendar.fields.hash;
 
     let programYear = moment().format('YYYY');
     if (calendar[0]) {
       programYear = calendar[0].fields['Program Year'];
     }
+
+    const hash = window.location.hash.slice(2);
 
     if (challenge) {
       base('Challenges').create({
@@ -53,7 +54,7 @@ class ChallengeSelect extends Component {
         'Start date': startDate,
         'End date': endDate,
         'Required': 'No',
-        'Verified': 'No',
+        'Verified': 'Self-Report',
         'Team/Ix': 'Individual',
         'Frequency': 'One Time',
         'Points': '0',
@@ -87,7 +88,7 @@ class ChallengeSelect extends Component {
         'Device Enabled': 'No',
         'HP Element': 'Health & Fitness',
         'Slug': ''
-        }, (err, record) => {
+      }, (err, record) => {
         if (err) {
           console.error(err);
           return;

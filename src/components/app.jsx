@@ -2,43 +2,58 @@ import React, { Component } from 'react';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
-import ShowCalendars from './show_calendars';
-import AddCalendar from './add_calendar';
+import Header from './header';
 import EditCalendar from './edit_calendar';
-import EditChallenge from './edit_challenge';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      view: 'ShowCalendars',
-      clients: [],
+      calendar: [],
+      challenges: [],
+      calendarName: '',
       selectedClient: null,
-      selectedCalendar: null,
-      selectedChallenge: null,
-      programYear: null
+      selectedChallenge: null
     };
 
-    this.selectClient = this.selectClient.bind(this);
-    this.selectCalendar = this.selectCalendar.bind(this);
-    this.selectChallenge = this.selectChallenge.bind(this);
-    this.viewShowCalendars = this.viewShowCalendars.bind(this);
-    this.viewAddCalendar = this.viewAddCalendar.bind(this);
-    this.viewEditCalendar = this.viewEditCalendar.bind(this);
-    this.viewEditChallenge = this.viewEditChallenge.bind(this);
-    this.setProgramYear = this.setProgramYear.bind(this);
+    this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
+    this.deleteChallengeFromCalendar = this.deleteChallengeFromCalendar.bind(this);
+    this.selectChallenge = this.selectChallenge.bind(this);    
   }
 
-  // When app starts, fetch clients and set initial view
+  // Make airtable calls when app starts
   componentDidMount() {
-    this.fetchClients();
+    this.fetchAccountName();
+    this.fetchCalendar();
+    this.fetchChallenges();
   }
 
-  fetchClients() {
-    base('Clients').select().eachPage((records, fetchNextPage) => {
+  fetchAccountName() {
+    const hash = window.location.hash.slice(2);
 
-      this.setState({ clients: [...this.state.clients, ...records] });
+    base('Calendars').select({
+      filterByFormula: `{hash}='${hash}'`
+    }).eachPage((records, fetchNextPage) => {
+      const calendar = records[0];
+
+      base('Clients').select({
+        filterByFormula: `{Limeade e=}='${calendar.fields['client']}'`
+      }).eachPage((records, fetchNextPage) => {
+        const client = records[0];
+
+        this.setState({
+          calendarName: calendar.fields['name'],
+          selectedClient: client,
+        });
+
+        fetchNextPage();
+      }, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
 
       fetchNextPage();
     }, (err) => {
@@ -49,84 +64,93 @@ class App extends Component {
     });
   }
 
-  selectClient(client) {
-    this.setState({ selectedClient: client });
+  fetchCalendar() {
+    const hash = window.location.hash.slice(2);
+
+    base('Challenges').select({
+      view: 'Default',
+      filterByFormula: `{Calendar}='${hash}'`
+    }).eachPage((records, fetchNextPage) => {
+
+      this.setState({ calendar: [...this.state.calendar, ...records] });
+
+      fetchNextPage();
+    }, (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    });
   }
 
-  selectCalendar(calendar) {
-    this.setState({ selectedCalendar: calendar });
+  fetchChallenges() {
+    base('LibraryChallenges').select({
+      view: 'Default'
+    }).eachPage((records, fetchNextPage) => {
+
+      this.setState({ challenges: [...this.state.challenges, ...records] });
+
+      fetchNextPage();
+    }, (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    });
+  }
+
+  addChallengeToCalendar(challenge) {
+    const newCalendar = [...this.state.calendar, challenge];
+    this.setState({
+      calendar: newCalendar,
+      selectedChallenge: null
+    });
+  }
+
+  deleteChallengeFromCalendar(challengeToBeDeleted) {
+    const newCalendar = this.state.calendar.filter(challenge => challenge.id !== challengeToBeDeleted.id);
+    this.setState({ calendar: newCalendar });
   }
 
   selectChallenge(challenge) {
     this.setState({ selectedChallenge: challenge });
   }
 
-  setProgramYear(year) {
-    this.setState({ programYear: year });
-  }
-
-  renderView(view) {
-    switch (view) {
-      case 'ShowCalendars':
-        return (
-          <ShowCalendars
-            clients={this.state.clients}
-            selectedClient={this.state.selectedClient}
-            selectClient={this.selectClient}
-            selectCalendar={this.selectCalendar}
-            handleEditClick={this.viewEditCalendar}
-            handleAddClick={this.viewAddCalendar}
-            setProgramYear={this.setProgramYear} />
-        );
-      case 'AddCalendar':
-        return (
-          <AddCalendar
-            selectedClient={this.state.selectedClient}
-            handleCancelClick={this.viewShowCalendars}
-            handleNextClick={this.viewEditCalendar}
-            setProgramYear={this.setProgramYear}
-            selectCalendar={this.selectCalendar} />
-        );
-      case 'EditCalendar':
-        return (
-          <EditCalendar
-            selectedClient={this.state.selectedClient}
-            selectedCalendar={this.state.selectedCalendar}
-            programYear={this.state.programYear}
-            handleDoneClick={this.viewShowCalendars}
-            handleEditChallengeClick={this.viewEditChallenge}
-            selectChallenge={this.selectChallenge}
-            selectedChallenge={this.state.selectedChallenge} />
-        );
-      case 'EditChallenge':
-        return (
-          <EditChallenge
-            selectedChallenge={this.state.selectedChallenge}
-            handleCancelClick={this.viewEditCalendar} />
-        );
-    }
-  }
-
-  viewShowCalendars() {
-    this.setState({ view: 'ShowCalendars' });
-  }
-
-  viewAddCalendar() {
-    this.setState({ view: 'AddCalendar' });
-  }
-
-  viewEditCalendar() {
-    this.setState({ view: 'EditCalendar' });
-  }
-
-  viewEditChallenge() {
-    this.setState({ view: 'EditChallenge' });
-  }
-
   render() {
+    const hash = window.location.hash.slice(2);
+    const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
+
     return (
       <div className="app">
-        {this.renderView(this.state.view)}
+        <Header />
+        <h2>Edit Calendar</h2>
+        <h4 className="client-name my-5">{accountName}</h4>
+
+        <div className="calendar-name-and-link">
+          <h4 className="calendar-name">{this.state.calendarName}</h4>
+          <img className="calendar-link"
+            type="image"
+            src="images/icon_link.svg"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title={`<h5 class='my-3'>Link to this Calendar</h5><h5 class='my-3'>http://mywellnessnumbers.sftp.adurolife.com/calendar-builder/#/${hash}</h5>`} />
+        </div>
+
+        <EditCalendar
+          hash={hash}
+
+          calendar={this.state.calendar}
+          challenges={this.state.challenges}
+          selectedClient={this.state.selectedClient}
+
+          addChallengeToCalendar={this.addChallengeToCalendar}
+          deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
+          selectChallenge={this.selectChallenge}
+
+          selectedCalendar={this.state.selectedCalendar}
+          handleDoneClick={this.viewShowCalendars}
+          handleEditChallengeClick={this.viewEditChallenge}
+          selectedChallenge={this.state.selectedChallenge} />
       </div>
     );
   }
