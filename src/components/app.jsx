@@ -88,10 +88,10 @@ class App extends Component {
   }
 
   fetchChallenges() {
-    base('LibraryChallenges').select({
-      view: 'Default'
-    }).eachPage((records, fetchNextPage) => {
+    const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appa7mnDuYdgwx2zP');
 
+    base('Challenges').select().eachPage((records, fetchNextPage) => {
+      console.log(records);
       this.setState({ challenges: [...this.state.challenges, ...records] });
 
       fetchNextPage();

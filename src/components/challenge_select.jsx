@@ -25,7 +25,7 @@ class ChallengeSelect extends Component {
   }
 
   selectChallenge(challenge) {
-    const title = challenge.fields.title;
+    const title = challenge.fields['Title'];
     this.props.selectChallenge(challenge);
     this.setState({ open: false, searchText: title });
   }
@@ -46,7 +46,7 @@ class ChallengeSelect extends Component {
 
     if (challenge) {
       base('Challenges').create({
-        'Name': challenge.fields.title,
+        'Name': challenge.fields['Title'],
         'Calendar': hash,
         'EmployerName': employerName,
         'Program Year': programYear,
@@ -61,7 +61,7 @@ class ChallengeSelect extends Component {
         'Total Points': '0',
         'Device Enabled': 'No',
         'HP Element': 'Health & Fitness',
-        'Slug': challenge.fields.slug
+        'Challenge Id': challenge.id
       }, (err, record) => {
         if (err) {
           console.error(err);
@@ -87,7 +87,7 @@ class ChallengeSelect extends Component {
         'Total Points': '0',
         'Device Enabled': 'No',
         'HP Element': 'Health & Fitness',
-        'Slug': ''
+        'Challenge Id': ''
       }, (err, record) => {
         if (err) {
           console.error(err);
@@ -106,11 +106,11 @@ class ChallengeSelect extends Component {
   }
 
   renderChallenge(challenge) {
-    const slug = challenge.fields.slug;
-    const title = this.cleanTitle(challenge.fields.title);
+    const challengeId = challenge.id;
+    const title = this.cleanTitle(challenge.fields['Title']);
 
     return (
-      <span className="dropdown-item" key={slug}
+      <span className="dropdown-item" key={challengeId}
         onClick={() => this.selectChallenge(challenge)}>
         {title}
       </span>
@@ -119,7 +119,7 @@ class ChallengeSelect extends Component {
 
   render() {
     const filteredChallenges = this.props.challenges.filter(challenge => {
-      const title = this.cleanTitle(challenge.fields.title.toLowerCase());
+      const title = this.cleanTitle(challenge.fields['Title'].toLowerCase());
       const searchText = this.state.searchText.toLowerCase();
       return title.includes(searchText);
     });
