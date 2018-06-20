@@ -4,9 +4,8 @@ import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 import AccordionCard from './accordion_card';
-import ConfirmModal from './confirm_modal';
 
-class EditCalendar extends Component {
+class CalendarAccordion extends Component {
   constructor(props) {
     super(props);
 
@@ -51,35 +50,20 @@ class EditCalendar extends Component {
     const phase4 = calendar.filter(challenge => challenge.fields.Phase === 'Phase 4');
     const phase4b = calendar.filter(challenge => challenge.fields.Phase === 'Phase 4B');
 
-    let totalPoints = 0;
-    calendar.map(challenge => {
-      const points = Number(challenge.fields['Total Points']);
-      if (!isNaN(points)) {
-        totalPoints += points;
-      }
-    });
-
     return (
-      <div className="edit-calendar">
-        <div className="calendar-accordion my-4 clear" id="accordion" role="tablist">
-          {this.renderAccordionCard(yearlong, 'yearlong', 'Yearlong')}
-          {this.renderAccordionCard(phase1, 'phase1', 'Phase 1')}
-          {this.renderAccordionCard(phase1b, 'phase1b', 'Phase 1B')}
-          {this.renderAccordionCard(phase2, 'phase2', 'Phase 2')}
-          {this.renderAccordionCard(phase2b, 'phase2b', 'Phase 2B')}
-          {this.renderAccordionCard(phase3, 'phase3', 'Phase 3')}
-          {this.renderAccordionCard(phase3b, 'phase3b', 'Phase 3B')}
-          {this.renderAccordionCard(phase4, 'phase4', 'Phase 4')}
-          {this.renderAccordionCard(phase4b, 'phase4b', 'Phase 4B')}
-        </div>
-
-        <h5 className="point-total my-3">{totalPoints} Points</h5>
-
-        <ConfirmModal />
-
+      <div className="calendar-accordion my-4 clear" id="accordion" role="tablist">
+        {this.renderAccordionCard(yearlong, 'yearlong', 'Yearlong')}
+        {this.renderAccordionCard(phase1, 'phase1', 'Phase 1')}
+        {this.renderAccordionCard(phase1b, 'phase1b', 'Phase 1B')}
+        {this.renderAccordionCard(phase2, 'phase2', 'Phase 2')}
+        {this.renderAccordionCard(phase2b, 'phase2b', 'Phase 2B')}
+        {this.renderAccordionCard(phase3, 'phase3', 'Phase 3')}
+        {this.renderAccordionCard(phase3b, 'phase3b', 'Phase 3B')}
+        {this.renderAccordionCard(phase4, 'phase4', 'Phase 4')}
+        {this.renderAccordionCard(phase4b, 'phase4b', 'Phase 4B')}
       </div>
     );
   }
 }
 
-export default EditCalendar;
+export default CalendarAccordion;

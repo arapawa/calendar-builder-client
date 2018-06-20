@@ -3,7 +3,8 @@ import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 import Header from './header';
-import EditCalendar from './edit_calendar';
+import CalendarAccordion from './calendar_accordion';
+import ConfirmModal from './confirm_modal';
 
 class App extends Component {
   constructor(props) {
@@ -120,6 +121,14 @@ class App extends Component {
     const hash = window.location.hash.slice(2);
     const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
 
+    let totalPoints = 0;
+    this.state.calendar.map(challenge => {
+      const points = Number(challenge.fields['Total Points']);
+      if (!isNaN(points)) {
+        totalPoints += points;
+      }
+    });
+
     return (
       <div className="app">
         <Header />
@@ -136,7 +145,7 @@ class App extends Component {
             title={`<h5 class='my-3'>Link to this Calendar</h5><h5 class='my-3'>http://mywellnessnumbers.sftp.adurolife.com/calendar-builder/#/${hash}</h5>`} />
         </div>
 
-        <EditCalendar
+        <CalendarAccordion
           calendar={this.state.calendar}
           challenges={this.state.challenges}
           selectedClient={this.state.selectedClient}
@@ -144,6 +153,10 @@ class App extends Component {
           selectedChallenge={this.state.selectedChallenge}
           addChallengeToCalendar={this.addChallengeToCalendar}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar} />
+
+        <h5 className="point-total my-3">{totalPoints} Points</h5>
+
+        <ConfirmModal />
       </div>
     );
   }
