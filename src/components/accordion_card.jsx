@@ -128,6 +128,38 @@ class AccordionCard extends Component {
     this.setState({
       editingChallenge: updatedChallenge
     });
+
+    // Update point value in calendar
+    this.props.calendar.map(record => {
+      if (record.id === challenge.id) {
+        const updatedPoints = event.target.value;
+        // Update points based on points and frequency
+        const frequency = record.fields['Frequency'];
+        const start = moment(record.fields['Start date']);
+        const end = moment(record.fields['End date']);
+        const dayDifference = end.diff(start, 'days');
+        const weeks = Math.ceil(dayDifference / 7);
+
+        switch (record.fields['Frequency']) {
+          case 'Weekly':
+            record.fields['Total Points'] = (updatedPoints * weeks).toString();
+            break;
+          case 'Bi-weekly':
+            record.fields['Total Points'] = (updatedPoints * 26).toString();
+            break;
+          case 'Monthly':
+            record.fields['Total Points'] = (updatedPoints * 12).toString();
+            break;
+          case 'Unlimited':
+            record.fields['Total Points'] = (updatedPoints * 4).toString();
+            break;
+          default:
+            record.fields['Total Points'] = updatedPoints;
+        }
+
+        this.props.calculateTotalPoints(this.props.calendar);
+      }
+    });
   }
 
   updateRequired(event, challenge) {

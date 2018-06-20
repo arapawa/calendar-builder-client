@@ -15,12 +15,14 @@ class App extends Component {
       challenges: [],
       calendarName: '',
       selectedClient: null,
-      selectedChallenge: null
+      selectedChallenge: null,
+      totalPoints: 0
     };
 
     this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
     this.deleteChallengeFromCalendar = this.deleteChallengeFromCalendar.bind(this);
     this.selectChallenge = this.selectChallenge.bind(this);
+    this.calculateTotalPoints = this.calculateTotalPoints.bind(this);
   }
 
   // Make airtable calls when app starts
@@ -74,6 +76,7 @@ class App extends Component {
     }).eachPage((records, fetchNextPage) => {
 
       this.setState({ calendar: [...this.state.calendar, ...records] });
+      this.calculateTotalPoints(this.state.calendar);
 
       fetchNextPage();
     }, (err) => {
@@ -117,6 +120,21 @@ class App extends Component {
     this.setState({ selectedChallenge: challenge });
   }
 
+  selectCalendar(calendar) {
+    this.setState({ calendar: calendar });
+  }
+
+  calculateTotalPoints(calendar) {
+    let totalPoints = 0;
+    calendar.map(challenge => {
+      const points = Number(challenge.fields['Total Points']);
+      if (!isNaN(points)) {
+        totalPoints += points;
+      }
+    });
+    this.setState({ totalPoints: totalPoints });
+  }
+
   render() {
     const hash = window.location.hash.slice(2);
     const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
@@ -152,9 +170,10 @@ class App extends Component {
           selectChallenge={this.selectChallenge}
           selectedChallenge={this.state.selectedChallenge}
           addChallengeToCalendar={this.addChallengeToCalendar}
-          deleteChallengeFromCalendar={this.deleteChallengeFromCalendar} />
+          deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
+          calculateTotalPoints={this.calculateTotalPoints} />
 
-        <h5 className="point-total my-3">{totalPoints} Points</h5>
+        <h5 className="point-total my-3">{this.state.totalPoints} Points</h5>
 
         <ConfirmModal />
       </div>

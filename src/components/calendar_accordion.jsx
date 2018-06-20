@@ -8,10 +8,6 @@ import AccordionCard from './accordion_card';
 class CalendarAccordion extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      totalPoints: 0
-    };
   }
 
   componentDidMount() {
@@ -33,7 +29,8 @@ class CalendarAccordion extends Component {
         selectedChallenge={this.props.selectedChallenge}
         handleEditChallengeClick={this.props.handleEditChallengeClick}
         addChallengeToCalendar={this.props.addChallengeToCalendar}
-        deleteChallengeFromCalendar={this.props.deleteChallengeFromCalendar} />
+        deleteChallengeFromCalendar={this.props.deleteChallengeFromCalendar}
+        calculateTotalPoints={this.props.calculateTotalPoints} />
     );
   }
 
