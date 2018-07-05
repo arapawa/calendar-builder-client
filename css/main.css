@@ -271,3 +271,19 @@ h1, h2, h3, h4, h5 {
 .comment-box-tooltip-inner button {
   margin: 10px 0;
 }
+
+#edit-challenge-modal .modal-dialog {
+  max-width: 1000px;
+}
+
+#tile-preview {
+  width: 440px;
+}
+
+#tile-preview .item-info-image {
+  width: 100%;
+}
+
+.trumbowyg-box, .trumbowyg-editor {
+  margin: 0;
+}

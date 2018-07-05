@@ -5,6 +5,7 @@ const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzb
 import Header from './header';
 import CalendarAccordion from './calendar_accordion';
 import ConfirmModal from './confirm_modal';
+import EditChallengeModal from './edit_challenge_modal';
 
 class App extends Component {
   constructor(props) {
@@ -137,6 +138,16 @@ class App extends Component {
     this.setState({ totalPoints: totalPoints });
   }
 
+  openModal() {
+    /* global $ */
+    $('#edit-challenge-modal').modal();
+
+    $('.modal-footer .btn-danger').off('click');
+    $('.modal-footer .btn-danger').click(() => {
+      console.log('Closing modal!');
+    });
+  }
+
   render() {
     const hash = window.location.hash.slice(2);
     const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
@@ -178,6 +189,9 @@ class App extends Component {
         <h5 className="point-total my-3">{this.state.totalPoints} Points</h5>
 
         <ConfirmModal />
+        <EditChallengeModal />
+
+        <button onClick={this.openModal}>Modal Test</button>
       </div>
     );
   }
