@@ -310,7 +310,7 @@ class AccordionCard extends Component {
           </h5>
         </div>
 
-        <div id={'collapse' + id} className="collapse" role="tabpanel" data-parent="#accordion">
+        <div id={'collapse' + id} className="collapse" role="tabpanel">
           <div className="card-body">
             <table className="table table-striped">
               <thead>
