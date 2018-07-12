@@ -184,7 +184,6 @@ class AccordionCard extends Component {
     const name = challenge.fields['Name'];
     const points = challenge.fields['Points'];
     const frequency = challenge.fields['Frequency'];
-    const required = challenge.fields['Required'];
     const verified = challenge.fields['Verified'];
 
     if (this.state.editingChallenge && this.state.editingChallenge.id === challenge.id) {
@@ -238,7 +237,6 @@ class AccordionCard extends Component {
       return (
         <tr key={challenge.id}>
           <td scope="row">{challenge.fields['Name']}</td>
-          <td>{challenge.fields['Required']}</td>
           <td>{challenge.fields['Verified']}</td>
           <td>
             <img className="table-icon" src={this.hpImage(challenge.fields['HP Element'])} />
@@ -332,7 +330,6 @@ class AccordionCard extends Component {
               <thead>
                 <tr>
                   <th scope="col">Name</th>
-                  <th scope="col">Required?</th>
                   <th scope="col">Type</th>
                   <th scope="col">Category</th>
                   <th scope="col">Dates</th>
