@@ -162,14 +162,6 @@ class AccordionCard extends Component {
     });
   }
 
-  updateRequired(event, challenge) {
-    let updatedChallenge = { ...challenge };
-    updatedChallenge.fields['Required'] = event.target.value;
-    this.setState({
-      editingChallenge: updatedChallenge
-    });
-  }
-
   updateVerified(event, challenge) {
     let updatedChallenge = { ...challenge };
     challenge.fields['Verified'] = event.target.value;
@@ -191,12 +183,6 @@ class AccordionCard extends Component {
         <tr key={challenge.id} className="editing-row">
           <td scope="row">
             <input type="text" className="form-control" value={name} onChange={(e) => this.updateName(e, challenge)} />
-          </td>
-          <td>
-            <select className="form-control" value={required} onChange={(e) => this.updateRequired(e, challenge)}>
-              <option>No</option>
-              <option>Yes</option>
-            </select>
           </td>
           <td>
             <select className="form-control" value={verified} onChange={(e) => this.updateVerified(e, challenge)}>
