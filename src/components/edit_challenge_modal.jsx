@@ -35,20 +35,7 @@ class EditChallengeModal extends Component {
                   <div className="row">
                     <div className="col">
                       <div className="form-group">
-                        <label htmlFor="startDate">Required</label>
-                        <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Required" id="requiredYes" value="Yes" />
-                          <label className="form-check-label" htmlFor="requiredYes">Yes</label>
-                        </div>
-                        <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Required" id="requiredNo" value="No" />
-                          <label className="form-check-label" htmlFor="requiredNo">No</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col">
-                      <div className="form-group">
-                        <label htmlFor="startDate">Verified</label>
+                        <label htmlFor="verified">Verified</label>
                         <div className="form-check">
                           <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified" />
                           <label className="form-check-label" htmlFor="verified">Verified</label>
@@ -64,7 +51,7 @@ class EditChallengeModal extends Component {
                   <div className="row">
                     <div className="col">
                       <div className="form-group">
-                        <label htmlFor="startDate">Individual</label>
+                        <label htmlFor="individual">Individual</label>
                         <div className="form-check">
                           <input className="form-check-input" type="radio" name="Individual" id="individual" value="Individual" />
                           <label className="form-check-label" htmlFor="individual">Individual</label>
@@ -77,34 +64,94 @@ class EditChallengeModal extends Component {
                     </div>
                     <div className="col">
                       <div className="form-group">
-
+                        <label htmlFor="minTeamSize">Team Size</label>
+                        <div className="row">
+                          <div className="col">
+                            <label htmlFor="minTeamSize">Min</label>
+                            <select class="form-control" id="minTeamSize">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                            </select>
+                          </div>
+                          <div className="col">
+                            <label htmlFor="maxTeamSize">Max</label>
+                            <select class="form-control" id="maxTeamSize">
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                              <option>6</option>
+                              <option>7</option>
+                              <option>8</option>
+                              <option>9</option>
+                              <option>10</option>
+                              <option>11</option>
+                              <option>12</option>
+                              <option>13</option>
+                              <option>14</option>
+                              <option>15</option>
+                              <option>16</option>
+                              <option>17</option>
+                              <option>18</option>
+                              <option>19</option>
+                              <option>20</option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <form>
-
-                  </form>
-
-                  <div className="form-group">
-                    <label htmlFor="tracking">Tracking</label>
-                    <select className="form-control" id="tracking">
-                      <option>One Time</option>
-                      <option>Weekly</option>
-                      <option>Monthly</option>
-                      <option>Bi-weekly</option>
-                      <option>Unlimited</option>
-                    </select>
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-group">
+                        <label htmlFor="rewardOccurrence">Reward Occurrence</label>
+                        <select className="form-control" id="rewardOccurrence">
+                          <option>Once</option>
+                          <option>Weekly</option>
+                          <option>Monthly</option>
+                          <option>Bi-weekly</option>
+                          <option>Unlimited</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col">
+                      <div className="form-group">
+                        <label htmlFor="activityTrackingType">Activity Tracking Type</label>
+                        <select className="form-control" id="activityTrackingType">
+                          <option>Event</option>
+                          <option>Days</option>
+                          <option>Units</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="trackingText">Tracking Text</label>
-                    <input type="text" className="form-control" id="trackingText" />
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-group">
+                        <label htmlFor="trackingText">Tracking Text</label>
+                        <input type="text" className="form-control" id="trackingText" />
+                      </div>
+                    </div>
+                    <div className="col">
+                      <div className="form-group">
+                        <label htmlFor="activityGoal">Activity Goal</label>
+                        <input type="text" className="form-control" id="activityGoal" />
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="form-group">
-                    <label htmlFor="points">Points</label>
-                    <input type="text" className="form-control" id="points" />
+                  <div className="row">
+                    <div className="col-3">
+                      <div className="form-group">
+                        <label htmlFor="points">Points</label>
+                        <input type="text" className="form-control" id="points" />
+                      </div>
+                    </div>
                   </div>
 
                 </div>
