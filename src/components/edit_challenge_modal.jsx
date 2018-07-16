@@ -68,7 +68,7 @@ class EditChallengeModal extends Component {
                         <div className="row">
                           <div className="col">
                             <label htmlFor="minTeamSize">Min</label>
-                            <select class="form-control" id="minTeamSize">
+                            <select className="form-control" id="minTeamSize">
                               <option>1</option>
                               <option>2</option>
                               <option>3</option>
@@ -78,7 +78,7 @@ class EditChallengeModal extends Component {
                           </div>
                           <div className="col">
                             <label htmlFor="maxTeamSize">Max</label>
-                            <select class="form-control" id="maxTeamSize">
+                            <select className="form-control" id="maxTeamSize">
                               <option>2</option>
                               <option>3</option>
                               <option>4</option>

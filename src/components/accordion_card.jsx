@@ -63,13 +63,13 @@ class AccordionCard extends Component {
 
   hpImage(category) {
     switch (category) {
-      case 'Health & Fitness':
+      case 'Health and Fitness':
         return 'images/HP_Icon_Health_Fitness.png';
-      case 'Growth & Development':
+      case 'Growth and Development':
         return 'images/HP_Icon_Growth_Development.png';
-      case 'Contribution & Sustainability':
+      case 'Contribution and Sustainability':
         return 'images/HP_Icon_Contribution_Sustainability.png';
-      case 'Money & Prosperity':
+      case 'Money and Prosperity':
         return 'images/HP_Icon_Money_Prosperity.png';
     }
   }
@@ -84,7 +84,7 @@ class AccordionCard extends Component {
 
   updateName(event, challenge) {
     let updatedChallenge = { ...challenge };
-    updatedChallenge.fields['Name'] = event.target.value;
+    updatedChallenge.fields['Title'] = event.target.value;
     this.setState({
       editingChallenge: updatedChallenge
     });
@@ -116,7 +116,7 @@ class AccordionCard extends Component {
 
   updateTracking(event, challenge) {
     let updatedChallenge = { ...challenge };
-    updatedChallenge.fields['Frequency'] = event.target.value;
+    updatedChallenge.fields['Reward Occurrence'] = event.target.value;
     this.setState({
       editingChallenge: updatedChallenge
     });
@@ -134,13 +134,13 @@ class AccordionCard extends Component {
       if (record.id === challenge.id) {
         const updatedPoints = event.target.value;
         // Update points based on points and frequency
-        const frequency = record.fields['Frequency'];
+        const frequency = record.fields['Reward Occurrence'];
         const start = moment(record.fields['Start date']);
         const end = moment(record.fields['End date']);
         const dayDifference = end.diff(start, 'days');
         const weeks = Math.ceil(dayDifference / 7);
 
-        switch (record.fields['Frequency']) {
+        switch (record.fields['Reward Occurrence']) {
           case 'Weekly':
             record.fields['Total Points'] = (updatedPoints * weeks).toString();
             break;
@@ -173,9 +173,9 @@ class AccordionCard extends Component {
   renderRow(challenge) {
     const startDate = moment(challenge.fields['Start date']).format('YYYY-MM-DD');
     const endDate = moment(challenge.fields['End date']).format('YYYY-MM-DD');
-    const name = challenge.fields['Name'];
+    const name = challenge.fields['Title'];
     const points = challenge.fields['Points'];
-    const frequency = challenge.fields['Frequency'];
+    const frequency = challenge.fields['Reward Occurrence'];
     const verified = challenge.fields['Verified'];
 
     if (this.state.editingChallenge && this.state.editingChallenge.id === challenge.id) {
@@ -192,7 +192,7 @@ class AccordionCard extends Component {
             </select>
           </td>
           <td className="category-cell">
-            <img className="table-icon" src={this.hpImage(challenge.fields['HP Element'])} />
+            <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
             <img className="table-icon" src={this.teamImage(challenge.fields['Team/Ix'])} />
           </td>
           <td>
@@ -222,14 +222,14 @@ class AccordionCard extends Component {
     } else {
       return (
         <tr key={challenge.id}>
-          <td scope="row">{challenge.fields['Name']}</td>
+          <td scope="row">{challenge.fields['Title']}</td>
           <td>{challenge.fields['Verified']}</td>
           <td>
-            <img className="table-icon" src={this.hpImage(challenge.fields['HP Element'])} />
+            <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
             <img className="table-icon" src={this.teamImage(challenge.fields['Team/Ix'])} />
           </td>
           <td>{moment(startDate).format('L')} - {moment(endDate).format('L')}</td>
-          <td>{challenge.fields['Frequency']}</td>
+          <td>{challenge.fields['Reward Occurrence']}</td>
         <td>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
           <td>
             <img className="table-icon" src="images/icon_edit.svg" onClick={() => this.editChallenge(challenge)} />
@@ -258,7 +258,7 @@ class AccordionCard extends Component {
       endDate = moment(phase[0].fields['End date']).format('YYYY-MM-DD');
 
       phase.map(challenge => {
-        const frequency = challenge.fields['Frequency'];
+        const frequency = challenge.fields['Reward Occurrence'];
         const start = moment(challenge.fields['Start date']);
         const end = moment(challenge.fields['End date']);
         const dayDifference = end.diff(start, 'days');

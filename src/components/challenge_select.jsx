@@ -46,21 +46,20 @@ class ChallengeSelect extends Component {
 
     if (challenge) {
       base('Challenges').create({
-        'Name': challenge.fields['Title'],
+        'Title': challenge.fields['Title'],
         'Calendar': hash,
         'EmployerName': employerName,
         'Program Year': programYear,
         'Phase': this.props.phase,
         'Start date': startDate,
         'End date': endDate,
-        'Required': 'No',
         'Verified': 'Self-Report',
-        'Team/Ix': 'Individual',
-        'Frequency': 'One Time',
+        'Team Activity': 'no',
+        'Reward Occurrence': 'One Time',
         'Points': '0',
         'Total Points': '0',
         'Device Enabled': 'No',
-        'HP Element': 'Health & Fitness',
+        'Category': 'Health and Fitness',
         'Challenge Id': challenge.id
       }, (err, record) => {
         if (err) {
@@ -72,21 +71,20 @@ class ChallengeSelect extends Component {
       this.setState({ searchText: '' });
     } else if (challenge === null) {
       base('Challenges').create({
-        'Name': 'Custom',
+        'Title': 'Custom',
         'Calendar': hash,
         'EmployerName': employerName,
         'Program Year': programYear,
         'Phase': this.props.phase,
         'Start date': startDate,
         'End date': endDate,
-        'Required': 'No',
         'Verified': 'Custom',
-        'Team/Ix': 'Individual',
-        'Frequency': 'One Time',
+        'Team Activity': 'no',
+        'Reward Occurrence': 'One Time',
         'Points': '0',
         'Total Points': '0',
         'Device Enabled': 'No',
-        'HP Element': 'Health & Fitness',
+        'Category': 'Health and Fitness',
         'Challenge Id': ''
       }, (err, record) => {
         if (err) {
