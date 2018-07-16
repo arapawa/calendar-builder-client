@@ -162,14 +162,6 @@ class AccordionCard extends Component {
     });
   }
 
-  updateRequired(event, challenge) {
-    let updatedChallenge = { ...challenge };
-    updatedChallenge.fields['Required'] = event.target.value;
-    this.setState({
-      editingChallenge: updatedChallenge
-    });
-  }
-
   updateVerified(event, challenge) {
     let updatedChallenge = { ...challenge };
     challenge.fields['Verified'] = event.target.value;
@@ -184,7 +176,6 @@ class AccordionCard extends Component {
     const name = challenge.fields['Name'];
     const points = challenge.fields['Points'];
     const frequency = challenge.fields['Frequency'];
-    const required = challenge.fields['Required'];
     const verified = challenge.fields['Verified'];
 
     if (this.state.editingChallenge && this.state.editingChallenge.id === challenge.id) {
@@ -192,12 +183,6 @@ class AccordionCard extends Component {
         <tr key={challenge.id} className="editing-row">
           <td scope="row">
             <input type="text" className="form-control" value={name} onChange={(e) => this.updateName(e, challenge)} />
-          </td>
-          <td>
-            <select className="form-control" value={required} onChange={(e) => this.updateRequired(e, challenge)}>
-              <option>No</option>
-              <option>Yes</option>
-            </select>
           </td>
           <td>
             <select className="form-control" value={verified} onChange={(e) => this.updateVerified(e, challenge)}>
@@ -238,7 +223,6 @@ class AccordionCard extends Component {
       return (
         <tr key={challenge.id}>
           <td scope="row">{challenge.fields['Name']}</td>
-          <td>{challenge.fields['Required']}</td>
           <td>{challenge.fields['Verified']}</td>
           <td>
             <img className="table-icon" src={this.hpImage(challenge.fields['HP Element'])} />
@@ -326,13 +310,12 @@ class AccordionCard extends Component {
           </h5>
         </div>
 
-        <div id={'collapse' + id} className="collapse" role="tabpanel" data-parent="#accordion">
+        <div id={'collapse' + id} className="collapse" role="tabpanel">
           <div className="card-body">
             <table className="table table-striped">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
-                  <th scope="col">Required?</th>
                   <th scope="col">Type</th>
                   <th scope="col">Category</th>
                   <th scope="col">Dates</th>
