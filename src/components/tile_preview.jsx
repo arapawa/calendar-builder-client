@@ -16,13 +16,13 @@ class TilePreview extends Component {
 
           <div id="title-box" className="info-header">
             <div className="form-group">
-              <input className="form-control" type="text" id="challengeTitle" defaultValue={this.props.title} />
+              <input className="form-control" type="text" id="challengeTitle" value={this.props.title} />
             </div>
           </div>
 
           <div id="instructions-box" className="info-header">
             <div className="form-group">
-              <textarea className="form-control" type="text" id="challengeInstructions" defaultValue={this.props.instructions} />
+              <textarea className="form-control" type="text" id="challengeInstructions" value={this.props.instructions}></textarea>
             </div>
           </div>
 

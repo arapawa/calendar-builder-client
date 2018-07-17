@@ -33,6 +33,26 @@ class EditChallengeModal extends Component {
   }
 
   render() {
+    const challenge = this.props.challenge;
+
+    //TODO: Remove me
+    console.log(this.props.challenge);
+
+    const startDate = challenge ? challenge.fields['Start date'] : '';
+    const endDate = challenge ? challenge.fields['End date'] : '';
+    const verified = challenge ? challenge.fields['Verified'] === 'Verified' : false;
+    const teamActivity = challenge ? challenge.fields['Team Activity'] === 'yes' : false;
+    const rewardOccurrence = challenge ? challenge.fields['Reward Occurrence'] : '';
+    const activityTrackingType = challenge ? challenge.fields['Activity Tracking Type'] : '';
+    const activityGoal = challenge ? challenge.fields['Activity Goal'] : '';
+    const activityGoalText = challenge ? challenge.fields['Activity Goal Text'] : '';
+    const points = challenge ? challenge.fields['Points'] : '';
+
+    const imageUrl = challenge ? challenge.fields['Header Image'] : '';
+    const title = challenge ? challenge.fields['Title'] : '';
+    const instructions = challenge ? challenge.fields['Instructions'] : '';
+    const description = challenge ? challenge.fields['More Information Html'] : '';
+
     return (
       <div id="edit-challenge-modal" className="modal fade" tabIndex="-1" role="dialog">
         <div className="modal-dialog modal-dialog-centered" role="document">
@@ -51,13 +71,13 @@ class EditChallengeModal extends Component {
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="startDate">Start Date</label>
-                        <input className="form-control" type="date" id="startDate" />
+                        <input className="form-control" type="date" id="startDate" value={startDate} />
                       </div>
                     </div>
                     <div className="col">
                       <div className="form-group">
-                        <label htmlFor="endDate">Start Date</label>
-                        <input className="form-control" type="date" id="startDate" />
+                        <label htmlFor="endDate">End Date</label>
+                        <input className="form-control" type="date" id="endDate" value={endDate} />
                       </div>
                     </div>
                   </div>
@@ -67,11 +87,11 @@ class EditChallengeModal extends Component {
                       <div className="form-group">
                         <label htmlFor="verified">Verified</label>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified" />
+                          <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified" defaultChecked={verified} />
                           <label className="form-check-label" htmlFor="verified">Verified</label>
                         </div>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="selfReport" value="Self-Report" />
+                          <input className="form-check-input" type="radio" name="Verified" id="selfReport" value="Self-Report" defaultChecked={!verified} />
                           <label className="form-check-label" htmlFor="selfReport">Self-Report</label>
                         </div>
                       </div>
@@ -84,12 +104,12 @@ class EditChallengeModal extends Component {
                         <label htmlFor="individual">Individual</label>
                         <div className="form-check">
                           <input className="form-check-input" type="radio" name="Individual" id="individual" value="Individual"
-                            onChange={() => this.setTeamSizeVisible(false)} />
+                            onChange={() => this.setTeamSizeVisible(false)} defaultChecked={!teamActivity} />
                           <label className="form-check-label" htmlFor="individual">Individual</label>
                         </div>
                         <div className="form-check">
                           <input className="form-check-input" type="radio" name="Individual" id="team" value="Team"
-                            onChange={() => this.setTeamSizeVisible(true)} />
+                            onChange={() => this.setTeamSizeVisible(true)} defaultChecked={teamActivity} />
                           <label className="form-check-label" htmlFor="team">Team</label>
                         </div>
                       </div>
@@ -141,10 +161,8 @@ class EditChallengeModal extends Component {
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="rewardOccurrence">Reward Occurrence</label>
-                        <select className="form-control" id="rewardOccurrence"
-                          value={this.state.rewardOccurrence}
-                          onChange={(e) => this.setRewardOccurrence(e)}>
-                          <option default>Once</option>
+                        <select className="form-control" id="rewardOccurrence" value={rewardOccurrence}>
+                          <option>Once</option>
                           <option>Weekly</option>
                           <option>Monthly</option>
                           <option>Bi-weekly</option>
@@ -155,10 +173,10 @@ class EditChallengeModal extends Component {
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="activityTrackingType">Activity Tracking Type</label>
-                        <select className="form-control" id="activityTrackingType" onChange={(e) => this.setUnitsVisible(e)}>
-                          {this.state.rewardOccurrence !== 'Weekly' ? <option>Event</option> : ''}
-                          {this.state.rewardOccurrence === 'Once' || this.state.rewardOccurrence === 'Weekly' ? <option>Days</option> : '' }
-                          {this.state.rewardOccurrence === 'Once' || this.state.rewardOccurrence === 'Weekly' ? <option>Units</option> : '' }
+                        <select className="form-control" id="activityTrackingType" value={activityTrackingType} onChange={(e) => this.setUnitsVisible(e)}>
+                          <option>Event</option>
+                          <option>Days</option>
+                          <option>Units</option>
                         </select>
                       </div>
                     </div>
@@ -168,13 +186,13 @@ class EditChallengeModal extends Component {
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="trackingText">Tracking Text</label>
-                        <input type="text" className="form-control" id="trackingText" />
+                        <input type="text" className="form-control" id="trackingText" value={activityGoalText} />
                       </div>
                     </div>
                     <div className="col" style={this.state.unitsVisible ? {} : { opacity: 0 }}>
                       <div className="form-group">
                         <label htmlFor="activityGoal">Activity Goal</label>
-                        <input type="text" className="form-control" id="activityGoal" />
+                        <input type="text" className="form-control" id="activityGoal" value={activityGoal} />
                       </div>
                     </div>
                   </div>
@@ -183,7 +201,7 @@ class EditChallengeModal extends Component {
                     <div className="col-3">
                       <div className="form-group">
                         <label htmlFor="points">Points</label>
-                        <input type="text" className="form-control" id="points" />
+                        <input type="text" className="form-control" id="points" value={points} />
                       </div>
                     </div>
                   </div>
@@ -193,10 +211,10 @@ class EditChallengeModal extends Component {
                 <div className="col">
 
                   <TilePreview
-                    imageSrc={'https://d1dyf6uqjwvcrk.cloudfront.net/cfs-file.ashx/__key/CommunityServer-Components-PostAttachments/00-20-57-62-92/shrug.png'}
-                    title={'A Cool Challenge Title'}
-                    instructions={'YOUR CHALLENGE: Do something!'}
-                    description={'This is where you do the stuff'} />
+                    imageSrc={imageUrl}
+                    title={title}
+                    instructions={instructions}
+                    description={description} />
 
                 </div>
               </div>

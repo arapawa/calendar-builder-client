@@ -19,22 +19,24 @@ class AccordionCard extends Component {
   }
 
   editChallenge(challenge) {
-    if (this.state.editingChallenge && this.state.editingChallenge.id === challenge.id) {
+    this.props.setEditingChallenge(challenge);
 
-      // Save challenge to Airtable
-      base('Challenges').replace(challenge.id, challenge.fields, function(err, record) {
-        if (err) {
-          console.error(err);
-          return;
-        }
-      });
-
-      // Clear editingChallenge out
-      this.setState({ editingChallenge: null });
-
-    } else {
-      this.setState({ editingChallenge: challenge });
-    }
+    // if (this.state.editingChallenge && this.state.editingChallenge.id === challenge.id) {
+    //
+    //   // Save challenge to Airtable
+    //   base('Challenges').replace(challenge.id, challenge.fields, function(err, record) {
+    //     if (err) {
+    //       console.error(err);
+    //       return;
+    //     }
+    //   });
+    //
+    //   // Clear editingChallenge out
+    //   this.setState({ editingChallenge: null });
+    //
+    // } else {
+    //   this.setState({ editingChallenge: challenge });
+    // }
   }
 
   openDeleteConfirmModal(challenge) {
@@ -75,7 +77,7 @@ class AccordionCard extends Component {
   }
 
   teamImage(team) {
-    if (team === 'Team') {
+    if (team === 'yes') {
       return 'images/icon_team.svg';
     } else {
       return 'images/icon_individual.svg';
@@ -193,7 +195,7 @@ class AccordionCard extends Component {
           </td>
           <td className="category-cell">
             <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
-            <img className="table-icon" src={this.teamImage(challenge.fields['Team/Ix'])} />
+            <img className="table-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
           </td>
           <td>
             <input type="date" className="form-control edit-date" value={startDate} onChange={(e) => this.updateStartDate(e, challenge)} />
@@ -226,7 +228,7 @@ class AccordionCard extends Component {
           <td>{challenge.fields['Verified']}</td>
           <td>
             <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
-            <img className="table-icon" src={this.teamImage(challenge.fields['Team/Ix'])} />
+            <img className="table-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
           </td>
           <td>{moment(startDate).format('L')} - {moment(endDate).format('L')}</td>
           <td>{challenge.fields['Reward Occurrence']}</td>

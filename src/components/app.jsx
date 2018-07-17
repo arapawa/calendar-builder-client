@@ -17,13 +17,15 @@ class App extends Component {
       calendarName: '',
       selectedClient: null,
       selectedChallenge: null,
-      totalPoints: 0
+      totalPoints: 0,
+      editingChallenge: null
     };
 
     this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
     this.deleteChallengeFromCalendar = this.deleteChallengeFromCalendar.bind(this);
     this.selectChallenge = this.selectChallenge.bind(this);
     this.calculateTotalPoints = this.calculateTotalPoints.bind(this);
+    this.setEditingChallenge = this.setEditingChallenge.bind(this);
   }
 
   // Make airtable calls when app starts
@@ -148,6 +150,11 @@ class App extends Component {
     });
   }
 
+  setEditingChallenge(challenge) {
+    this.setState({ editingChallenge: challenge });
+    this.openModal();
+  }
+
   render() {
     const hash = window.location.hash.slice(2);
     const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
@@ -184,12 +191,14 @@ class App extends Component {
           selectedChallenge={this.state.selectedChallenge}
           addChallengeToCalendar={this.addChallengeToCalendar}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
-          calculateTotalPoints={this.calculateTotalPoints} />
+          calculateTotalPoints={this.calculateTotalPoints}
+          setEditingChallenge={this.setEditingChallenge} />
 
         <h5 className="point-total my-3">{this.state.totalPoints} Points</h5>
 
         <ConfirmModal />
-        <EditChallengeModal />
+
+        <EditChallengeModal challenge={this.state.editingChallenge} />
 
         <button onClick={this.openModal}>Modal Test</button>
       </div>
