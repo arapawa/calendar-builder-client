@@ -15,18 +15,19 @@ class TilePreview extends Component {
         <div id="more-info-container">
 
           <div id="title-box" className="info-header">
-            <h3 className="info-title">{this.props.title}</h3>
+            <div className="form-group">
+              <input className="form-control" type="text" id="challengeTitle" defaultValue={this.props.title} />
+            </div>
           </div>
 
           <div id="instructions-box" className="info-header">
-            <p className="info-title">{this.props.instructions}</p>
+            <div className="form-group">
+              <textarea className="form-control" type="text" id="challengeInstructions" defaultValue={this.props.instructions} />
+            </div>
           </div>
 
           <TrumbowygBox text={this.props.description} />
 
-          <div className="item-info-actions">
-            <button className="button button-primary">Close</button>
-          </div>
         </div>
       </div>
     );

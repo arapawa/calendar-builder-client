@@ -282,6 +282,7 @@ h1, h2, h3, h4, h5 {
 
 #tile-preview .item-info-image {
   width: 100%;
+  margin-bottom: 1em;
 }
 
 .trumbowyg-box, .trumbowyg-editor {

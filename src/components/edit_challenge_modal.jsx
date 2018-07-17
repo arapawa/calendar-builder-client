@@ -2,6 +2,31 @@ import React, { Component } from 'react';
 import TilePreview from './tile_preview';
 
 class EditChallengeModal extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      teamSizeVisible: false,
+      unitsVisible: false
+    };
+  }
+
+  setTeamSizeVisible(visible) {
+    this.setState({ teamSizeVisible: visible });
+  }
+
+  setUnitsVisible(e) {
+    switch (e.target.value) {
+      case 'Units':
+      case 'Days':
+        this.setState({ unitsVisible: true });
+        break;
+      case 'Event':
+        this.setState({ unitsVisible: false });
+        break;
+    }
+  }
+
   render() {
     return (
       <div id="edit-challenge-modal" className="modal fade" tabIndex="-1" role="dialog">
@@ -53,22 +78,24 @@ class EditChallengeModal extends Component {
                       <div className="form-group">
                         <label htmlFor="individual">Individual</label>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Individual" id="individual" value="Individual" />
+                          <input className="form-check-input" type="radio" name="Individual" id="individual" value="Individual"
+                            onChange={() => this.setTeamSizeVisible(false)} />
                           <label className="form-check-label" htmlFor="individual">Individual</label>
                         </div>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Individual" id="team" value="Team" />
+                          <input className="form-check-input" type="radio" name="Individual" id="team" value="Team"
+                            onChange={() => this.setTeamSizeVisible(true)} />
                           <label className="form-check-label" htmlFor="team">Team</label>
                         </div>
                       </div>
                     </div>
-                    <div className="col">
+                    <div className="col" style={this.state.teamSizeVisible ? {} : { display: 'none' }}>
                       <div className="form-group">
                         <label htmlFor="minTeamSize">Team Size</label>
                         <div className="row">
                           <div className="col">
                             <label htmlFor="minTeamSize">Min</label>
-                            <select className="form-control" id="minTeamSize">
+                            <select className="form-control" id="minTeamSize" defaultValue="4">
                               <option>1</option>
                               <option>2</option>
                               <option>3</option>
@@ -78,7 +105,7 @@ class EditChallengeModal extends Component {
                           </div>
                           <div className="col">
                             <label htmlFor="maxTeamSize">Max</label>
-                            <select className="form-control" id="maxTeamSize">
+                            <select className="form-control" id="maxTeamSize" defaultValue="12">
                               <option>2</option>
                               <option>3</option>
                               <option>4</option>
@@ -121,7 +148,7 @@ class EditChallengeModal extends Component {
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="activityTrackingType">Activity Tracking Type</label>
-                        <select className="form-control" id="activityTrackingType">
+                        <select className="form-control" id="activityTrackingType" onChange={(e) => this.setUnitsVisible(e)}>
                           <option>Event</option>
                           <option>Days</option>
                           <option>Units</option>
@@ -137,7 +164,7 @@ class EditChallengeModal extends Component {
                         <input type="text" className="form-control" id="trackingText" />
                       </div>
                     </div>
-                    <div className="col">
+                    <div className="col" style={this.state.unitsVisible ? {} : { opacity: 0 }}>
                       <div className="form-group">
                         <label htmlFor="activityGoal">Activity Goal</label>
                         <input type="text" className="form-control" id="activityGoal" />
