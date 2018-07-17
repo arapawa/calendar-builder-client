@@ -7,7 +7,8 @@ class EditChallengeModal extends Component {
 
     this.state = {
       teamSizeVisible: false,
-      unitsVisible: false
+      unitsVisible: false,
+      rewardOccurrence: ''
     };
   }
 
@@ -25,6 +26,10 @@ class EditChallengeModal extends Component {
         this.setState({ unitsVisible: false });
         break;
     }
+  }
+
+  setRewardOccurrence(e) {
+    this.setState({ rewardOccurrence: e.target.value });
   }
 
   render() {
@@ -136,8 +141,10 @@ class EditChallengeModal extends Component {
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="rewardOccurrence">Reward Occurrence</label>
-                        <select className="form-control" id="rewardOccurrence">
-                          <option>Once</option>
+                        <select className="form-control" id="rewardOccurrence"
+                          value={this.state.rewardOccurrence}
+                          onChange={(e) => this.setRewardOccurrence(e)}>
+                          <option default>Once</option>
                           <option>Weekly</option>
                           <option>Monthly</option>
                           <option>Bi-weekly</option>
@@ -149,9 +156,9 @@ class EditChallengeModal extends Component {
                       <div className="form-group">
                         <label htmlFor="activityTrackingType">Activity Tracking Type</label>
                         <select className="form-control" id="activityTrackingType" onChange={(e) => this.setUnitsVisible(e)}>
-                          <option>Event</option>
-                          <option>Days</option>
-                          <option>Units</option>
+                          {this.state.rewardOccurrence !== 'Weekly' ? <option>Event</option> : ''}
+                          {this.state.rewardOccurrence === 'Once' || this.state.rewardOccurrence === 'Weekly' ? <option>Days</option> : '' }
+                          {this.state.rewardOccurrence === 'Once' || this.state.rewardOccurrence === 'Weekly' ? <option>Units</option> : '' }
                         </select>
                       </div>
                     </div>
