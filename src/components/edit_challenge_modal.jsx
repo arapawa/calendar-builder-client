@@ -196,7 +196,7 @@ class EditChallengeModal extends Component {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-link" data-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-danger">Save</button>
+              <button type="button" className="btn btn-primary">Save</button>
             </div>
           </div>
         </div>
