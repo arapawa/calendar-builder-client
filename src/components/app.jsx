@@ -200,7 +200,6 @@ class App extends Component {
 
         <EditChallengeModal challenge={this.state.editingChallenge} />
 
-        <button onClick={this.openModal}>Modal Test</button>
       </div>
     );
   }
