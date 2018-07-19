@@ -288,3 +288,7 @@ h1, h2, h3, h4, h5 {
 .trumbowyg-box, .trumbowyg-editor {
   margin: 0;
 }
+
+.brandingBckgrndColor {
+  background-color: #0080A5;
+}

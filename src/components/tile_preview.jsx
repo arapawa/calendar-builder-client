@@ -16,17 +16,17 @@ class TilePreview extends Component {
 
           <div id="title-box" className="info-header">
             <div className="form-group">
-              <input className="form-control" type="text" id="challengeTitle" value={this.props.title} />
+              <input className="form-control" type="text" id="challengeTitle" value={this.props.title} onChange={(e) => this.props.setTitle(e)} />
             </div>
           </div>
 
           <div id="instructions-box" className="info-header">
             <div className="form-group">
-              <textarea className="form-control" type="text" id="challengeInstructions" value={this.props.instructions}></textarea>
+              <textarea className="form-control" type="text" id="challengeInstructions" value={this.props.instructions} onChange={(e) => this.props.setInstructions(e)}></textarea>
             </div>
           </div>
 
-          <TrumbowygBox text={this.props.description} />
+          <TrumbowygBox text={this.props.description} onChange={(e) => this.props.setDescription(e)} />
 
         </div>
       </div>

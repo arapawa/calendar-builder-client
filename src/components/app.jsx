@@ -152,7 +152,14 @@ class App extends Component {
 
   setEditingChallenge(challenge) {
     this.setState({ editingChallenge: challenge });
-    this.openModal();
+
+    // TODO: Find a better way to handle this problem!
+    // I had a meeting at 1p today and this was the best I could do on such short notice
+    setTimeout(this.openModal, 200);
+  }
+
+  updateEditingChallenge(challenge) {
+    this.setState({ editingChallenge: challenge });
   }
 
   render() {
@@ -198,7 +205,13 @@ class App extends Component {
 
         <ConfirmModal />
 
-        <EditChallengeModal challenge={this.state.editingChallenge} />
+        {
+          this.state.editingChallenge ?
+          <EditChallengeModal
+            challenge={this.state.editingChallenge}
+            updateEditingChallenge={this.updateEditingChallenge} /> :
+          ''
+        }
 
       </div>
     );

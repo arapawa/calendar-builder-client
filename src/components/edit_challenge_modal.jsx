@@ -2,14 +2,47 @@ import React, { Component } from 'react';
 import TilePreview from './tile_preview';
 
 class EditChallengeModal extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       teamSizeVisible: false,
       unitsVisible: false,
-      rewardOccurrence: ''
+      startDate: '',
+      endDate: '',
+      verified: '',
+      individual: '',
+      rewardOccurrence: '',
+      activityTrackingType: '',
+      trackingText: '',
+      activityGoal: '',
+      points: '',
+      title: '',
+      instructions: '',
+      description: ''
     };
+
+    this.setTitle = this.setTitle.bind(this);
+    this.setInstructions = this.setInstructions.bind(this);
+    this.setDescription = this.setDescription.bind(this);
+  }
+
+  componentDidMount() {
+    const challenge = this.props.challenge;
+    this.setState({
+      startDate: challenge.fields['Start date'],
+      endDate: challenge.fields['End date'],
+      verified: challenge.fields['Verified'] === 'Verified',
+      individual: challenge.fields['Team Activity'] === 'yes',
+      rewardOccurrence: challenge.fields['Reward Occurrence'],
+      activityTrackingType: challenge.fields['Activity Tracking Type'],
+      trackingText: challenge.fields['Activity Goal Text'],
+      activityGoal: challenge.fields['Activity Goal'],
+      points: challenge.fields['Points'],
+      title: challenge.fields['Title'],
+      instructions: challenge.fields['Instructions'],
+      description: challenge.fields['More Information Html']
+    });
   }
 
   setTeamSizeVisible(visible) {
@@ -28,30 +61,63 @@ class EditChallengeModal extends Component {
     }
   }
 
+  updateChallenge(challenge) {
+    console.log(challenge);
+    //this.props.updateEditingChallenge(challenge);
+  }
+
+  setStartDate(e) {
+    this.setState({ startDate: e.target.value });
+  }
+
+  setEndDate(e) {
+    this.setState({ endDate: e.target.value });
+  }
+
+  setVerified(e) {
+    console.log(e.target.value);
+    this.setState({ verified: e.target.value });
+  }
+
+  setIndividual(e) {
+    console.log(e.target.value);
+    this.setState({ individual: e.target.value });
+  }
+
   setRewardOccurrence(e) {
     this.setState({ rewardOccurrence: e.target.value });
   }
 
+  setActivityTrackingType(e) {
+    this.setState({ activityTrackingType: e.target.value });
+  }
+
+  setTrackingText(e) {
+    this.setState({ trackingText: e.target.value });
+  }
+
+  setActivityGoal(e) {
+    this.setState({ activityGoal: e.target.value });
+  }
+
+  setPoints(e) {
+    this.setState({ points: e.target.value });
+  }
+
+  setTitle(e) {
+    this.setState({ title: e.target.value });
+  }
+
+  setInstructions(e) {
+    this.setState({ instructions: e.target.value });
+  }
+
+  setDescription(e) {
+    this.setState({ description: e.target.value });
+  }
+
   render() {
     const challenge = this.props.challenge;
-
-    //TODO: Remove me
-    console.log(this.props.challenge);
-
-    const startDate = challenge ? challenge.fields['Start date'] : '';
-    const endDate = challenge ? challenge.fields['End date'] : '';
-    const verified = challenge ? challenge.fields['Verified'] === 'Verified' : false;
-    const teamActivity = challenge ? challenge.fields['Team Activity'] === 'yes' : false;
-    const rewardOccurrence = challenge ? challenge.fields['Reward Occurrence'] : '';
-    const activityTrackingType = challenge ? challenge.fields['Activity Tracking Type'] : '';
-    const activityGoal = challenge ? challenge.fields['Activity Goal'] : '';
-    const activityGoalText = challenge ? challenge.fields['Activity Goal Text'] : '';
-    const points = challenge ? challenge.fields['Points'] : '';
-
-    const imageUrl = challenge ? challenge.fields['Header Image'] : '';
-    const title = challenge ? challenge.fields['Title'] : '';
-    const instructions = challenge ? challenge.fields['Instructions'] : '';
-    const description = challenge ? challenge.fields['More Information Html'] : '';
 
     return (
       <div id="edit-challenge-modal" className="modal fade" tabIndex="-1" role="dialog">
@@ -71,13 +137,13 @@ class EditChallengeModal extends Component {
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="startDate">Start Date</label>
-                        <input className="form-control" type="date" id="startDate" value={startDate} />
+                        <input className="form-control" type="date" id="startDate" value={this.state.startDate} onChange={(e) => this.setStartDate(e)} />
                       </div>
                     </div>
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="endDate">End Date</label>
-                        <input className="form-control" type="date" id="endDate" value={endDate} />
+                        <input className="form-control" type="date" id="endDate" value={this.state.endDate} onChange={(e) => this.setEndDate(e)} />
                       </div>
                     </div>
                   </div>
@@ -87,34 +153,34 @@ class EditChallengeModal extends Component {
                       <div className="form-group">
                         <label htmlFor="verified">Verified</label>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified" defaultChecked={verified} />
+                          <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified" defaultChecked={this.state.verified} onChange={(e) => this.setVerified(e)} />
                           <label className="form-check-label" htmlFor="verified">Verified</label>
                         </div>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="selfReport" value="Self-Report" defaultChecked={!verified} />
+                          <input className="form-check-input" type="radio" name="Verified" id="selfReport" value="Self-Report" defaultChecked={!this.state.verified} onChange={(e) => this.setVerified(e)} />
                           <label className="form-check-label" htmlFor="selfReport">Self-Report</label>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="row">
+                  {/* <div className="row">
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="individual">Individual</label>
                         <div className="form-check">
                           <input className="form-check-input" type="radio" name="Individual" id="individual" value="Individual"
-                            onChange={() => this.setTeamSizeVisible(false)} defaultChecked={!teamActivity} />
+                            defaultChecked={!this.state.teamActivity} onChange={(e) => this.setIndividual(e)} />
                           <label className="form-check-label" htmlFor="individual">Individual</label>
                         </div>
                         <div className="form-check">
                           <input className="form-check-input" type="radio" name="Individual" id="team" value="Team"
-                            onChange={() => this.setTeamSizeVisible(true)} defaultChecked={teamActivity} />
+                            defaultChecked={this.state.teamActivity} onChange={(e) => this.setIndividual(e)} />
                           <label className="form-check-label" htmlFor="team">Team</label>
                         </div>
                       </div>
                     </div>
-                    <div className="col" style={this.state.teamSizeVisible ? {} : { display: 'none' }}>
+                    <div className="col" style={this.state.teamSizeVisible ? {} : { display: 'None' }}>
                       <div className="form-group">
                         <label htmlFor="minTeamSize">Team Size</label>
                         <div className="row">
@@ -155,13 +221,13 @@ class EditChallengeModal extends Component {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="row">
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="rewardOccurrence">Reward Occurrence</label>
-                        <select className="form-control" id="rewardOccurrence" value={rewardOccurrence}>
+                        <select className="form-control" id="rewardOccurrence" value={this.state.rewardOccurrence} onChange={(e) => this.setRewardOccurrence(e)}>
                           <option>Once</option>
                           <option>Weekly</option>
                           <option>Monthly</option>
@@ -173,7 +239,7 @@ class EditChallengeModal extends Component {
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="activityTrackingType">Activity Tracking Type</label>
-                        <select className="form-control" id="activityTrackingType" value={activityTrackingType} onChange={(e) => this.setUnitsVisible(e)}>
+                        <select className="form-control" id="activityTrackingType" value={this.state.activityTrackingType} onChange={(e) => this.setActivityTrackingType(e)}>
                           <option>Event</option>
                           <option>Days</option>
                           <option>Units</option>
@@ -186,13 +252,13 @@ class EditChallengeModal extends Component {
                     <div className="col">
                       <div className="form-group">
                         <label htmlFor="trackingText">Tracking Text</label>
-                        <input type="text" className="form-control" id="trackingText" value={activityGoalText} />
+                        <input type="text" className="form-control" id="trackingText" value={this.state.trackingText} onChange={(e) => this.setTrackingText(e)} />
                       </div>
                     </div>
-                    <div className="col" style={this.state.unitsVisible ? {} : { opacity: 0 }}>
+                    <div className="col">
                       <div className="form-group">
                         <label htmlFor="activityGoal">Activity Goal</label>
-                        <input type="text" className="form-control" id="activityGoal" value={activityGoal} />
+                        <input type="text" className="form-control" id="activityGoal" value={this.state.activityGoal} onChange={(e) => this.setActivityGoal(e)} />
                       </div>
                     </div>
                   </div>
@@ -201,7 +267,7 @@ class EditChallengeModal extends Component {
                     <div className="col-3">
                       <div className="form-group">
                         <label htmlFor="points">Points</label>
-                        <input type="text" className="form-control" id="points" value={points} />
+                        <input type="text" className="form-control" id="points" value={this.state.points} onChange={(e) => this.setPoints(e)} />
                       </div>
                     </div>
                   </div>
@@ -211,10 +277,14 @@ class EditChallengeModal extends Component {
                 <div className="col">
 
                   <TilePreview
-                    imageSrc={imageUrl}
-                    title={title}
-                    instructions={instructions}
-                    description={description} />
+                    imageSrc={challenge.fields['Header Image']}
+                    title={this.state.title}
+                    instructions={this.state.instructions}
+                    description={this.state.description}
+                    setTitle={this.setTitle}
+                    setInstructions={this.setInstructions}
+                    setDescription={this.setDescription}
+                  />
 
                 </div>
               </div>
