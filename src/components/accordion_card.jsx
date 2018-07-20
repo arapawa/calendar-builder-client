@@ -20,23 +20,6 @@ class AccordionCard extends Component {
 
   editChallenge(challenge) {
     this.props.setEditingChallenge(challenge);
-
-    // if (this.state.editingChallenge && this.state.editingChallenge.id === challenge.id) {
-    //
-    //   // Save challenge to Airtable
-    //   base('Challenges').replace(challenge.id, challenge.fields, function(err, record) {
-    //     if (err) {
-    //       console.error(err);
-    //       return;
-    //     }
-    //   });
-    //
-    //   // Clear editingChallenge out
-    //   this.setState({ editingChallenge: null });
-    //
-    // } else {
-    //   this.setState({ editingChallenge: challenge });
-    // }
   }
 
   openDeleteConfirmModal(challenge) {

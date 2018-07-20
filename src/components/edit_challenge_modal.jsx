@@ -32,15 +32,15 @@ class EditChallengeModal extends Component {
     this.setState({
       startDate: challenge.fields['Start date'],
       endDate: challenge.fields['End date'],
-      verified: challenge.fields['Verified'] === 'Verified',
+      verified: challenge.fields['Verified'],
       individual: challenge.fields['Team Activity'] === 'yes',
       rewardOccurrence: challenge.fields['Reward Occurrence'],
       activityTrackingType: challenge.fields['Activity Tracking Type'],
-      trackingText: challenge.fields['Activity Goal Text'],
-      activityGoal: challenge.fields['Activity Goal'],
+      trackingText: challenge.fields['Activity Goal Text'] ? challenge.fields['Activity Goal Text'] : '',
+      activityGoal: challenge.fields['Activity Goal'] ? challenge.fields['Activity Goal'] : '',
       points: challenge.fields['Points'],
       title: challenge.fields['Title'],
-      instructions: challenge.fields['Instructions'],
+      instructions: challenge.fields['Instructions'] ? challenge.fields['Instructions'].replace(/<[^>]*>/g, '') : '',
       description: challenge.fields['More Information Html']
     });
   }
@@ -61,11 +61,6 @@ class EditChallengeModal extends Component {
     }
   }
 
-  updateChallenge(challenge) {
-    console.log(challenge);
-    //this.props.updateEditingChallenge(challenge);
-  }
-
   setStartDate(e) {
     this.setState({ startDate: e.target.value });
   }
@@ -75,12 +70,10 @@ class EditChallengeModal extends Component {
   }
 
   setVerified(e) {
-    console.log(e.target.value);
     this.setState({ verified: e.target.value });
   }
 
   setIndividual(e) {
-    console.log(e.target.value);
     this.setState({ individual: e.target.value });
   }
 
@@ -114,6 +107,13 @@ class EditChallengeModal extends Component {
 
   setDescription(e) {
     this.setState({ description: e.target.value });
+  }
+
+  saveUpdatedChallenge(updatedChallenge) {
+    updatedChallenge.fields['Start date'] = this.state.startDate;
+    updatedChallenge.fields['End date'] = this.state.endDate;
+
+    this.props.updateEditingChallenge(updatedChallenge);
   }
 
   render() {
@@ -153,75 +153,16 @@ class EditChallengeModal extends Component {
                       <div className="form-group">
                         <label htmlFor="verified">Verified</label>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified" defaultChecked={this.state.verified} onChange={(e) => this.setVerified(e)} />
+                          <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified" checked={this.state.verified === 'Verified'} onChange={(e) => this.setVerified(e)} />
                           <label className="form-check-label" htmlFor="verified">Verified</label>
                         </div>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="selfReport" value="Self-Report" defaultChecked={!this.state.verified} onChange={(e) => this.setVerified(e)} />
+                          <input className="form-check-input" type="radio" name="Verified" id="selfReport" value="Self-Report" checked={this.state.verified === 'Self-Report'} onChange={(e) => this.setVerified(e)} />
                           <label className="form-check-label" htmlFor="selfReport">Self-Report</label>
                         </div>
                       </div>
                     </div>
                   </div>
-
-                  {/* <div className="row">
-                    <div className="col">
-                      <div className="form-group">
-                        <label htmlFor="individual">Individual</label>
-                        <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Individual" id="individual" value="Individual"
-                            defaultChecked={!this.state.teamActivity} onChange={(e) => this.setIndividual(e)} />
-                          <label className="form-check-label" htmlFor="individual">Individual</label>
-                        </div>
-                        <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Individual" id="team" value="Team"
-                            defaultChecked={this.state.teamActivity} onChange={(e) => this.setIndividual(e)} />
-                          <label className="form-check-label" htmlFor="team">Team</label>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col" style={this.state.teamSizeVisible ? {} : { display: 'None' }}>
-                      <div className="form-group">
-                        <label htmlFor="minTeamSize">Team Size</label>
-                        <div className="row">
-                          <div className="col">
-                            <label htmlFor="minTeamSize">Min</label>
-                            <select className="form-control" id="minTeamSize" defaultValue="4">
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-                            </select>
-                          </div>
-                          <div className="col">
-                            <label htmlFor="maxTeamSize">Max</label>
-                            <select className="form-control" id="maxTeamSize" defaultValue="12">
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-                              <option>6</option>
-                              <option>7</option>
-                              <option>8</option>
-                              <option>9</option>
-                              <option>10</option>
-                              <option>11</option>
-                              <option>12</option>
-                              <option>13</option>
-                              <option>14</option>
-                              <option>15</option>
-                              <option>16</option>
-                              <option>17</option>
-                              <option>18</option>
-                              <option>19</option>
-                              <option>20</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
 
                   <div className="row">
                     <div className="col">
@@ -291,7 +232,7 @@ class EditChallengeModal extends Component {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-link" data-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-primary">Save</button>
+              <button type="button" className="btn btn-primary" onClick={(e) => this.saveUpdatedChallenge(challenge)}>Save</button>
             </div>
           </div>
         </div>

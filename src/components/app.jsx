@@ -26,6 +26,8 @@ class App extends Component {
     this.selectChallenge = this.selectChallenge.bind(this);
     this.calculateTotalPoints = this.calculateTotalPoints.bind(this);
     this.setEditingChallenge = this.setEditingChallenge.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.updateEditingChallenge = this.updateEditingChallenge.bind(this);
   }
 
   // Make airtable calls when app starts
@@ -144,9 +146,16 @@ class App extends Component {
     /* global $ */
     $('#edit-challenge-modal').modal();
 
-    $('.modal-footer .btn-danger').off('click');
-    $('.modal-footer .btn-danger').click(() => {
-      console.log('Closing modal!');
+    // Make sure to clear the editingChallenge when the modal is closed
+    $('#edit-challenge-modal').off('hidden.bs.modal');
+    $('#edit-challenge-modal').on('hidden.bs.modal', () => {
+      this.setState({ editingChallenge: null });
+    });
+
+    // Handler for the Save button
+    $('.modal-footer .btn-primary').off('click');
+    $('.modal-footer .btn-primary').click(() => {
+      $('#edit-challenge-modal').modal('hide');
     });
   }
 
@@ -158,8 +167,20 @@ class App extends Component {
     setTimeout(this.openModal, 200);
   }
 
-  updateEditingChallenge(challenge) {
-    this.setState({ editingChallenge: challenge });
+  updateEditingChallenge(updatedChallenge) {
+
+    base('Challenges').replace(updatedChallenge.id, updatedChallenge.fields, function(err, record) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log('Updated: ', updatedChallenge);
+      console.log('Saving updated challenge!');
+    });
+
+    // Clear editingChallenge out
+    this.setState({ editingChallenge: null });
+
   }
 
   render() {
