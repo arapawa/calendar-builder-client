@@ -112,6 +112,16 @@ class EditChallengeModal extends Component {
   saveUpdatedChallenge(updatedChallenge) {
     updatedChallenge.fields['Start date'] = this.state.startDate;
     updatedChallenge.fields['End date'] = this.state.endDate;
+    updatedChallenge.fields['Verified'] = this.state.verified;
+    updatedChallenge.fields['Team Activity'] = this.state.individual ? 'no' : 'yes';
+    updatedChallenge.fields['Reward Occurrence'] = this.state.rewardOccurrence;
+    updatedChallenge.fields['Activity Tracking Type'] = this.state.activityTrackingType;
+    updatedChallenge.fields['Activity Goal Text'] = this.state.trackingText;
+    updatedChallenge.fields['Activity Goal'] = this.state.activityGoal;
+    updatedChallenge.fields['Points'] = this.state.points;
+    updatedChallenge.fields['Title'] = this.state.title;
+    updatedChallenge.fields['Instructions'] = this.state.instructions;
+    updatedChallenge.fields['More Information Html'] = this.state.description;
 
     this.props.updateEditingChallenge(updatedChallenge);
   }
