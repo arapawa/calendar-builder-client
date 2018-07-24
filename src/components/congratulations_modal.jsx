@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 
-class ConfirmModal extends Component {
+class CongratulationsModal extends Component {
   render() {
     return (
-      <div id="confirm-modal" className="modal fade" tabIndex="-1" role="dialog">
+      <div id="congratulations-modal" className="modal fade" tabIndex="-1" role="dialog">
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="confirm-modal-title">Confirm Delete?</h5>
+              <h5 className="modal-title" id="congratulations-modal-title">Congratulations!</h5>
               <button type="button" className="close" data-dismiss="modal">
                 <span>&times;</span>
               </button>
             </div>
             <div className="modal-body">
-              ...
+              <p>Your calendar is complete and will be loaded into your site.</p>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-link" data-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-danger">Delete</button>
+              <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
@@ -26,4 +25,4 @@ class ConfirmModal extends Component {
   }
 }
 
-export default ConfirmModal;
+export default CongratulationsModal;

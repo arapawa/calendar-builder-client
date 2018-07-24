@@ -4,7 +4,9 @@ const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzb
 
 import Header from './header';
 import CalendarAccordion from './calendar_accordion';
-import ConfirmModal from './confirm_modal';
+import ConfirmDeleteModal from './confirm_delete_modal';
+import ConfirmApproveModal from './confirm_approve_modal';
+import CongratulationsModal from './congratulations_modal';
 import EditChallengeModal from './edit_challenge_modal';
 
 class App extends Component {
@@ -18,7 +20,8 @@ class App extends Component {
       selectedClient: null,
       selectedChallenge: null,
       totalPoints: 0,
-      editingChallenge: null
+      editingChallenge: null,
+      editingCalendar: null
     };
 
     this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
@@ -26,8 +29,9 @@ class App extends Component {
     this.selectChallenge = this.selectChallenge.bind(this);
     this.calculateTotalPoints = this.calculateTotalPoints.bind(this);
     this.setEditingChallenge = this.setEditingChallenge.bind(this);
-    this.openModal = this.openModal.bind(this);
+    this.openEditChallengeModal = this.openEditChallengeModal.bind(this);
     this.updateEditingChallenge = this.updateEditingChallenge.bind(this);
+    this.openApproveModal = this.openApproveModal.bind(this);
   }
 
   // Make airtable calls when app starts
@@ -54,6 +58,7 @@ class App extends Component {
           this.setState({
             calendarName: calendar.fields['name'],
             selectedClient: client,
+            editingCalendar: calendar
           });
 
           fetchNextPage();
@@ -142,7 +147,31 @@ class App extends Component {
     this.setState({ totalPoints: totalPoints });
   }
 
-  openModal() {
+  openApproveModal() {
+    /* global $ */
+    $('#approve-modal').modal();
+
+    // Handler for the Save button
+    $('#approve-modal .modal-footer .btn-primary').off('click');
+    $('#approve-modal .modal-footer .btn-primary').click(() => {
+      $('#approve-modal').modal('hide');
+
+      const calendar = this.state.editingCalendar;
+      calendar.fields.status = 'Approved by Client';
+
+      base('Calendars').replace(calendar.id, calendar.fields, function(err, record) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+
+        $('#congratulations-modal').modal();
+      });
+    });
+
+  }
+
+  openEditChallengeModal() {
     /* global $ */
     $('#edit-challenge-modal').modal();
 
@@ -164,7 +193,7 @@ class App extends Component {
 
     // TODO: Find a better way to handle this problem!
     // I had a meeting at 1p today and this was the best I could do on such short notice
-    setTimeout(this.openModal, 200);
+    setTimeout(this.openEditChallengeModal, 200);
   }
 
   updateEditingChallenge(updatedChallenge) {
@@ -203,12 +232,6 @@ class App extends Component {
 
         <div className="calendar-name-and-link">
           <h4 className="calendar-name">{this.state.calendarName}</h4>
-          <img className="calendar-link"
-            type="image"
-            src="images/icon_link.svg"
-            data-toggle="tooltip"
-            data-placement="bottom"
-            title={`<h5 class='my-3'>Link to this Calendar</h5><h5 class='my-3'>http://mywellnessnumbers.sftp.adurolife.com/calendar-builder/#/${hash}</h5>`} />
         </div>
 
         <CalendarAccordion
@@ -224,7 +247,11 @@ class App extends Component {
 
         <h5 className="point-total my-3">{this.state.totalPoints} Points</h5>
 
-        <ConfirmModal />
+        <ConfirmDeleteModal />
+        <ConfirmApproveModal />
+        <CongratulationsModal />
+
+        <button id="approveButton" type="button" className="btn btn-primary" onClick={this.openApproveModal}>Approve</button>
 
         {
           this.state.editingChallenge ?

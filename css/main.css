@@ -292,3 +292,7 @@ h1, h2, h3, h4, h5 {
 .brandingBckgrndColor {
   background-color: #0080A5;
 }
+
+#approveButton {
+  margin: 0 50% 2em;
+}
