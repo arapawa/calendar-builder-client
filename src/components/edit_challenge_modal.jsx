@@ -129,6 +129,7 @@ class EditChallengeModal extends Component {
 
   render() {
     const challenge = this.props.challenge;
+    const cannotModify = this.state.instructions === 'THIS TEXT CANNOT BE MODIFIED';
 
     return (
       <div id="edit-challenge-modal" className="modal fade" tabIndex="-1" role="dialog">
@@ -164,11 +165,13 @@ class EditChallengeModal extends Component {
                       <div className="form-group">
                         <label htmlFor="verified">Verified</label>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified" checked={this.state.verified === 'Verified'} onChange={(e) => this.setVerified(e)} />
+                          <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified"
+                            checked={this.state.verified === 'Verified'} onChange={(e) => this.setVerified(e)} disabled={cannotModify} />
                           <label className="form-check-label" htmlFor="verified">Verified</label>
                         </div>
                         <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="selfReport" value="Self-Report" checked={this.state.verified === 'Self-Report'} onChange={(e) => this.setVerified(e)} />
+                          <input className="form-check-input" type="radio" name="Verified" id="selfReport" value="Self-Report"
+                            checked={this.state.verified === 'Self-Report'} onChange={(e) => this.setVerified(e)} disabled={cannotModify} />
                           <label className="form-check-label" htmlFor="selfReport">Self-Report</label>
                         </div>
                       </div>
