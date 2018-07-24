@@ -122,6 +122,7 @@ class EditChallengeModal extends Component {
     updatedChallenge.fields['Title'] = this.state.title;
     updatedChallenge.fields['Instructions'] = this.state.instructions;
     updatedChallenge.fields['More Information Html'] = this.state.description;
+    updatedChallenge.fields['Content Changed'] = 'yes';
 
     this.props.updateEditingChallenge(updatedChallenge);
   }

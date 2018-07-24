@@ -163,69 +163,26 @@ class AccordionCard extends Component {
     const frequency = challenge.fields['Reward Occurrence'];
     const verified = challenge.fields['Verified'];
 
-    if (this.state.editingChallenge && this.state.editingChallenge.id === challenge.id) {
-      return (
-        <tr key={challenge.id} className="editing-row">
-          <td scope="row">
-            <input type="text" className="form-control" value={name} onChange={(e) => this.updateName(e, challenge)} />
-          </td>
-          <td>
-            <select className="form-control" value={verified} onChange={(e) => this.updateVerified(e, challenge)}>
-              <option>Self-Report</option>
-              <option>Verified</option>
-              <option>Custom</option>
-            </select>
-          </td>
-          <td className="category-cell">
-            <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
-            <img className="table-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
-          </td>
-          <td>
-            <input type="date" className="form-control edit-date" value={startDate} onChange={(e) => this.updateStartDate(e, challenge)} />
-            <input type="date" className="form-control edit-date" value={endDate} onChange={(e) => this.updateEndDate(e, challenge)} />
-          </td>
-          <td>
-            <select className="form-control" value={frequency} onChange={(e) => this.updateTracking(e, challenge)}>
-              <option>One Time</option>
-              <option>Weekly</option>
-              <option>Monthly</option>
-              <option>Bi-weekly</option>
-              <option>Unlimited</option>
-            </select>
-          </td>
+    const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
+
+    return (
+      <tr key={challenge.id}>
+        <td scope="row">{challenge.fields['Title']}</td>
+        <td>{challenge.fields['Verified']}</td>
         <td>
-          <input type="text" className="form-control edit-points" value={points} onChange={(e) => this.updatePoints(e, challenge)} />
-          <span>({challenge.fields['Total Points']})</span>
+          <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
+          <img className="table-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
         </td>
-          <td className="actions-cell">
-            <img className="table-icon" src="images/icon_save.svg" onClick={() => this.editChallenge(challenge)} />
-            <CommentBox challenge={challenge} />
-            <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
-          </td>
-        </tr>
-      );
-    } else {
-      return (
-        <tr key={challenge.id}>
-          <td scope="row">{challenge.fields['Title']}</td>
-          <td>{challenge.fields['Verified']}</td>
-          <td>
-            <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
-            <img className="table-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
-          </td>
-          <td>{moment(startDate).format('L')} - {moment(endDate).format('L')}</td>
-          <td>{challenge.fields['Reward Occurrence']}</td>
-        <td>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
-          <td>
-            <img className="table-icon" src="images/icon_edit.svg" onClick={() => this.editChallenge(challenge)} />
-            <CommentBox challenge={challenge} />
-            <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
-          </td>
-        </tr>
-      );
-    }
-
-
+        <td>{moment(startDate).format('L')} - {moment(endDate).format('L')}</td>
+        <td>{challenge.fields['Reward Occurrence']}</td>
+      <td>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
+        <td>
+          <img className="table-icon" src={hasBeenEdited ? 'images/icon_edit_notification.svg' : 'images/icon_edit.svg'} onClick={() => this.editChallenge(challenge)} />
+          <CommentBox challenge={challenge} />
+          <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
+        </td>
+      </tr>
+    );
   }
 
   render() {
