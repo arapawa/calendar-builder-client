@@ -296,3 +296,17 @@ h1, h2, h3, h4, h5 {
 #approveButton {
   margin: 0 50% 2em;
 }
+
+#categoryTotals {
+  float: right;
+  margin-bottom: 1em;
+}
+
+#categoryTotals h5 {
+  text-align: right;
+  padding-right: 12px;
+}
+
+#categoryTotals span {
+  margin-right: 12px;
+}

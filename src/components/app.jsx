@@ -8,6 +8,7 @@ import ConfirmDeleteModal from './confirm_delete_modal';
 import ConfirmApproveModal from './confirm_approve_modal';
 import CongratulationsModal from './congratulations_modal';
 import EditChallengeModal from './edit_challenge_modal';
+import CategoryTotals from './category_totals';
 
 class App extends Component {
   constructor(props) {
@@ -232,6 +233,7 @@ class App extends Component {
 
         <div className="calendar-name-and-link">
           <h4 className="calendar-name">{this.state.calendarName}</h4>
+          <CategoryTotals calendar={this.state.calendar} />
         </div>
 
         <CalendarAccordion
