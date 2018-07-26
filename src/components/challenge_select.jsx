@@ -53,14 +53,21 @@ class ChallengeSelect extends Component {
         'Phase': this.props.phase,
         'Start date': startDate,
         'End date': endDate,
+        'Challenge Id': challenge.id,
         'Verified': 'Self-Report',
-        'Team Activity': 'no',
-        'Reward Occurrence': 'One Time',
         'Points': '0',
         'Total Points': '0',
-        'Device Enabled': 'No',
+        'Instructions': challenge.fields['Instructions'],
+        'More Information Html': challenge.fields['More Information Html'],
         'Category': challenge.fields['Category'],
-        'Challenge Id': challenge.id
+        'Team Activity': challenge.fields['Team Activity'],
+        'Reward Occurrence': challenge.fields['Reward Occurrence'],
+        'Activity Tracking Type': challenge.fields['Activity Tracking Type'],
+        'Activity Goal': challenge.fields['Activity Goal'],
+        'Activity Goal Text': challenge.fields['Activity Goal Text'],
+        'Device Enabled': challenge.fields['Device Enabled'],
+        'Device Units': challenge.fields['Device Units'],
+        'Header Image': challenge.fields['Header Image']
       }, (err, record) => {
         if (err) {
           console.error(err);
