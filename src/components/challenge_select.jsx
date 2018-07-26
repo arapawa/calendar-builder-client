@@ -59,7 +59,7 @@ class ChallengeSelect extends Component {
         'Points': '0',
         'Total Points': '0',
         'Device Enabled': 'No',
-        'Category': 'Health and Fitness',
+        'Category': challenge.fields['Category'],
         'Challenge Id': challenge.id
       }, (err, record) => {
         if (err) {
