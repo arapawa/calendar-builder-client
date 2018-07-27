@@ -33,7 +33,7 @@ class EditChallengeModal extends Component {
       startDate: challenge.fields['Start date'],
       endDate: challenge.fields['End date'],
       verified: challenge.fields['Verified'],
-      individual: challenge.fields['Team Activity'] === 'yes',
+      individual: challenge.fields['Team Activity'] === 'no',
       rewardOccurrence: challenge.fields['Reward Occurrence'],
       activityTrackingType: challenge.fields['Activity Tracking Type'],
       trackingText: challenge.fields['Activity Goal Text'] ? challenge.fields['Activity Goal Text'] : '',
