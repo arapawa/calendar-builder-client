@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 class PointTotals extends Component {
-  reloadPage() {
-    window.location.reload();
-  }
-
   render() {
     const oneHundredPercent = this.props.totalPoints;
     const twentyFivePercent = Math.floor(oneHundredPercent * 0.25);
