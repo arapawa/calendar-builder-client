@@ -294,7 +294,7 @@ h1, h2, h3, h4, h5 {
 }
 
 #approveButton {
-  margin: 0 50% 2em;
+  margin: 2em 50%;
 }
 
 #categoryTotals {
@@ -309,4 +309,13 @@ h1, h2, h3, h4, h5 {
 
 #categoryTotals span {
   margin-right: 12px;
+}
+
+.point-total > h5 {
+  text-align: right;
+}
+
+.percentages h5 {
+  display: inline-block;
+  margin-left: 20px;
 }

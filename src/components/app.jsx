@@ -9,6 +9,7 @@ import ConfirmApproveModal from './confirm_approve_modal';
 import CongratulationsModal from './congratulations_modal';
 import EditChallengeModal from './edit_challenge_modal';
 import CategoryTotals from './category_totals';
+import PointTotals from './point_totals';
 
 class App extends Component {
   constructor(props) {
@@ -247,7 +248,7 @@ class App extends Component {
           calculateTotalPoints={this.calculateTotalPoints}
           setEditingChallenge={this.setEditingChallenge} />
 
-        <h5 className="point-total my-3">{this.state.totalPoints} Points</h5>
+        <PointTotals totalPoints={this.state.totalPoints} />
 
         <ConfirmDeleteModal />
         <ConfirmApproveModal />
