@@ -200,6 +200,13 @@ class App extends Component {
 
   updateEditingChallenge(updatedChallenge) {
 
+    // const calendar = this.state.calendar;
+    // calendar.map(challenge => {
+    //   if (challenge.id === updatedChallenge.id) {
+    //     challenge.fields['Total Points'] = updatedChallenge.fields['Total Points'];
+    //   }
+    // });
+
     base('Challenges').replace(updatedChallenge.id, updatedChallenge.fields, function(err, record) {
       if (err) {
         console.error(err);
@@ -211,6 +218,9 @@ class App extends Component {
 
     // Clear editingChallenge out
     this.setState({ editingChallenge: null });
+
+    // Recalculate total points
+    this.calculateTotalPoints(this.state.calendar);
 
   }
 
@@ -245,7 +255,6 @@ class App extends Component {
           selectedChallenge={this.state.selectedChallenge}
           addChallengeToCalendar={this.addChallengeToCalendar}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
-          calculateTotalPoints={this.calculateTotalPoints}
           setEditingChallenge={this.setEditingChallenge} />
 
         <PointTotals totalPoints={this.state.totalPoints} />

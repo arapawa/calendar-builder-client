@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import TilePreview from './tile_preview';
 
 class EditChallengeModal extends Component {
@@ -123,6 +124,29 @@ class EditChallengeModal extends Component {
     updatedChallenge.fields['Instructions'] = this.state.instructions;
     updatedChallenge.fields['More Information Html'] = this.state.description;
     updatedChallenge.fields['Content Changed'] = 'yes';
+
+    // Update Total Points based on points and frequency
+    const start = moment(this.state.startDate);
+    const end = moment(this.state.endDate);
+    const dayDifference = end.diff(start, 'days');
+    const weeks = Math.ceil(dayDifference / 7);
+
+    switch (this.state.rewardOccurrence) {
+      case 'Weekly':
+        updatedChallenge.fields['Total Points'] = (this.state.points * weeks).toString();
+        break;
+      case 'Bi-weekly':
+        updatedChallenge.fields['Total Points'] = (this.state.points * 26).toString();
+        break;
+      case 'Monthly':
+        updatedChallenge.fields['Total Points'] = (this.state.points * 12).toString();
+        break;
+      case 'Unlimited':
+        updatedChallenge.fields['Total Points'] = (this.state.points * 4).toString();
+        break;
+      default:
+        updatedChallenge.fields['Total Points'] = this.state.points;
+    }
 
     this.props.updateEditingChallenge(updatedChallenge);
   }
