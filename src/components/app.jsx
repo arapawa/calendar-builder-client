@@ -200,13 +200,6 @@ class App extends Component {
 
   updateEditingChallenge(updatedChallenge) {
 
-    // const calendar = this.state.calendar;
-    // calendar.map(challenge => {
-    //   if (challenge.id === updatedChallenge.id) {
-    //     challenge.fields['Total Points'] = updatedChallenge.fields['Total Points'];
-    //   }
-    // });
-
     base('Challenges').replace(updatedChallenge.id, updatedChallenge.fields, function(err, record) {
       if (err) {
         console.error(err);
