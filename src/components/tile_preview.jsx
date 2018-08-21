@@ -26,7 +26,11 @@ class TilePreview extends Component {
             </div>
           </div>
 
-          <TrumbowygBox text={this.props.description} onChange={(e) => this.props.setDescription(e)} />
+          {
+            this.props.instructions === 'THIS TEXT CANNOT BE MODIFIED' ?
+            <textarea className="form-control" type="text" id="readOnlyDescription" value={this.props.description} readOnly></textarea> :
+            <TrumbowygBox text={this.props.description} onChange={(e) => this.props.setDescription(e)} />
+          }
 
         </div>
       </div>
