@@ -7,6 +7,8 @@ class TilePreview extends Component {
   }
 
   render() {
+    const editable = this.props.instructions !== 'THIS TEXT CANNOT BE MODIFIED';
+
     return (
       <div id="tile-preview">
         <div className="stretchy-wrapper">
@@ -22,14 +24,14 @@ class TilePreview extends Component {
 
           <div id="instructions-box" className="info-header">
             <div className="form-group">
-              <textarea className="form-control" type="text" id="challengeInstructions" value={this.props.instructions} onChange={(e) => this.props.setInstructions(e)}></textarea>
+              <textarea className="form-control" type="text" id="challengeInstructions" value={this.props.instructions} onChange={(e) => this.props.setInstructions(e)} readOnly={!editable}></textarea>
             </div>
           </div>
 
           {
-            this.props.instructions === 'THIS TEXT CANNOT BE MODIFIED' ?
-            <textarea className="form-control" type="text" id="readOnlyDescription" value={this.props.description} readOnly></textarea> :
-            <TrumbowygBox text={this.props.description} onChange={(e) => this.props.setDescription(e)} />
+            editable ?
+            <TrumbowygBox text={this.props.description} onChange={(e) => this.props.setDescription(e)} /> :
+            <textarea className="form-control" type="text" id="readOnlyDescription" value={this.props.description} readOnly></textarea>
           }
 
         </div>
