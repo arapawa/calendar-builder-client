@@ -56,6 +56,8 @@ class AccordionCard extends Component {
         return 'images/HP_Icon_Contribution_Sustainability.png';
       case 'Money and Prosperity':
         return 'images/HP_Icon_Money_Prosperity.png';
+      case 'All':
+        return 'images/HP_Icon_All.png';
     }
   }
 
