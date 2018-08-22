@@ -30,7 +30,7 @@ class TilePreview extends Component {
 
           {
             editable ?
-            <TrumbowygBox text={this.props.description} onChange={(e) => this.props.setDescription(e)} /> :
+            <TrumbowygBox text={this.props.description} /> :
             <textarea className="form-control" type="text" id="readOnlyDescription" value={this.props.description} readOnly></textarea>
           }
 

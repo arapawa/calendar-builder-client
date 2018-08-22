@@ -25,7 +25,6 @@ class EditChallengeModal extends Component {
 
     this.setTitle = this.setTitle.bind(this);
     this.setInstructions = this.setInstructions.bind(this);
-    this.setDescription = this.setDescription.bind(this);
   }
 
   componentDidMount() {
@@ -106,11 +105,8 @@ class EditChallengeModal extends Component {
     this.setState({ instructions: e.target.value });
   }
 
-  setDescription(e) {
-    this.setState({ description: e.target.value });
-  }
-
   saveUpdatedChallenge(updatedChallenge) {
+    /* global $ */
     updatedChallenge.fields['Start date'] = this.state.startDate;
     updatedChallenge.fields['End date'] = this.state.endDate;
     updatedChallenge.fields['Verified'] = this.state.verified;
@@ -122,7 +118,7 @@ class EditChallengeModal extends Component {
     updatedChallenge.fields['Points'] = this.state.points;
     updatedChallenge.fields['Title'] = this.state.title;
     updatedChallenge.fields['Instructions'] = this.state.instructions;
-    updatedChallenge.fields['More Information Html'] = this.state.description;
+    updatedChallenge.fields['More Information Html'] = $('.description-text').html();
     updatedChallenge.fields['Content Changed'] = 'yes';
 
     // Update Total Points based on points and frequency
@@ -262,7 +258,6 @@ class EditChallengeModal extends Component {
                     description={this.state.description}
                     setTitle={this.setTitle}
                     setInstructions={this.setInstructions}
-                    setDescription={this.setDescription}
                   />
 
                 </div>
