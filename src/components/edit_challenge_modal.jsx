@@ -121,6 +121,10 @@ class EditChallengeModal extends Component {
     updatedChallenge.fields['More Information Html'] = $('.description-text').html();
     updatedChallenge.fields['Content Changed'] = 'yes';
 
+    // Delete computed fields
+    delete updatedChallenge.fields['dif_filter'];
+    delete updatedChallenge.fields['dif_weeks'];
+
     // Update Total Points based on points and frequency
     const start = moment(this.state.startDate);
     const end = moment(this.state.endDate);
