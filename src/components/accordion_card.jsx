@@ -49,14 +49,18 @@ class AccordionCard extends Component {
   hpImage(category) {
     switch (category) {
       case 'Health and Fitness':
+      case 'Health & Fitness':
         return 'images/HP_Icon_Health_Fitness.png';
       case 'Growth and Development':
+      case 'Growth & Development':
         return 'images/HP_Icon_Growth_Development.png';
       case 'Contribution and Sustainability':
+      case 'Contribution & Sustainability':
         return 'images/HP_Icon_Contribution_Sustainability.png';
       case 'Money and Prosperity':
+      case 'Money & Prosperity':
         return 'images/HP_Icon_Money_Prosperity.png';
-      case 'All':
+      default:
         return 'images/HP_Icon_All.png';
     }
   }
