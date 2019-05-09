@@ -110,24 +110,6 @@ h1, h2, h3, h4, h5 {
   vertical-align: middle;
 }
 
-/* Helpers */
-.clear {
-  clear: both;
-}
-
-.left-15 {
-  margin-left: 15%;
-}
-
-.left-abs-73 {
-  position: absolute;
-  left: 73%;
-}
-
-.right {
-  float: right;
-}
-
 .oi-magnifying-glass {
   position: absolute;
   z-index: 10;
@@ -217,27 +199,6 @@ h1, h2, h3, h4, h5 {
   min-width: 132px;
 }
 
-#edit-challenge-modal .modal-dialog {
-  max-width: 1000px;
-}
-
-#tile-preview {
-  width: 440px;
-}
-
-#tile-preview .item-info-image {
-  width: 100%;
-  margin-bottom: 1em;
-}
-
-.trumbowyg-box, .trumbowyg-editor {
-  margin: 0;
-}
-
-.brandingBckgrndColor {
-  background-color: #0080A5;
-}
-
 #approveButton {
   margin: 2em 50%;
 }
@@ -274,6 +235,48 @@ h1, h2, h3, h4, h5 {
   display: inline-block;
   vertical-align: middle;
 }
+
+#editChallengeModal .modal-dialog {
+  max-width: 650px;
+}
+
+#editChallengeModal .modal-body {
+  padding: 0;
+}
+
+#editChallengeModal .item-info-image {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+#editChallengeModal .more-info-container {
+  width: 550px;
+  margin: auto;
+}
+
+#editChallengeModal .brandingBckgrndColor {
+  background-color: #0080A5;
+}
+
+/* Helpers */
+.clear {
+  clear: both;
+}
+
+.left-15 {
+  margin-left: 15%;
+}
+
+.left-abs-73 {
+  position: absolute;
+  left: 73%;
+}
+
+.right {
+  float: right;
+}
+
+/* Media queries */
 
 @media print {
   .collapse {
