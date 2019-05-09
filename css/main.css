@@ -195,15 +195,6 @@ h1, h2, h3, h4, h5 {
   margin: 8px;
 }
 
-.challenge-select .dropdown {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.challenge-search {
-  width: 100%;
-}
-
 .editing-row .form-control {
   width: auto;
 }
@@ -321,6 +312,12 @@ h1, h2, h3, h4, h5 {
 
 #readOnlyDescription {
   min-height: 300px;
+}
+
+.add-custom-challenge .form-control {
+  width: 33%;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 @media print {

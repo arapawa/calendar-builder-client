@@ -3,7 +3,7 @@ import moment from 'moment';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
-import ChallengeSelect from './challenge_select';
+import AddCustomChallenge from './add_custom_challenge';
 import CommentBox from './comment_box';
 
 class AccordionCard extends Component {
@@ -189,17 +189,13 @@ class AccordionCard extends Component {
               </tbody>
               <tfoot>
                 <tr>
-                  <td>
-                    <ChallengeSelect
+                  <td colSpan="7">
+                    <AddCustomChallenge
                       calendar={this.props.calendar}
-                      challenges={this.props.challenges}
-                      selectChallenge={this.props.selectChallenge}
                       selectedClient={this.props.selectedClient}
-                      selectedChallenge={this.props.selectedChallenge}
-                      addChallengeToCalendar={this.props.addChallengeToCalendar}
                       phase={this.props.title}
-                      startDate={startDate}
-                      endDate={endDate} />
+                      addChallengeToCalendar={this.props.addChallengeToCalendar}
+                    />
                   </td>
                 </tr>
               </tfoot>
