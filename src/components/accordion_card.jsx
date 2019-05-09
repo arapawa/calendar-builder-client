@@ -4,7 +4,6 @@ import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 import AddCustomChallenge from './add_custom_challenge';
-import CommentBox from './comment_box';
 
 class AccordionCard extends Component {
   constructor(props) {
@@ -96,7 +95,6 @@ class AccordionCard extends Component {
       <td>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
         <td>
           <img className="table-icon" src={hasBeenEdited ? 'images/icon_edit_notification.svg' : 'images/icon_edit.svg'} onClick={() => this.editChallenge(challenge)} />
-          <CommentBox challenge={challenge} />
           <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
         </td>
       </tr>

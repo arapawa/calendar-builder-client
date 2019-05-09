@@ -217,51 +217,6 @@ h1, h2, h3, h4, h5 {
   min-width: 132px;
 }
 
-.comment-box {
-  display: inline;
-}
-
-.tooltip {
-  opacity: 1;
-}
-
-.tooltip.show {
-  opacity: 1;
-}
-
-.tooltip-inner {
-  position: relative;
-  right: 15%;
-  text-align: left;
-  padding: 0 20px;
-  background-color: white;
-  border: 1px solid black;
-  color: inherit;
-  max-width: inherit;
-}
-
-.comment-box-tooltip .arrow {
-  left: 13%;
-}
-
-.comment-box-tooltip-inner {
-  right: 70%;
-  text-align: right;
-}
-
-.comment-box-tooltip-inner h5 {
-  text-align: left;
-}
-
-.comment-box-tooltip-inner textarea {
-  width: 300px;
-  height: 100px;
-}
-
-.comment-box-tooltip-inner button {
-  margin: 10px 0;
-}
-
 #edit-challenge-modal .modal-dialog {
   max-width: 1000px;
 }
