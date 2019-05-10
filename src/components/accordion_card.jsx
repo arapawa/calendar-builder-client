@@ -3,8 +3,7 @@ import moment from 'moment';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
-import ChallengeSelect from './challenge_select';
-import CommentBox from './comment_box';
+import AddCustomChallenge from './add_custom_challenge';
 
 class AccordionCard extends Component {
   constructor(props) {
@@ -12,7 +11,8 @@ class AccordionCard extends Component {
 
     this.state = {
       challenges: [],
-      editingChallenge: null
+      editingChallenge: null,
+      highlightedElement: null
     };
 
     this.renderRow = this.renderRow.bind(this);
@@ -73,6 +73,23 @@ class AccordionCard extends Component {
     }
   }
 
+  highlight(e) {
+    const element = e.target;
+
+    if (this.state.highlightedElement) {
+      this.state.highlightedElement.classList.remove('colored-border');
+    }
+
+    element.classList.add('colored-border');
+
+    $(document).mousedown(() => {
+      this.state.highlightedElement.classList.remove('colored-border');
+      $(document).off('mousedown');
+    });
+
+    this.setState({ highlightedElement: element });
+  }
+
   renderRow(challenge) {
     const startDate = moment(challenge.fields['Start date']).format('YYYY-MM-DD');
     const endDate = moment(challenge.fields['End date']).format('YYYY-MM-DD');
@@ -91,12 +108,11 @@ class AccordionCard extends Component {
           <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
           <img className="table-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
         </td>
-        <td>{moment(startDate).format('L')} - {moment(endDate).format('L')}</td>
+        <td onClick={(e) => this.highlight(e)}>{moment(startDate).format('L')} - {moment(endDate).format('L')}</td>
         <td>{challenge.fields['Reward Occurrence']}</td>
-      <td>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
+        <td onClick={(e) => this.highlight(e)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
         <td>
           <img className="table-icon" src={hasBeenEdited ? 'images/icon_edit_notification.svg' : 'images/icon_edit.svg'} onClick={() => this.editChallenge(challenge)} />
-          <CommentBox challenge={challenge} />
           <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
         </td>
       </tr>
@@ -189,17 +205,13 @@ class AccordionCard extends Component {
               </tbody>
               <tfoot>
                 <tr>
-                  <td>
-                    <ChallengeSelect
+                  <td colSpan="7">
+                    <AddCustomChallenge
                       calendar={this.props.calendar}
-                      challenges={this.props.challenges}
-                      selectChallenge={this.props.selectChallenge}
                       selectedClient={this.props.selectedClient}
-                      selectedChallenge={this.props.selectedChallenge}
-                      addChallengeToCalendar={this.props.addChallengeToCalendar}
                       phase={this.props.title}
-                      startDate={startDate}
-                      endDate={endDate} />
+                      addChallengeToCalendar={this.props.addChallengeToCalendar}
+                    />
                   </td>
                 </tr>
               </tfoot>

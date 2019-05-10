@@ -7,7 +7,7 @@ import CalendarAccordion from './calendar_accordion';
 import ConfirmDeleteModal from './confirm_delete_modal';
 import ConfirmApproveModal from './confirm_approve_modal';
 import CongratulationsModal from './congratulations_modal';
-import EditChallengeModal from './edit_challenge_modal';
+import PreviewChallengeModal from './preview_challenge_modal';
 import CategoryTotals from './category_totals';
 import PointTotals from './point_totals';
 
@@ -175,18 +175,18 @@ class App extends Component {
 
   openEditChallengeModal() {
     /* global $ */
-    $('#edit-challenge-modal').modal();
+    $('#editChallengeModal').modal();
 
     // Make sure to clear the editingChallenge when the modal is closed
-    $('#edit-challenge-modal').off('hidden.bs.modal');
-    $('#edit-challenge-modal').on('hidden.bs.modal', () => {
+    $('#editChallengeModal').off('hidden.bs.modal');
+    $('#editChallengeModal').on('hidden.bs.modal', () => {
       this.setState({ editingChallenge: null });
     });
 
     // Handler for the Save button
     $('.modal-footer .btn-primary').off('click');
     $('.modal-footer .btn-primary').click(() => {
-      $('#edit-challenge-modal').modal('hide');
+      $('#editChallengeModal').modal('hide');
     });
   }
 
@@ -194,7 +194,6 @@ class App extends Component {
     this.setState({ editingChallenge: challenge });
 
     // TODO: Find a better way to handle this problem!
-    // I had a meeting at 1p today and this was the best I could do on such short notice
     setTimeout(this.openEditChallengeModal, 200);
   }
 
@@ -260,9 +259,7 @@ class App extends Component {
 
         {
           this.state.editingChallenge ?
-          <EditChallengeModal
-            challenge={this.state.editingChallenge}
-            updateEditingChallenge={this.updateEditingChallenge} /> :
+          <PreviewChallengeModal challenge={this.state.editingChallenge} /> :
           ''
         }
 

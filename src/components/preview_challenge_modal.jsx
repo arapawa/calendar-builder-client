@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import TilePreview from './tile_preview';
 
-class EditChallengeModal extends Component {
+class PreviewChallengeModal extends Component {
   constructor(props) {
     super(props);
 
@@ -156,115 +155,22 @@ class EditChallengeModal extends Component {
     const cannotModify = this.state.instructions === 'THIS TEXT CANNOT BE MODIFIED';
 
     return (
-      <div id="edit-challenge-modal" className="modal fade" tabIndex="-1" role="dialog">
+      <div id="editChallengeModal" className="modal fade" tabIndex="-1" role="dialog">
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="edit-challenge-modal-title">Edit Challenge</h5>
+              <h5 className="modal-title" id="edit-challenge-modal-title">Challenge Preview</h5>
               <button type="button" className="close" data-dismiss="modal">
                 <span>&times;</span>
               </button>
             </div>
-            <div className="modal-body container">
-              <div className="row">
-                <div className="col">
+            <div className="modal-body">
+              <img className="item-info-image" src={challenge.fields['Header Image']} />
 
-                  <div className="row">
-                    <div className="col">
-                      <div className="form-group">
-                        <label htmlFor="startDate">Start Date</label>
-                        <input className="form-control" type="date" id="startDate" value={this.state.startDate} onChange={(e) => this.setStartDate(e)} />
-                      </div>
-                    </div>
-                    <div className="col">
-                      <div className="form-group">
-                        <label htmlFor="endDate">End Date</label>
-                        <input className="form-control" type="date" id="endDate" value={this.state.endDate} onChange={(e) => this.setEndDate(e)} />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col">
-                      <div className="form-group">
-                        <label htmlFor="verified">Verified</label>
-                        <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="verified" value="Verified"
-                            checked={this.state.verified === 'Verified'} onChange={(e) => this.setVerified(e)} disabled={cannotModify} />
-                          <label className="form-check-label" htmlFor="verified">Verified</label>
-                        </div>
-                        <div className="form-check">
-                          <input className="form-check-input" type="radio" name="Verified" id="selfReport" value="Self-Report"
-                            checked={this.state.verified === 'Self-Report'} onChange={(e) => this.setVerified(e)} disabled={cannotModify} />
-                          <label className="form-check-label" htmlFor="selfReport">Self-Report</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col">
-                      <div className="form-group">
-                        <label htmlFor="rewardOccurrence">Reward Occurrence</label>
-                        <select className="form-control" id="rewardOccurrence" value={this.state.rewardOccurrence} onChange={(e) => this.setRewardOccurrence(e)}>
-                          <option>Once</option>
-                          <option>Weekly</option>
-                          <option>Monthly</option>
-                          <option>Bi-weekly</option>
-                          <option>Unlimited</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col">
-                      <div className="form-group">
-                        <label htmlFor="activityTrackingType">Activity Tracking Type</label>
-                        <select className="form-control" id="activityTrackingType" value={this.state.activityTrackingType} onChange={(e) => this.setActivityTrackingType(e)}>
-                          <option>Event</option>
-                          <option>Days</option>
-                          <option>Units</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col">
-                      <div className="form-group">
-                        <label htmlFor="trackingText">Tracking Text</label>
-                        <input type="text" className="form-control" id="trackingText" value={this.state.trackingText} onChange={(e) => this.setTrackingText(e)} />
-                      </div>
-                    </div>
-                    <div className="col">
-                      <div className="form-group">
-                        <label htmlFor="activityGoal">Activity Goal</label>
-                        <input type="text" className="form-control" id="activityGoal" value={this.state.activityGoal} onChange={(e) => this.setActivityGoal(e)} />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-3">
-                      <div className="form-group">
-                        <label htmlFor="points">Points</label>
-                        <input type="text" className="form-control" id="points" value={this.state.points} onChange={(e) => this.setPoints(e)} />
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div className="col">
-
-                  <TilePreview
-                    imageSrc={challenge.fields['Header Image']}
-                    title={this.state.title}
-                    instructions={this.state.instructions}
-                    description={this.state.description}
-                    setTitle={this.setTitle}
-                    setInstructions={this.setInstructions}
-                  />
-
-                </div>
+              <div className="more-info-container">
+                <h3>{challenge.fields['Title']}</h3>
+                <p dangerouslySetInnerHTML={{ __html: challenge.fields['Instructions'] }}></p>
+                <p dangerouslySetInnerHTML={{ __html: challenge.fields['More Information Html'] }}></p>
               </div>
             </div>
             <div className="modal-footer">
@@ -278,4 +184,4 @@ class EditChallengeModal extends Component {
   }
 }
 
-export default EditChallengeModal;
+export default PreviewChallengeModal;

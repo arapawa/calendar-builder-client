@@ -110,24 +110,6 @@ h1, h2, h3, h4, h5 {
   vertical-align: middle;
 }
 
-/* Helpers */
-.clear {
-  clear: both;
-}
-
-.left-15 {
-  margin-left: 15%;
-}
-
-.left-abs-73 {
-  position: absolute;
-  left: 73%;
-}
-
-.right {
-  float: right;
-}
-
 .oi-magnifying-glass {
   position: absolute;
   z-index: 10;
@@ -195,15 +177,6 @@ h1, h2, h3, h4, h5 {
   margin: 8px;
 }
 
-.challenge-select .dropdown {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.challenge-search {
-  width: 100%;
-}
-
 .editing-row .form-control {
   width: auto;
 }
@@ -224,72 +197,6 @@ h1, h2, h3, h4, h5 {
 
 .actions-cell {
   min-width: 132px;
-}
-
-.comment-box {
-  display: inline;
-}
-
-.tooltip {
-  opacity: 1;
-}
-
-.tooltip.show {
-  opacity: 1;
-}
-
-.tooltip-inner {
-  position: relative;
-  right: 15%;
-  text-align: left;
-  padding: 0 20px;
-  background-color: white;
-  border: 1px solid black;
-  color: inherit;
-  max-width: inherit;
-}
-
-.comment-box-tooltip .arrow {
-  left: 13%;
-}
-
-.comment-box-tooltip-inner {
-  right: 70%;
-  text-align: right;
-}
-
-.comment-box-tooltip-inner h5 {
-  text-align: left;
-}
-
-.comment-box-tooltip-inner textarea {
-  width: 300px;
-  height: 100px;
-}
-
-.comment-box-tooltip-inner button {
-  margin: 10px 0;
-}
-
-#edit-challenge-modal .modal-dialog {
-  max-width: 1000px;
-}
-
-#tile-preview {
-  width: 440px;
-}
-
-#tile-preview .item-info-image {
-  width: 100%;
-  margin-bottom: 1em;
-}
-
-.trumbowyg-box, .trumbowyg-editor {
-  margin: 0;
-}
-
-.brandingBckgrndColor {
-  background-color: #0080A5;
 }
 
 #approveButton {
@@ -322,6 +229,58 @@ h1, h2, h3, h4, h5 {
 #readOnlyDescription {
   min-height: 300px;
 }
+
+.add-custom-challenge .form-control {
+  width: 33%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.colored-border {
+  border: 3px solid blue !important;
+}
+
+#editChallengeModal .modal-dialog {
+  max-width: 650px;
+}
+
+#editChallengeModal .modal-body {
+  padding: 0;
+}
+
+#editChallengeModal .item-info-image {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+#editChallengeModal .more-info-container {
+  width: 550px;
+  margin: auto;
+}
+
+#editChallengeModal .brandingBckgrndColor {
+  background-color: #0080A5;
+}
+
+/* Helpers */
+.clear {
+  clear: both;
+}
+
+.left-15 {
+  margin-left: 15%;
+}
+
+.left-abs-73 {
+  position: absolute;
+  left: 73%;
+}
+
+.right {
+  float: right;
+}
+
+/* Media queries */
 
 @media print {
   .collapse {
