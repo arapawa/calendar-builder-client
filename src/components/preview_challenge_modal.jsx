@@ -104,6 +104,23 @@ class PreviewChallengeModal extends Component {
     this.setState({ instructions: e.target.value });
   }
 
+  trackingDetails(challenge) {
+      let activityGoalText = challenge.fields['Activity Goal Text'] ? challenge.fields['Activity Goal Text'] : 'complete the activity in the description';
+      let trackingDetailsText = 'To complete this, ' + activityGoalText;
+      let activityGoalNumber = challenge.fields['Activity Goal Text'];
+
+      // TODO: add 'Activity Goal Text', plus If it has it, 'Activity Goal', 'Activity Tracking Type' and 'Reward Occurrence'
+      if (challenge.fields['Activity Tracking Type']  === 'Event') {
+        trackingDetailsText += '.';
+      } else if (challenge.fields['Activity Tracking Type']  === 'Days') {
+        trackingDetailsText += ' on at least ' + challenge.fields['Activity Goal'] + ' day ' + (challenge.fields['Reward Occurrence'] === 'Weekly' ? 'each week' : '') + '.';
+      } else {
+        trackingDetailsText += ' at least ' + challenge.fields['Activity Goal'] + ' ' + challenge.fields['Device Units'] + '.';
+      }
+
+      return trackingDetailsText;
+  }
+
   saveUpdatedChallenge(updatedChallenge) {
     /* global $ */
     updatedChallenge.fields['Start date'] = this.state.startDate;
@@ -153,6 +170,7 @@ class PreviewChallengeModal extends Component {
   render() {
     const challenge = this.props.challenge;
     const cannotModify = this.state.instructions === 'THIS TEXT CANNOT BE MODIFIED';
+    console.log(challenge);
 
     return (
       <div id="editChallengeModal" className="modal fade" tabIndex="-1" role="dialog">
@@ -169,6 +187,9 @@ class PreviewChallengeModal extends Component {
 
               <div className="more-info-container">
                 <h3>{challenge.fields['Title']}</h3>
+                {this.trackingDetails(challenge)}
+                <hr/>
+                <h4>About this activity:</h4>
                 <p dangerouslySetInnerHTML={{ __html: challenge.fields['Instructions'] }}></p>
                 <p dangerouslySetInnerHTML={{ __html: challenge.fields['More Information Html'] }}></p>
               </div>
