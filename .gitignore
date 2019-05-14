@@ -1,3 +1,4 @@
 /node_modules
 npm-debug.*
 bundle.js
+.DS_Store

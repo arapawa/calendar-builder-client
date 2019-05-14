@@ -105,20 +105,54 @@ class PreviewChallengeModal extends Component {
   }
 
   trackingDetails(challenge) {
-      let activityGoalText = challenge.fields['Activity Goal Text'] ? challenge.fields['Activity Goal Text'] : 'complete the activity in the description';
-      let trackingDetailsText = 'To complete this, ' + activityGoalText;
-      let activityGoalNumber = challenge.fields['Activity Goal Text'];
+    let activityGoalText = challenge.fields['Activity Goal Text'] ? challenge.fields['Activity Goal Text'] : 'do the activity in the description';
+    let trackingDetailsText = '';
 
-      // TODO: add 'Activity Goal Text', plus If it has it, 'Activity Goal', 'Activity Tracking Type' and 'Reward Occurrence'
-      if (challenge.fields['Activity Tracking Type']  === 'Event') {
-        trackingDetailsText += '.';
-      } else if (challenge.fields['Activity Tracking Type']  === 'Days') {
-        trackingDetailsText += ' on at least ' + challenge.fields['Activity Goal'] + ' day ' + (challenge.fields['Reward Occurrence'] === 'Weekly' ? 'each week' : '') + '.';
-      } else {
-        trackingDetailsText += ' at least ' + challenge.fields['Activity Goal'] + ' ' + challenge.fields['Device Units'] + '.';
+    // tracking config details
+    let activityGoalNumber = challenge.fields['Activity Goal'];
+
+    // determine if Individual or Team, add tracking text as needed
+    if (challenge.fields['Team Activity'] === 'yes') {
+      // switch case for device or manual tracking
+      switch (challenge.fields['Device Enabled']) {
+        // case for device enabled
+        case 'yes':
+          trackingDetailsText = `To complete this team challenge, collectively ${activityGoalText} at least ${activityGoalNumber} ${challenge.fields['Device Units']}.`;
+          break;
+        case 'no':
+          trackingDetailsText = `To complete this team challenge, collectively track at least ${activityGoalNumber} ${activityGoalText}.`;
+          break;
       }
+    } else if (challenge.fields['Team Activity'] === 'no') {
+      // switch case for Activity Tracking Type
+      switch (challenge.fields['Activity Tracking Type']) {
+        case 'Event':
+          trackingDetailsText = `To complete this challenge, ${activityGoalText}.`;
+          break;
+        case 'Days':
+          trackingDetailsText = `To complete this challenge, ${activityGoalText} on at least ${challenge.fields['Activity Goal']} ${(challenge.fields['Activity Goal'] > 1 ? 'separate days' : 'day')} ${(challenge.fields['Reward Occurrence'] === 'Weekly' ? 'each week' : '')}.`;
+          break;
+        case 'Units':
+          // set text based on if it's device or manual tracking
+          if (challenge.fields['Device Enabled'] === 'yes') {
+            trackingDetailsText = `To complete this challenge, ${activityGoalText} at least ${activityGoalNumber} ${challenge.fields['Device Units']}.`;
+          } else {
+            trackingDetailsText = `To complete this challenge, track at least ${activityGoalNumber} ${activityGoalText}.`;
+          }
+          break;
+      }
+    }
 
-      return trackingDetailsText;
+    return trackingDetailsText;
+  }
+
+  // sets team size in preview if available/required
+  teamSize(challenge) {
+    let teamSizeText = '';
+    if (challenge.fields['Team Activity'] === 'yes') {
+      teamSizeText = `Team Size:  ${(challenge.fields['Team Size Minimum'] ? challenge.fields['Team Size Minimum'] : '4')}-${(challenge.fields['Team Size Maximum'] ? challenge.fields['Team Size Maximum'] : '12')}`;
+    }
+    return teamSizeText;
   }
 
   saveUpdatedChallenge(updatedChallenge) {
@@ -187,7 +221,8 @@ class PreviewChallengeModal extends Component {
 
               <div className="more-info-container">
                 <h3>{challenge.fields['Title']}</h3>
-                {this.trackingDetails(challenge)}
+                <p>{this.trackingDetails(challenge)}</p>
+                <p>{this.teamSize(challenge)}</p>
                 <hr/>
                 <h4>About this activity:</h4>
                 <p dangerouslySetInnerHTML={{ __html: challenge.fields['Instructions'] }}></p>
