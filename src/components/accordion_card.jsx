@@ -102,10 +102,10 @@ class AccordionCard extends Component {
 
     return (
       <tr key={challenge.id}>
-        <td scope="row">{challenge.fields['Title']}</td>
         <td>
           <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
-          </td>
+        </td>
+        <td scope="row">{challenge.fields['Title']}</td>
         <td>{challenge.fields['Verified']}</td>
         <td>
           <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
@@ -194,8 +194,8 @@ class AccordionCard extends Component {
             <table className="table table-striped">
               <thead>
                 <tr>
+                  <th scope="col">{/*Image*/}</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Image</th>
                   <th scope="col">Type</th>
                   <th scope="col">Category</th>
                   <th scope="col">Dates</th>
