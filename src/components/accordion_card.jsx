@@ -113,7 +113,6 @@ class AccordionCard extends Component {
         <td onClick={(e) => this.highlight(e)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
         <td>
           <img className="table-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
-          <img className="table-icon" src={hasBeenEdited ? 'images/icon_edit_notification.svg' : 'images/icon_edit.svg'} onClick={() => this.editChallenge(challenge)} />
           <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
         </td>
       </tr>
