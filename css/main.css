@@ -162,6 +162,12 @@ h1, h2, h3, h4, h5 {
   margin-right: 12px;
 }
 
+.table-icon-wide {
+  width: 48px;
+  height: 24px;
+  margin-right: 12px;
+}
+
 .add-targeting-button, .add-resource-button {
   width: 24px;
 }
