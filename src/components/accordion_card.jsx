@@ -102,6 +102,9 @@ class AccordionCard extends Component {
 
     return (
       <tr key={challenge.id}>
+        <td>
+          <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
+        </td>
         <td scope="row">{challenge.fields['Title']}</td>
         <td>{challenge.fields['Verified']}</td>
         <td>
@@ -112,7 +115,7 @@ class AccordionCard extends Component {
         <td>{challenge.fields['Reward Occurrence']}</td>
         <td onClick={(e) => this.highlight(e)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
         <td>
-          <img className="table-icon" src={hasBeenEdited ? 'images/icon_edit_notification.svg' : 'images/icon_edit.svg'} onClick={() => this.editChallenge(challenge)} />
+          <img className="table-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
           <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
         </td>
       </tr>
@@ -191,6 +194,7 @@ class AccordionCard extends Component {
             <table className="table table-striped">
               <thead>
                 <tr>
+                  <th scope="col">{/*Image*/}</th>
                   <th scope="col">Name</th>
                   <th scope="col">Type</th>
                   <th scope="col">Category</th>

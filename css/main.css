@@ -6,6 +6,10 @@ h1, h2, h3, h4, h5 {
   padding: .75rem .5rem
 }
 
+th:nth-of-type(2) {
+  width: 340px;
+}
+
 .container {
   color: #555;
 }
@@ -158,6 +162,12 @@ h1, h2, h3, h4, h5 {
 
 .table-icon {
   width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+
+.table-icon-wide {
+  width: 48px;
   height: 24px;
   margin-right: 12px;
 }
