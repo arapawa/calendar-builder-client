@@ -90,6 +90,100 @@ class AccordionCard extends Component {
     this.setState({ highlightedElement: element });
   }
 
+  editStartDate(e, challenge) {
+    let td = event.target;
+    td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
+
+    $('#editingStartDate').focus();
+
+    // When user clicks out of the input, change it back to the original readonly version with the updated data
+    $('#editingStartDate').blur((event) => {
+      td.innerHTML = `${moment(challenge.fields['Start date']).format('L')}`;
+
+      // Force react to re-render the DOM so Total Points are updated
+      this.setState({ challenges: this.challenges });
+    });
+
+    // When user hits enter, also change it back
+    $('#editingStartDate').on('keypress', (event) => {
+      if (event.which === 13) {
+        td.innerHTML = `${moment(challenge.fields['Start date']).format('L')}`;
+
+        // Force react to re-render the DOM so Total Points are updated
+        this.setState({ challenges: this.challenges });
+      }
+    });
+
+    // The blur event triggers the change event
+    $('#editingStartDate').change((event) => {
+      challenge.fields['Start date'] = event.target.value;
+
+      // TODO: Update airtable w/ the changes
+    });
+  }
+
+  editEndDate(e, challenge) {
+    let td = event.target;
+    td.innerHTML = `<input type="date" class="form-control" id="editingEndDate" value="${challenge.fields['End date']}" />`;
+
+    $('#editingEndDate').focus();
+
+    // When user clicks out of the input, change it back to the original readonly version with the updated data
+    $('#editingEndDate').blur((event) => {
+      td.innerHTML = `${moment(challenge.fields['End date']).format('L')}`;
+
+      // Force react to re-render the DOM so Total Points are updated
+      this.setState({ challenges: this.challenges });
+    });
+
+    // When user hits enter, also change it back
+    $('#editingEndDate').on('keypress', (event) => {
+      if (event.which === 13) {
+        td.innerHTML = `${moment(challenge.fields['End date']).format('L')}`;
+
+        // Force react to re-render the DOM so Total Points are updated
+        this.setState({ challenges: this.challenges });
+      }
+    });
+
+    // The blur event triggers the change event
+    $('#editingEndDate').change((event) => {
+      challenge.fields['End date'] = event.target.value;
+
+      // TODO: Update airtable w/ the changes
+    });
+  }
+
+  editPoints(event, challenge) {
+    let td = event.target;
+    td.innerHTML = `<input type="text" class="form-control" id="editingPoints" value="${challenge.fields['Points']}" />`;
+
+    // Since autofocus wasn't working, focus using jquery
+    $('#editingPoints').focus();
+
+    // When user clicks out of the input, change it back to the original readonly version with the updated data
+    $('#editingPoints').blur((event) => {
+      td.innerHTML = `${challenge.fields['Points']} (${challenge.fields['Total Points']})`;
+    });
+
+    // When user hits enter, also change it back
+    $('#editingPoints').on('keypress', (event) => {
+      if (event.which === 13) {
+        td.innerHTML = `${challenge.fields['Points']} (${challenge.fields['Total Points']})`;
+      }
+    });
+
+    // The blur event triggers the change event
+    $('#editingPoints').change((event) => {
+      challenge.fields['Points'] = event.target.value;
+
+      // Force react to re-render the DOM so Total Points are updated
+      this.setState({ challenges: this.challenges });
+
+      // TODO: Update airtable w/ the changes
+    });
+  }
+
   renderRow(challenge) {
     const startDate = moment(challenge.fields['Start date']).format('YYYY-MM-DD');
     const endDate = moment(challenge.fields['End date']).format('YYYY-MM-DD');
@@ -107,14 +201,15 @@ class AccordionCard extends Component {
         </td>
         <td scope="row">{challenge.fields['Title']}</td>
         <td>{challenge.fields['Verified']}</td>
-        <td>
+        <td className="text-center">
           <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
           <img className="table-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
         </td>
-        <td onClick={(e) => this.highlight(e)}>{moment(startDate).format('L')} - {moment(endDate).format('L')}</td>
+        <td onDoubleClick={(e) => this.editStartDate(e, challenge)}>{moment(startDate).format('L')}</td>
+        <td onDoubleClick={(e) => this.editEndDate(e, challenge)}>{moment(endDate).format('L')}</td>
         <td>{challenge.fields['Reward Occurrence']}</td>
-        <td onClick={(e) => this.highlight(e)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
-        <td>
+        <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
+        <td className="text-center">
           <img className="table-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
           <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
         </td>
@@ -198,7 +293,8 @@ class AccordionCard extends Component {
                   <th scope="col">Name</th>
                   <th scope="col">Type</th>
                   <th scope="col">Category</th>
-                  <th scope="col">Dates</th>
+                  <th scope="col">Start Date</th>
+                  <th scope="col">End Date</th>
                   <th scope="col">Tracking</th>
                   <th scope="col">Points (Total)</th>
                   <th scope="col">Actions</th>
