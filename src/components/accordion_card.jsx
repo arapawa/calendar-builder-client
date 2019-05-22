@@ -275,10 +275,10 @@ class AccordionCard extends Component {
 
         <div className="card-header" role="tab" id={'header' + id}>       
           <div className="mb-0 row">
-            <div className="col-md-3">
+            <div className="col-md-4">
               <h5 id={'title' + id}>{title}</h5>
             </div>
-            <div className="col-md-5">
+            <div className="col-md-4">
               <h5 id={'dates' + id}>{formattedStartDate} - {formattedEndDate}</h5>
             </div>
             <div className="col-md-3">
