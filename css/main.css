@@ -7,8 +7,13 @@ h1, h2, h3, h4, h5 {
   vertical-align: middle;
 }
 
+tbody tr {
+  height: 64px;
+}
+
+/* sets width of title/name column */
 th:nth-of-type(2) {
-  width: 340px;
+  width: 270px;
 }
 
 .container {
@@ -93,6 +98,11 @@ th:nth-of-type(2) {
   color: inherit;
 }
 
+.card-header {
+  background-color: rgba(0, 0, 0, .02);
+  border-bottom: none;
+}
+
 .card-body {
   padding: 0;
 }
@@ -124,6 +134,7 @@ th:nth-of-type(2) {
 
 .oi-caret-bottom {
   float: right;
+  top: 3px;
 }
 
 .home-button {
@@ -168,9 +179,8 @@ th:nth-of-type(2) {
 }
 
 .table-icon-wide {
-  width: 48px;
-  height: 24px;
-  margin-right: 12px;
+  height: 2rem;
+  margin-right: 0;
 }
 
 .add-targeting-button, .add-resource-button {
