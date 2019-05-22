@@ -271,17 +271,25 @@ class AccordionCard extends Component {
     const formattedEndDate = endDate ? moment(endDate).format('L') : '';
 
     return (
-      <div className="card">
+      <section className="card">
 
-        <div className="card-header" role="tab" id={'header' + id}>
-          <h5 className="mb-0">
-            <a data-toggle="collapse" href={'#collapse' + id}>
-              <span>{title}</span>
-              <span className="left-15">{formattedStartDate} - {formattedEndDate}</span>
-              <span className="left-abs-73">{totalPoints} Points</span>
-              <span className="oi oi-caret-bottom"></span>
-            </a>
-          </h5>
+        <div className="card-header" role="tab" id={'header' + id}>       
+          <div className="mb-0 row">
+            <div className="col-md-3">
+              <h5 id={'title' + id}>{title}</h5>
+            </div>
+            <div className="col-md-5">
+              <h5 id={'dates' + id}>{formattedStartDate} - {formattedEndDate}</h5>
+            </div>
+            <div className="col-md-3">
+              <h5 id={'points' + id}>{totalPoints} Points</h5>
+            </div>
+            <div className="col-md-1">
+              <a data-toggle="collapse" href={'#collapse' + id}>
+                <h5 className="oi oi-caret-bottom"></h5>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div id={'collapse' + id} className="collapse show" role="tabpanel">
@@ -319,7 +327,7 @@ class AccordionCard extends Component {
           </div>
         </div>
 
-      </div>
+      </section>
     );
   }
 }
