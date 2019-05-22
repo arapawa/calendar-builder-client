@@ -2,24 +2,6 @@ h1, h2, h3, h4, h5 {
   font-weight: normal;
 }
 
-.table td, .table th {
-  padding: .75rem .5rem;
-  vertical-align: middle;
-}
-
-thead tr {
-  line-height: 1;
-}
-
-tbody tr {
-  height: 74px;
-}
-
-/* sets width of title/name column */
-th:nth-of-type(2) {
-  width: 270px;
-}
-
 .container {
   color: #555;
 }
@@ -118,6 +100,29 @@ th:nth-of-type(2) {
 
 .table {
   margin-bottom: 0;
+}
+
+.table td, .table th {
+  padding: .75rem .5rem;
+  vertical-align: middle;
+}
+
+thead tr {
+  line-height: 1;
+}
+
+tbody tr {
+  height: 74px;
+}
+
+/* sets width of title/name column */
+th:nth-of-type(2) {
+  width: 220px;
+}
+
+/* sets width of input form for date and point editing */
+input.form-control {
+  width: 170px;
 }
 
 .preview {
