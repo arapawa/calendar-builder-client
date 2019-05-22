@@ -202,16 +202,16 @@ class AccordionCard extends Component {
         <td scope="row">{challenge.fields['Title']}</td>
         <td>{challenge.fields['Verified']}</td>
         <td className="text-center">
-          <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
-          <img className="table-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
+          <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
+          <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
         </td>
         <td onDoubleClick={(e) => this.editStartDate(e, challenge)}>{moment(startDate).format('L')}</td>
         <td onDoubleClick={(e) => this.editEndDate(e, challenge)}>{moment(endDate).format('L')}</td>
         <td>{challenge.fields['Reward Occurrence']}</td>
         <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
         <td className="text-center">
-          <img className="table-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
-          <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
+          <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
+          <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
         </td>
       </tr>
     );
