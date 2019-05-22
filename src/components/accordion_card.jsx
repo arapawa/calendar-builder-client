@@ -199,7 +199,7 @@ class AccordionCard extends Component {
         <td>
           <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
         </td>
-        <td scope="row">{challenge.fields['Title']}</td>
+        <td scope="row">{name}</td>
         <td>{challenge.fields['Verified']}</td>
         <td className="text-center">
           <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
@@ -209,7 +209,7 @@ class AccordionCard extends Component {
         <td onDoubleClick={(e) => this.editEndDate(e, challenge)}>{moment(endDate).format('L')}</td>
         <td>{challenge.fields['Reward Occurrence']}</td>
         <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
-        <td className="text-center">
+        <td className="actions text-center">
           <img className="table-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
           <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
         </td>
@@ -297,7 +297,7 @@ class AccordionCard extends Component {
                   <th scope="col">End Date</th>
                   <th scope="col">Tracking</th>
                   <th scope="col">Points (Total)</th>
-                  <th scope="col">Actions</th>
+                  <th scope="col" className="actions-header">Actions</th>
                 </tr>
               </thead>
               <tbody>

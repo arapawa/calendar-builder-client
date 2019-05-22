@@ -297,4 +297,13 @@ th:nth-of-type(2) {
   .collapse {
     display: block;
   }
+
+  tfoot {
+    display: none;
+  }
+
+  .actions-header,
+  .actions {
+    display: none;
+  }
 }
