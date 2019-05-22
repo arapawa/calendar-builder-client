@@ -199,7 +199,7 @@ class AccordionCard extends Component {
         <td>
           <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
         </td>
-        <td scope="row">{challenge.fields['Title']}</td>
+        <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span></td>
         <td>{challenge.fields['Verified']}</td>
         <td className="text-center">
           <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />

@@ -125,6 +125,10 @@ input.form-control {
   width: 170px;
 }
 
+.challenge-title {
+  cursor: pointer;
+}
+
 .preview {
   position: absolute;
   right: 15px;
