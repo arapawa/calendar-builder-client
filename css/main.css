@@ -4,6 +4,9 @@ h1, h2, h3, h4, h5 {
 
 .container {
   color: #555;
+  /*max-width: none;*/
+  /*padding: 0 8%;*/
+  max-width: 1180px;
 }
 
 .header {
@@ -117,7 +120,7 @@ tbody tr {
 
 /* sets width of title/name column */
 th:nth-of-type(2) {
-  width: 220px;
+  width: 270px;
 }
 
 /* sets width of input form for date and point editing */
