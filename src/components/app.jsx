@@ -241,10 +241,14 @@ class App extends Component {
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingCalendarName').blur((event) => {
-      this.setState({ calendarName: event.target.value });
+      if (calendarName === event.target.value) {
+        h4.innerHTML = `${calendarName}`;
+      } else {
+        this.setState({ calendarName: event.target.value });
 
-      // Update airtable w/ the changes
-      this.saveCalendarName();
+        // Update airtable w/ the changes
+        this.saveCalendarName();
+      }
     });
 
     // Supports the user hitting the Enter key or otherwise triggering the change without blurring
