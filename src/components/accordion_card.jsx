@@ -199,19 +199,19 @@ class AccordionCard extends Component {
         <td>
           <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
         </td>
-        <td scope="row">{name}</td>
+        <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span></td>
         <td>{challenge.fields['Verified']}</td>
         <td className="text-center">
-          <img className="table-icon" src={this.hpImage(challenge.fields['Category'])} />
-          <img className="table-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
+          <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
+          <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
         </td>
         <td onDoubleClick={(e) => this.editStartDate(e, challenge)}>{moment(startDate).format('L')}</td>
         <td onDoubleClick={(e) => this.editEndDate(e, challenge)}>{moment(endDate).format('L')}</td>
         <td>{challenge.fields['Reward Occurrence']}</td>
         <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
         <td className="actions text-center">
-          <img className="table-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
-          <img className="table-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
+          <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
+          <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
         </td>
       </tr>
     );
@@ -271,17 +271,25 @@ class AccordionCard extends Component {
     const formattedEndDate = endDate ? moment(endDate).format('L') : '';
 
     return (
-      <div className="card">
+      <section className="card">
 
-        <div className="card-header" role="tab" id={'header' + id}>
-          <h5 className="mb-0">
-            <a data-toggle="collapse" href={'#collapse' + id}>
-              <span>{title}</span>
-              <span className="left-15">{formattedStartDate} - {formattedEndDate}</span>
-              <span className="left-abs-73">{totalPoints} Points</span>
-              <span className="oi oi-caret-bottom"></span>
-            </a>
-          </h5>
+        <div className="card-header" role="tab" id={'header' + id}>       
+          <div className="mb-0 row">
+            <div className="col-md-4">
+              <h5 id={'title' + id}>{title}</h5>
+            </div>
+            <div className="col-md-4">
+              <h5 id={'dates' + id}>{formattedStartDate} - {formattedEndDate}</h5>
+            </div>
+            <div className="col-md-3">
+              <h5 id={'points' + id}>{totalPoints} Points</h5>
+            </div>
+            <div className="col-md-1">
+              <a data-toggle="collapse" href={'#collapse' + id}>
+                <h5 className="oi oi-caret-bottom"></h5>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div id={'collapse' + id} className="collapse show" role="tabpanel">
@@ -319,7 +327,7 @@ class AccordionCard extends Component {
           </div>
         </div>
 
-      </div>
+      </section>
     );
   }
 }
