@@ -216,9 +216,54 @@ class App extends Component {
 
   }
 
+  saveCalendarName() {
+    const calendar = this.state.editingCalendar;
+    const id = calendar.id;
+
+    base('Calendars').update(id, {
+      'name': this.state.calendarName
+    }, function(err, record) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    });
+  }
+
+  editCalendarName(event) {
+    const calendarName = this.state.calendarName;
+
+    let h4 = event.target;
+    h4.innerHTML = `<input type="text" class="form-control" id="editingCalendarName" value="${calendarName}" />`;
+
+    // Since autofocus wasn't working, focus using jquery
+    $('#editingCalendarName').focus();
+
+    // When user clicks out of the input, change it back to the original readonly version with the updated data
+    $('#editingCalendarName').blur((event) => {
+      if (calendarName === event.target.value) {
+        h4.innerHTML = `${calendarName}`;
+      } else {
+        this.setState({ calendarName: event.target.value });
+
+        // Update airtable w/ the changes
+        this.saveCalendarName();
+      }
+    });
+
+    // Supports the user hitting the Enter key or otherwise triggering the change without blurring
+    $('#editingCalendarName').change((event) => {
+      this.setState({ calendarName: event.target.value });
+
+      // Update airtable w/ the changes
+      this.saveCalendarName();
+    });
+  }
+
   render() {
     const hash = window.location.hash.slice(2);
     const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
+    const calendarName = this.state.calendarName;
 
     let totalPoints = 0;
     this.state.calendar.map(challenge => {
@@ -235,7 +280,7 @@ class App extends Component {
         <h4 className="client-name my-5">{accountName}</h4>
 
         <div className="calendar-name-and-link">
-          <h4 className="calendar-name">{this.state.calendarName}</h4>
+          <h4 className="calendar-name" onDoubleClick={(e) => this.editCalendarName(e, calendarName)}>{calendarName}</h4>
           <CategoryTotals calendar={this.state.calendar} />
         </div>
 

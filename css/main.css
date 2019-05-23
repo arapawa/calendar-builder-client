@@ -311,6 +311,10 @@ input.form-control {
   background-color: #0080A5;
 }
 
+#editingCalendarName {
+  width: 100%;
+}
+
 /* Helpers */
 .clear {
   clear: both;

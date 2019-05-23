@@ -73,23 +73,6 @@ class AccordionCard extends Component {
     }
   }
 
-  highlight(e) {
-    const element = e.target;
-
-    if (this.state.highlightedElement) {
-      this.state.highlightedElement.classList.remove('colored-border');
-    }
-
-    element.classList.add('colored-border');
-
-    $(document).mousedown(() => {
-      this.state.highlightedElement.classList.remove('colored-border');
-      $(document).off('mousedown');
-    });
-
-    this.setState({ highlightedElement: element });
-  }
-
   editStartDate(e, challenge) {
     let td = event.target;
     td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
@@ -98,7 +81,7 @@ class AccordionCard extends Component {
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingStartDate').blur((event) => {
-      td.innerHTML = `${moment(challenge.fields['Start date']).format('L')}`;
+      $('#editingEndDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
 
       // Force react to re-render the DOM so Total Points are updated
       this.setState({ challenges: this.challenges });
@@ -107,7 +90,7 @@ class AccordionCard extends Component {
     // When user hits enter, also change it back
     $('#editingStartDate').on('keypress', (event) => {
       if (event.which === 13) {
-        td.innerHTML = `${moment(challenge.fields['Start date']).format('L')}`;
+        $('#editingEndDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
 
         // Force react to re-render the DOM so Total Points are updated
         this.setState({ challenges: this.challenges });
@@ -118,7 +101,16 @@ class AccordionCard extends Component {
     $('#editingStartDate').change((event) => {
       challenge.fields['Start date'] = event.target.value;
 
-      // TODO: Update airtable w/ the changes
+      // Update airtable w/ the changes
+      base('Challenges').update(challenge.id, {
+        'Start date': event.target.value
+      }, function(err, record) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
+
     });
   }
 
@@ -130,7 +122,7 @@ class AccordionCard extends Component {
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingEndDate').blur((event) => {
-      td.innerHTML = `${moment(challenge.fields['End date']).format('L')}`;
+      $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
 
       // Force react to re-render the DOM so Total Points are updated
       this.setState({ challenges: this.challenges });
@@ -139,7 +131,7 @@ class AccordionCard extends Component {
     // When user hits enter, also change it back
     $('#editingEndDate').on('keypress', (event) => {
       if (event.which === 13) {
-        td.innerHTML = `${moment(challenge.fields['End date']).format('L')}`;
+        $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
 
         // Force react to re-render the DOM so Total Points are updated
         this.setState({ challenges: this.challenges });
@@ -150,7 +142,16 @@ class AccordionCard extends Component {
     $('#editingEndDate').change((event) => {
       challenge.fields['End date'] = event.target.value;
 
-      // TODO: Update airtable w/ the changes
+      // Update airtable w/ the changes
+      base('Challenges').update(challenge.id, {
+        'End date': event.target.value
+      }, function(err, record) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
+
     });
   }
 
@@ -163,24 +164,47 @@ class AccordionCard extends Component {
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingPoints').blur((event) => {
-      td.innerHTML = `${challenge.fields['Points']} (${challenge.fields['Total Points']})`;
-    });
+      // Force react to re-render the DOM so Total Points are updated
+      this.setState({ challenges: this.challenges });
 
-    // When user hits enter, also change it back
-    $('#editingPoints').on('keypress', (event) => {
-      if (event.which === 13) {
-        td.innerHTML = `${challenge.fields['Points']} (${challenge.fields['Total Points']})`;
-      }
+      $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
     });
 
     // The blur event triggers the change event
     $('#editingPoints').change((event) => {
       challenge.fields['Points'] = event.target.value;
 
-      // Force react to re-render the DOM so Total Points are updated
-      this.setState({ challenges: this.challenges });
+      // Update airtable w/ the changes
+      base('Challenges').update(challenge.id, {
+        'Points': event.target.value
+      }, function(err, record) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
+    });
+  
+    // When user hits enter, also change it back
+    $('#editingPoints').on('keypress', (event) => {
+      if (event.which === 13) {
+        challenge.fields['Points'] = event.target.value;
 
-      // TODO: Update airtable w/ the changes
+        // Update airtable w/ the changes
+        base('Challenges').update(challenge.id, {
+          'Points': event.target.value
+        }, function(err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+        });
+
+        // Force react to re-render the DOM so Total Points are updated
+        this.setState({ challenges: this.challenges });
+
+        $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
+      }
     });
   }
 
@@ -273,7 +297,7 @@ class AccordionCard extends Component {
     return (
       <section className="card">
 
-        <div className="card-header" role="tab" id={'header' + id}>       
+        <div className="card-header" role="tab" id={'header' + id}>
           <div className="mb-0 row">
             <div className="col-md-4">
               <h5 id={'title' + id}>{title}</h5>
