@@ -2,6 +2,12 @@ h1, h2, h3, h4, h5 {
   font-weight: normal;
 }
 
+/* for Chrome/Safari */
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-clear-button {
+  display: none;
+}
+
 .container {
   color: #555;
   /*max-width: none;*/
@@ -328,5 +334,14 @@ input.form-control {
 @media print {
   .collapse {
     display: block;
+  }
+
+  tfoot {
+    display: none;
+  }
+
+  .actions-header,
+  .actions {
+    display: none;
   }
 }
