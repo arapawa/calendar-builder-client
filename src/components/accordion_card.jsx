@@ -73,23 +73,6 @@ class AccordionCard extends Component {
     }
   }
 
-  highlight(e) {
-    const element = e.target;
-
-    if (this.state.highlightedElement) {
-      this.state.highlightedElement.classList.remove('colored-border');
-    }
-
-    element.classList.add('colored-border');
-
-    $(document).mousedown(() => {
-      this.state.highlightedElement.classList.remove('colored-border');
-      $(document).off('mousedown');
-    });
-
-    this.setState({ highlightedElement: element });
-  }
-
   editStartDate(e, challenge) {
     let td = event.target;
     td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
@@ -273,7 +256,7 @@ class AccordionCard extends Component {
     return (
       <section className="card">
 
-        <div className="card-header" role="tab" id={'header' + id}>       
+        <div className="card-header" role="tab" id={'header' + id}>
           <div className="mb-0 row">
             <div className="col-md-4">
               <h5 id={'title' + id}>{title}</h5>
