@@ -247,7 +247,8 @@ class App extends Component {
           selectedChallenge={this.state.selectedChallenge}
           addChallengeToCalendar={this.addChallengeToCalendar}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
-          setEditingChallenge={this.setEditingChallenge} />
+          setEditingChallenge={this.setEditingChallenge} 
+        />
 
         <PointTotals totalPoints={this.state.totalPoints} />
 
