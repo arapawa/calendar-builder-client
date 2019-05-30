@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { DragDropContext } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
@@ -8,6 +9,8 @@ import AccordionCard from './accordion_card';
 class CalendarAccordion extends Component {
   constructor(props) {
     super(props);
+
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   componentDidMount() {
@@ -18,10 +21,12 @@ class CalendarAccordion extends Component {
     });
   }
 
-  renderAccordionCard(phase, id, title) {
+  renderAccordionCard(phase, id, title, index) {
     return (
       <AccordionCard
-        phase={phase} id={id} title={title}
+        phase={phase}
+        id={id}
+        title={title}
         challenges={this.props.challenges}
         calendar={this.props.calendar}
         selectChallenge={this.props.selectChallenge}
@@ -30,8 +35,16 @@ class CalendarAccordion extends Component {
         handleEditChallengeClick={this.props.handleEditChallengeClick}
         addChallengeToCalendar={this.props.addChallengeToCalendar}
         deleteChallengeFromCalendar={this.props.deleteChallengeFromCalendar}
-        setEditingChallenge={this.props.setEditingChallenge} />
+        setEditingChallenge={this.props.setEditingChallenge} >
+      </AccordionCard>
     );
+  }
+
+  onDragEnd(result) {
+    const draggingChallenge = this.props.calendar.filter(challenge => challenge.id === result.draggableId)[0];
+    draggingChallenge.fields['Phase'] = result.destination.droppableId;
+
+    // TODO: Also commit the update to airtable
   }
 
   render() {
@@ -48,17 +61,17 @@ class CalendarAccordion extends Component {
     const phase4b = calendar.filter(challenge => challenge.fields.Phase === 'Phase 4B');
 
     return (
-      <div className="calendar-accordion my-4 clear" id="accordion" role="tablist">
-        {this.renderAccordionCard(yearlong, 'yearlong', 'Yearlong')}
-        {this.renderAccordionCard(phase1, 'phase1', 'Phase 1')}
-        {this.renderAccordionCard(phase1b, 'phase1b', 'Phase 1B')}
-        {this.renderAccordionCard(phase2, 'phase2', 'Phase 2')}
-        {this.renderAccordionCard(phase2b, 'phase2b', 'Phase 2B')}
-        {this.renderAccordionCard(phase3, 'phase3', 'Phase 3')}
-        {this.renderAccordionCard(phase3b, 'phase3b', 'Phase 3B')}
-        {this.renderAccordionCard(phase4, 'phase4', 'Phase 4')}
-        {this.renderAccordionCard(phase4b, 'phase4b', 'Phase 4B')}
-      </div>
+
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <div className="calendar-accordion my-4 clear" id="accordion" role="tablist">
+          {this.renderAccordionCard(yearlong, 'yearlong', 'Yearlong', 0)}
+          {this.renderAccordionCard(phase1, 'phase1', 'Phase 1', 1)}
+          {this.renderAccordionCard(phase2, 'phase2', 'Phase 2', 2)}
+          {this.renderAccordionCard(phase3, 'phase3', 'Phase 3', 3)}
+          {this.renderAccordionCard(phase4, 'phase4', 'Phase 4', 4)}
+        </div>
+      </DragDropContext>
+
     );
   }
 }

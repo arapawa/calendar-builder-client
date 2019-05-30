@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { Droppable } from 'react-beautiful-dnd';
+import { Draggable } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
@@ -208,7 +210,7 @@ class AccordionCard extends Component {
     });
   }
 
-  renderRow(challenge) {
+  renderRow(challenge, index) {
     const startDate = moment(challenge.fields['Start date']).format('YYYY-MM-DD');
     const endDate = moment(challenge.fields['End date']).format('YYYY-MM-DD');
     const name = challenge.fields['Title'];
@@ -219,25 +221,32 @@ class AccordionCard extends Component {
     const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
     return (
-      <tr key={challenge.id}>
-        <td>
-          <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
-        </td>
-        <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span></td>
-        <td>{challenge.fields['Verified']}</td>
-        <td className="text-center">
-          <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
-          <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
-        </td>
-        <td onDoubleClick={(e) => this.editStartDate(e, challenge)}>{moment(startDate).format('L')}</td>
-        <td onDoubleClick={(e) => this.editEndDate(e, challenge)}>{moment(endDate).format('L')}</td>
-        <td>{challenge.fields['Reward Occurrence']}</td>
-        <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
-        <td className="actions text-center">
-          <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
-          <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
-        </td>
-      </tr>
+      <Draggable draggableId={challenge.id} index={index} key={challenge.id}>
+        {(provided) => (
+          <tr
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref = {provided.innerRef} >
+            <td>
+              <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
+            </td>
+            <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span></td>
+            <td>{challenge.fields['Verified']}</td>
+            <td className="text-center">
+              <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
+              <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
+            </td>
+            <td onDoubleClick={(e) => this.editStartDate(e, challenge)}>{moment(startDate).format('L')}</td>
+            <td onDoubleClick={(e) => this.editEndDate(e, challenge)}>{moment(endDate).format('L')}</td>
+            <td>{challenge.fields['Reward Occurrence']}</td>
+            <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
+            <td className="actions text-center">
+              <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
+              <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
+            </td>
+          </tr>
+        )}
+      </Draggable>
     );
   }
 
@@ -318,36 +327,43 @@ class AccordionCard extends Component {
 
         <div id={'collapse' + id} className="collapse show" role="tabpanel">
           <div className="card-body">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">{/*Image*/}</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Start Date</th>
-                  <th scope="col">End Date</th>
-                  <th scope="col">Tracking</th>
-                  <th scope="col">Points (Total)</th>
-                  <th scope="col" className="actions-header">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {phase.map(challenge => this.renderRow(challenge))}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan="7">
-                    <AddCustomChallenge
-                      calendar={this.props.calendar}
-                      selectedClient={this.props.selectedClient}
-                      phase={this.props.title}
-                      addChallengeToCalendar={this.props.addChallengeToCalendar}
-                    />
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+            <Droppable droppableId={this.props.title}>
+              {(provided) => (
+                <table className="table table-striped"
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}>
+                  <thead>
+                    <tr>
+                      <th scope="col">{/*Image*/}</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Start Date</th>
+                      <th scope="col">End Date</th>
+                      <th scope="col">Tracking</th>
+                      <th scope="col">Points (Total)</th>
+                      <th scope="col" className="actions-header">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {phase.map((challenge, index) => this.renderRow(challenge, index))}
+                    {provided.placeholder}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colSpan="7">
+                        <AddCustomChallenge
+                          calendar={this.props.calendar}
+                          selectedClient={this.props.selectedClient}
+                          phase={this.props.title}
+                          addChallengeToCalendar={this.props.addChallengeToCalendar}
+                        />
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              )}
+            </Droppable>
           </div>
         </div>
 

@@ -8,10 +8,30 @@ input[type="date"]::-webkit-clear-button {
   display: none;
 }
 
+thead tr {
+  line-height: 1;
+}
+
+tbody {
+  border: 1px solid gainsboro;
+}
+
+tbody tr {
+  height: 74px;
+}
+
+/* sets width of title/name column */
+th:nth-of-type(2) {
+  width: 270px;
+}
+
+/* sets width of input form for date and point editing */
+input.form-control {
+  width: 170px;
+}
+
 .container {
   color: #555;
-  /*max-width: none;*/
-  /*padding: 0 8%;*/
   max-width: 1180px;
 }
 
@@ -108,7 +128,7 @@ input[type="date"]::-webkit-clear-button {
 }
 
 .table {
-  margin-bottom: 0;
+  margin-bottom: 1.2em;
 }
 
 .table td, .table th {
@@ -116,22 +136,12 @@ input[type="date"]::-webkit-clear-button {
   vertical-align: middle;
 }
 
-thead tr {
-  line-height: 1;
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #F5F5F5;
 }
 
-tbody tr {
-  height: 74px;
-}
-
-/* sets width of title/name column */
-th:nth-of-type(2) {
-  width: 270px;
-}
-
-/* sets width of input form for date and point editing */
-input.form-control {
-  width: 170px;
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #FFFFFF;
 }
 
 .challenge-title {
