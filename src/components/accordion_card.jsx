@@ -202,7 +202,7 @@ class AccordionCard extends Component {
           <tr
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          ref={provided.innerRef}
+          ref = {provided.innerRef}
           >
             <td>
               <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
