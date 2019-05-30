@@ -8,6 +8,24 @@ input[type="date"]::-webkit-clear-button {
   display: none;
 }
 
+thead tr {
+  line-height: 1;
+}
+
+tbody tr {
+  height: 74px;
+}
+
+/* sets width of title/name column */
+th:nth-of-type(2) {
+  width: 270px;
+}
+
+/* sets width of input form for date and point editing */
+input.form-control {
+  width: 170px;
+}
+
 .container {
   color: #555;
   /*max-width: none;*/
@@ -114,24 +132,6 @@ input[type="date"]::-webkit-clear-button {
 .table td, .table th {
   padding: .75rem .5rem;
   vertical-align: middle;
-}
-
-thead tr {
-  line-height: 1;
-}
-
-tbody tr {
-  height: 74px;
-}
-
-/* sets width of title/name column */
-th:nth-of-type(2) {
-  width: 270px;
-}
-
-/* sets width of input form for date and point editing */
-input.form-control {
-  width: 170px;
 }
 
 .challenge-title {
