@@ -12,6 +12,10 @@ thead tr {
   line-height: 1;
 }
 
+tbody {
+  border: 1px solid gainsboro;
+}
+
 tbody tr {
   height: 74px;
 }
@@ -124,7 +128,7 @@ input.form-control {
 }
 
 .table {
-  margin-bottom: 0;
+  margin-bottom: 1.2em;
 }
 
 .table td, .table th {
