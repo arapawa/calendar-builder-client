@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { Droppable } from 'react-beautiful-dnd';
 import { Draggable } from 'react-beautiful-dnd';
-import styled from 'styled-components';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 import AddCustomChallenge from './add_custom_challenge';
-
-const Container = styled.div`
-`;
 
 class AccordionCard extends Component {
   constructor(props) {
