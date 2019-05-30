@@ -35,8 +35,7 @@ class CalendarAccordion extends Component {
         handleEditChallengeClick={this.props.handleEditChallengeClick}
         addChallengeToCalendar={this.props.addChallengeToCalendar}
         deleteChallengeFromCalendar={this.props.deleteChallengeFromCalendar}
-        setEditingChallenge={this.props.setEditingChallenge}
-      >
+        setEditingChallenge={this.props.setEditingChallenge} >
       </AccordionCard>
     );
   }

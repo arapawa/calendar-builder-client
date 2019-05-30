@@ -202,8 +202,7 @@ class AccordionCard extends Component {
           <tr
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          ref = {provided.innerRef}
-          >
+          ref = {provided.innerRef} >
             <td>
               <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
             </td>
@@ -222,10 +221,7 @@ class AccordionCard extends Component {
               <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
             </td>
           </tr>
-
-
         )}
-        
       </Draggable>
     );
   }
