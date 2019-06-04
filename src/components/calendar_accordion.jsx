@@ -9,8 +9,6 @@ import AccordionCard from './accordion_card';
 class CalendarAccordion extends Component {
   constructor(props) {
     super(props);
-
-    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   componentDidMount() {
@@ -40,13 +38,6 @@ class CalendarAccordion extends Component {
     );
   }
 
-  onDragEnd(result) {
-    const draggingChallenge = this.props.calendar.filter(challenge => challenge.id === result.draggableId)[0];
-    draggingChallenge.fields['Phase'] = result.destination.droppableId;
-
-    // TODO: Also commit the update to airtable
-  }
-
   render() {
     const calendar = this.props.calendar;
 
@@ -62,7 +53,7 @@ class CalendarAccordion extends Component {
 
     return (
 
-      <DragDropContext onDragEnd={this.onDragEnd}>
+      <DragDropContext onDragEnd={this.props.onDragEnd}>
         <div className="calendar-accordion my-4 clear" id="accordion" role="tablist">
           {this.renderAccordionCard(yearlong, 'yearlong', 'Yearlong', 0)}
           {this.renderAccordionCard(phase1, 'phase1', 'Phase 1', 1)}

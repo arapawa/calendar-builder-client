@@ -186,7 +186,7 @@ class AccordionCard extends Component {
         }
       });
     });
-  
+
     // When user hits enter, also change it back
     $('#editingPoints').on('keypress', (event) => {
       if (event.which === 13) {
@@ -302,6 +302,9 @@ class AccordionCard extends Component {
 
     const formattedStartDate = startDate ? moment(startDate).format('L') : '';
     const formattedEndDate = endDate ? moment(endDate).format('L') : '';
+
+    // Sort phase by index
+    phase.sort((a, b) => a.fields['Index'] - b.fields['Index']);
 
     return (
       <section className="card">

@@ -34,6 +34,7 @@ class App extends Component {
     this.openEditChallengeModal = this.openEditChallengeModal.bind(this);
     this.updateEditingChallenge = this.updateEditingChallenge.bind(this);
     this.openApproveModal = this.openApproveModal.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   // Make airtable calls when app starts
@@ -260,6 +261,83 @@ class App extends Component {
     });
   }
 
+  onDragEnd(result) {
+    const { source, destination, draggableId } = result;
+
+    const newCalendar = Array.from(this.state.calendar);
+    const draggingChallenge = newCalendar.filter(challenge => challenge.id === draggableId)[0];
+
+    const sourcePhase = newCalendar.filter(challenge => challenge.fields['Phase'] === source.droppableId);
+    const destinationPhase = newCalendar.filter(challenge => challenge.fields['Phase'] === destination.droppableId);
+
+    // Are we still in the same Phase?
+    if (source.droppableId === destination.droppableId) {
+      destinationPhase.splice(source.index, 1);
+      destinationPhase.splice(destination.index, 0, draggingChallenge);
+
+      destinationPhase.map((challenge, index) => {
+        challenge.fields['Index'] = index;
+
+        // Make update to Airtable
+        base('Challenges').update(challenge.id, {
+          'Index': index
+        }, function(err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+        });
+      });
+    } else { // We're moving from one phase to another
+      draggingChallenge.fields['Phase'] = destination.droppableId;
+
+      sourcePhase.splice(source.index, 1);
+      destinationPhase.splice(destination.index, 0, draggingChallenge);
+
+      sourcePhase.map((challenge, index) => {
+        challenge.fields['Index'] = index;
+
+        // Make update to Airtable
+        base('Challenges').update(challenge.id, {
+          'Index': index
+        }, function(err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+        });
+      });
+
+      destinationPhase.map((challenge, index) => {
+        challenge.fields['Index'] = index;
+
+        if (challenge.id === draggableId) {
+          base('Challenges').update(challenge.id, {
+            'Index': index,
+            'Phase': destination.droppableId
+          }, function(err, record) {
+            if (err) {
+              console.error(err);
+              return;
+            }
+          });
+        } else {
+          base('Challenges').update(challenge.id, {
+            'Index': index
+          }, function(err, record) {
+            if (err) {
+              console.error(err);
+              return;
+            }
+          });
+        }
+      });
+    }
+
+    // Update the state to render the changes
+    this.setState({ calendar: newCalendar });
+  }
+
   render() {
     const hash = window.location.hash.slice(2);
     const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
@@ -292,7 +370,9 @@ class App extends Component {
           selectedChallenge={this.state.selectedChallenge}
           addChallengeToCalendar={this.addChallengeToCalendar}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
-          setEditingChallenge={this.setEditingChallenge} />
+          setEditingChallenge={this.setEditingChallenge}
+          onDragEnd={this.onDragEnd}
+        />
 
         <PointTotals totalPoints={this.state.totalPoints} />
 
