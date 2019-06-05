@@ -229,7 +229,7 @@ class AccordionCard extends Component {
           {...provided.dragHandleProps}
           ref = {provided.innerRef} >
             <td>
-              <img className="table-icon-wide challenge-image-icon" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
+              <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
             </td>
             <td>
               <img className="featured-icon" src={isFeatured ? 'images/icon_featured_notification.svg' : ''} />
