@@ -231,10 +231,7 @@ class AccordionCard extends Component {
             <td>
               <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
             </td>
-            <td>
-              <img className="featured-icon" src={isFeatured ? 'images/icon_featured_notification.svg' : ''} />
-            </td>
-            <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span></td>
+            <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span>{isFeatured ? <div><p class="featured-badge">Featured</p></div> : ''}</td>
             <td>{challenge.fields['Verified']}</td>
             <td className="text-center">
               <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
@@ -342,7 +339,6 @@ class AccordionCard extends Component {
                   <thead>
                     <tr>
                       <th scope="col"> {/*Image*/} </th>
-                      <th scope="col"> {/*Featured Activity icon*/} </th>
                       <th scope="col">Name</th>
                       <th scope="col">Type</th>
                       <th scope="col">Category</th>
