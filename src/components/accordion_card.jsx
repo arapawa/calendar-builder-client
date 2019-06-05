@@ -218,6 +218,7 @@ class AccordionCard extends Component {
     const frequency = challenge.fields['Reward Occurrence'];
     const verified = challenge.fields['Verified'];
 
+    const isFeatured = challenge.fields['Featured Activity'] === 'yes';
     const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
     return (
@@ -229,6 +230,9 @@ class AccordionCard extends Component {
           ref = {provided.innerRef} >
             <td>
               <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
+            </td>
+            <td>
+              <img className="featured-icon" src={isFeatured ? 'images/icon_featured_notification.svg' : ''} />
             </td>
             <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span></td>
             <td>{challenge.fields['Verified']}</td>
@@ -337,7 +341,8 @@ class AccordionCard extends Component {
                   {...provided.droppableProps}>
                   <thead>
                     <tr>
-                      <th scope="col">{/*Image*/}</th>
+                      <th scope="col"> {/*Image*/} </th>
+                      <th scope="col"> {/*Featured Activity icon*/} </th>
                       <th scope="col">Name</th>
                       <th scope="col">Type</th>
                       <th scope="col">Category</th>
