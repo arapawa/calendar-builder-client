@@ -83,7 +83,7 @@ class AccordionCard extends Component {
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingStartDate').blur((event) => {
-      $('#editingEndDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
+      $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
 
       // Force react to re-render the DOM so Total Points are updated
       this.setState({ challenges: this.challenges });
@@ -92,7 +92,7 @@ class AccordionCard extends Component {
     // When user hits enter, also change it back
     $('#editingStartDate').on('keypress', (event) => {
       if (event.which === 13) {
-        $('#editingEndDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
+        $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
 
         // Force react to re-render the DOM so Total Points are updated
         this.setState({ challenges: this.challenges });
