@@ -153,6 +153,10 @@ input.form-control {
   cursor: pointer;
 }
 
+.challenge-title:hover {
+  text-decoration: underline;
+}
+
 .preview {
   position: absolute;
   right: 15px;
