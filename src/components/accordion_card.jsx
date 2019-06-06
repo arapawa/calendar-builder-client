@@ -218,6 +218,7 @@ class AccordionCard extends Component {
     const frequency = challenge.fields['Reward Occurrence'];
     const verified = challenge.fields['Verified'];
 
+    const isFeatured = challenge.fields['Featured Activity'] === 'yes';
     const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
     return (
@@ -230,7 +231,7 @@ class AccordionCard extends Component {
             <td>
               <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
             </td>
-            <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span></td>
+            <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span>{isFeatured ? <div><p class="featured-badge">Featured</p></div> : ''}</td>
             <td>{challenge.fields['Verified']}</td>
             <td className="text-center">
               <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
@@ -337,7 +338,7 @@ class AccordionCard extends Component {
                   {...provided.droppableProps}>
                   <thead>
                     <tr>
-                      <th scope="col">{/*Image*/}</th>
+                      <th scope="col"> {/*Image*/} </th>
                       <th scope="col">Name</th>
                       <th scope="col">Type</th>
                       <th scope="col">Category</th>
