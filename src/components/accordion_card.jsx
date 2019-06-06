@@ -17,29 +17,6 @@ class AccordionCard extends Component {
     });
   }
 
-  hpImage(category) {
-    switch (category) {
-      case 'Health & Fitness':
-        return 'images/HP_Icon_Health_Fitness.png';
-      case 'Growth & Development':
-        return 'images/HP_Icon_Growth_Development.png';
-      case 'Contribution & Sustainability':
-        return 'images/HP_Icon_Contribution_Sustainability.png';
-      case 'Money & Prosperity':
-        return 'images/HP_Icon_Money_Prosperity.png';
-      default:
-        return 'images/HP_Icon_All.png';
-    }
-  }
-
-  teamImage(team) {
-    if (team === 'yes') {
-      return 'images/icon_team.svg';
-    } else {
-      return 'images/icon_individual.svg';
-    }
-  }
-
   editStartDate(e, challenge) {
     let td = event.target;
     td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
@@ -155,6 +132,29 @@ class AccordionCard extends Component {
         $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
       }
     });
+  }
+
+  hpImage(category) {
+    switch (category) {
+      case 'Health & Fitness':
+        return 'images/HP_Icon_Health_Fitness.png';
+      case 'Growth & Development':
+        return 'images/HP_Icon_Growth_Development.png';
+      case 'Contribution & Sustainability':
+        return 'images/HP_Icon_Contribution_Sustainability.png';
+      case 'Money & Prosperity':
+        return 'images/HP_Icon_Money_Prosperity.png';
+      default:
+        return 'images/HP_Icon_All.png';
+    }
+  }
+
+  teamImage(team) {
+    if (team === 'yes') {
+      return 'images/icon_team.svg';
+    } else {
+      return 'images/icon_individual.svg';
+    }
   }
 
   renderRow(challenge, index) {
