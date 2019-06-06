@@ -28,7 +28,7 @@ class AddCustomChallenge extends Component {
       'Calendar': hash,
       'EmployerName': employerName,
       'Program Year': programYear,
-      'Phase': this.props.phase,
+      'Phase': this.props.phaseTitle,
       'Start date': moment().format('YYYY-MM-DD'),
       'End date': moment().format('YYYY-MM-DD'),
       'Verified': 'Custom',
