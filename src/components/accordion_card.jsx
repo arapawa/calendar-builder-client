@@ -177,10 +177,10 @@ class AccordionCard extends Component {
             ref = {provided.innerRef}
           >
             <td>
-              <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.props.setEditingChallenge(challenge)} />
+              <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.props.setPreviewChallenge(challenge)} />
             </td>
             <td scope="row">
-              <div className="challenge-title" onClick={() => this.props.setEditingChallenge(challenge)}>
+              <div className="challenge-title" onClick={() => this.props.setPreviewChallenge(challenge)}>
                 {challenge.fields['Title']}
               </div>
               { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
@@ -195,7 +195,7 @@ class AccordionCard extends Component {
             <td>{challenge.fields['Reward Occurrence']}</td>
             <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
             <td className="actions text-center">
-              <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.props.setEditingChallenge(challenge)} />
+              <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.props.setPreviewChallenge(challenge)} />
               <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
             </td>
           </tr>
@@ -205,15 +205,15 @@ class AccordionCard extends Component {
   }
 
   render() {
-    const { id, phase, title } = this.props;
+    const { id, challenges, phaseTitle } = this.props;
 
     let startDate, endDate, totalPoints = 0;
 
-    if (phase.length > 0) {
-      startDate = moment(phase[0].fields['Start date']).format('YYYY-MM-DD');
-      endDate = moment(phase[0].fields['End date']).format('YYYY-MM-DD');
+    if (challenges.length > 0) {
+      startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
+      endDate = moment(challenges[0].fields['End date']).format('YYYY-MM-DD');
 
-      phase.map(challenge => {
+      challenges.map(challenge => {
         const start = moment(challenge.fields['Start date']);
         const end = moment(challenge.fields['End date']);
         const dayDifference = end.diff(start, 'days');
@@ -242,8 +242,8 @@ class AccordionCard extends Component {
     const formattedStartDate = startDate ? moment(startDate).format('L') : '';
     const formattedEndDate = endDate ? moment(endDate).format('L') : '';
 
-    // Sort phase by index
-    phase.sort((a, b) => a.fields['Index'] - b.fields['Index']);
+    // Sort challenges by index
+    challenges.sort((a, b) => a.fields['Index'] - b.fields['Index']);
 
     return (
       <section className="card">
@@ -251,7 +251,7 @@ class AccordionCard extends Component {
         <div className="card-header" role="tab" id={'header' + id}>
           <div className="mb-0 row">
             <div className="col-md-4">
-              <h5 id={'title' + id}>{title}</h5>
+              <h5 id={'title' + id}>{phaseTitle}</h5>
             </div>
             <div className="col-md-4">
               <h5 id={'dates' + id}>{formattedStartDate} - {formattedEndDate}</h5>
@@ -269,7 +269,7 @@ class AccordionCard extends Component {
 
         <div id={'collapse' + id} className="collapse show" role="tabpanel">
           <div className="card-body">
-            <Droppable droppableId={this.props.title}>
+            <Droppable droppableId={this.props.phaseTitle}>
               {(provided) => (
                 <table className="table table-striped"
                   ref={provided.innerRef}
@@ -289,7 +289,7 @@ class AccordionCard extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    { phase.map((challenge, index) => this.renderRow(challenge, index)) }
+                    { challenges.map((challenge, index) => this.renderRow(challenge, index)) }
                     { provided.placeholder }
                   </tbody>
                   <tfoot>
@@ -298,7 +298,7 @@ class AccordionCard extends Component {
                         <AddCustomChallenge
                           calendar={this.props.calendar}
                           selectedClient={this.props.selectedClient}
-                          phaseTitle={this.props.title}
+                          phaseTitle={this.props.phaseTitle}
                           addChallengeToCalendar={this.props.addChallengeToCalendar}
                         />
                       </td>
