@@ -10,18 +10,6 @@ import AddCustomChallenge from './add_custom_challenge';
 class AccordionCard extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      challenges: [],
-      editingChallenge: null,
-      highlightedElement: null
-    };
-
-    this.renderRow = this.renderRow.bind(this);
-  }
-
-  editChallenge(challenge) {
-    this.props.setEditingChallenge(challenge);
   }
 
   openDeleteConfirmModal(challenge) {
@@ -84,18 +72,12 @@ class AccordionCard extends Component {
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingStartDate').blur((event) => {
       $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
-
-      // Force react to re-render the DOM so Total Points are updated
-      this.setState({ challenges: this.challenges });
     });
 
     // When user hits enter, also change it back
     $('#editingStartDate').on('keypress', (event) => {
       if (event.which === 13) {
         $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
-
-        // Force react to re-render the DOM so Total Points are updated
-        this.setState({ challenges: this.challenges });
       }
     });
 
@@ -125,18 +107,12 @@ class AccordionCard extends Component {
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingEndDate').blur((event) => {
       $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
-
-      // Force react to re-render the DOM so Total Points are updated
-      this.setState({ challenges: this.challenges });
     });
 
     // When user hits enter, also change it back
     $('#editingEndDate').on('keypress', (event) => {
       if (event.which === 13) {
         $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
-
-        // Force react to re-render the DOM so Total Points are updated
-        this.setState({ challenges: this.challenges });
       }
     });
 
@@ -166,9 +142,6 @@ class AccordionCard extends Component {
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingPoints').blur((event) => {
-      // Force react to re-render the DOM so Total Points are updated
-      this.setState({ challenges: this.challenges });
-
       $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
     });
 
@@ -202,9 +175,6 @@ class AccordionCard extends Component {
           }
         });
 
-        // Force react to re-render the DOM so Total Points are updated
-        this.setState({ challenges: this.challenges });
-
         $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
       }
     });
@@ -229,9 +199,14 @@ class AccordionCard extends Component {
           {...provided.dragHandleProps}
           ref = {provided.innerRef} >
             <td>
-              <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
+              <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.props.setEditingChallenge(challenge)} />
             </td>
-            <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span>{isFeatured ? <div><p class="featured-badge">Featured</p></div> : ''}</td>
+            <td scope="row">
+              <div className="challenge-title" onClick={() => this.props.setEditingChallenge(challenge)}>
+                {challenge.fields['Title']}
+              </div>
+              { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
+            </td>
             <td>{challenge.fields['Verified']}</td>
             <td className="text-center">
               <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
@@ -242,7 +217,7 @@ class AccordionCard extends Component {
             <td>{challenge.fields['Reward Occurrence']}</td>
             <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
             <td className="actions text-center">
-              <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
+              <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.props.setEditingChallenge(challenge)} />
               <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
             </td>
           </tr>
