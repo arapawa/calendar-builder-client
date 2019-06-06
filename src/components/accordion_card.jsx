@@ -296,8 +296,6 @@ class AccordionCard extends Component {
                     <tr>
                       <td colSpan="7">
                         <AddCustomChallenge
-                          calendar={this.props.calendar}
-                          selectedClient={this.props.selectedClient}
                           phaseTitle={this.props.phaseTitle}
                           addChallengeToCalendar={this.props.addChallengeToCalendar}
                         />

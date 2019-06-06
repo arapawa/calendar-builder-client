@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
@@ -20,7 +21,6 @@ class App extends Component {
       challenges: [],
       calendarName: '',
       selectedClient: null,
-      selectedChallenge: null,
       totalPoints: 0,
       editingChallenge: null,
       editingCalendar: null
@@ -28,7 +28,6 @@ class App extends Component {
 
     this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
     this.deleteChallengeFromCalendar = this.deleteChallengeFromCalendar.bind(this);
-    this.selectChallenge = this.selectChallenge.bind(this);
     this.calculateTotalPoints = this.calculateTotalPoints.bind(this);
     this.setEditingChallenge = this.setEditingChallenge.bind(this);
     this.openEditChallengeModal = this.openEditChallengeModal.bind(this);
@@ -118,11 +117,39 @@ class App extends Component {
     });
   }
 
-  addChallengeToCalendar(challenge) {
-    const newCalendar = [...this.state.calendar, challenge];
-    this.setState({
-      calendar: newCalendar,
-      selectedChallenge: null
+  addChallengeToCalendar(challengeName, phaseTitle) {
+    const hash = this.state.editingCalendar.fields['hash'];
+    const employerName = this.state.selectedClient.fields['Limeade e='];
+    const programYear = this.state.editingCalendar.fields['year'];
+
+    // Make update in Airtable
+    base('Challenges').create({
+      'Title': challengeName,
+      'Calendar': hash,
+      'EmployerName': employerName,
+      'Program Year': programYear,
+      'Phase': phaseTitle,
+      'Start date': moment().format('YYYY-MM-DD'),
+      'End date': moment().format('YYYY-MM-DD'),
+      'Verified': 'Custom',
+      'Team Activity': 'no',
+      'Reward Occurrence': 'One Time',
+      'Points': '0',
+      'Total Points': '0',
+      'Device Enabled': 'No',
+      'Category': 'Health and Fitness',
+      'Challenge Id': ''
+    }, (err, record) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      const newCalendar = [...this.state.calendar, record];
+
+      this.setState({
+        calendar: newCalendar
+      });
     });
   }
 
@@ -142,11 +169,7 @@ class App extends Component {
 
     this.setState({ calendar: newCalendar });
   }
-
-  selectChallenge(challenge) {
-    this.setState({ selectedChallenge: challenge });
-  }
-
+  
   selectCalendar(calendar) {
     this.setState({ calendar: calendar });
   }
@@ -375,14 +398,11 @@ class App extends Component {
         </div>
 
         <CalendarAccordion
-          calendar={this.state.calendar}
-          challenges={this.state.challenges}
+          calendarChallenges={this.state.calendar}
           selectedClient={this.state.selectedClient}
-          selectChallenge={this.selectChallenge}
-          selectedChallenge={this.state.selectedChallenge}
           addChallengeToCalendar={this.addChallengeToCalendar}
+          setPreviewChallenge={this.setEditingChallenge}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
-          setEditingChallenge={this.setEditingChallenge}
           onDragEnd={this.onDragEnd}
         />
 

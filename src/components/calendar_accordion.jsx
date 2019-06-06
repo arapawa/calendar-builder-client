@@ -14,23 +14,22 @@ class CalendarAccordion extends Component {
         id={id}
         challenges={challenges}
         phaseTitle={phaseTitle}
-        calendar={this.props.calendar}
-        selectedClient={this.props.selectedClient}
+        setPreviewChallenge={this.props.setPreviewChallenge}
+        deleteChallengeFromCalendar={this.props.deleteChallengeFromCalendar}
         addChallengeToCalendar={this.props.addChallengeToCalendar}
-        setPreviewChallenge={this.props.setEditingChallenge}
-        deleteChallengeFromCalendar={this.props.deleteChallengeFromCalendar}>
-      </AccordionCard>
+      ></AccordionCard>
     );
   }
 
   render() {
-    const calendar = this.props.calendar;
+    const calendarChallenges = this.props.calendarChallenges;
 
-    const yearlongChallenges = calendar.filter(challenge => challenge.fields['Phase'] === 'Yearlong');
-    const phaseOneChallenges = calendar.filter(challenge => challenge.fields['Phase'] === 'Phase 1');
-    const phaseTwoChallenges = calendar.filter(challenge => challenge.fields['Phase'] === 'Phase 2');
-    const phaseThreeChallenges = calendar.filter(challenge => challenge.fields['Phase'] === 'Phase 3');
-    const phaseFourChallenges = calendar.filter(challenge => challenge.fields['Phase'] === 'Phase 4');
+    // Split calendar into phases
+    const yearlongChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Yearlong');
+    const phaseOneChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 1');
+    const phaseTwoChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 2');
+    const phaseThreeChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 3');
+    const phaseFourChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 4');
 
     return (
       <DragDropContext onDragEnd={this.props.onDragEnd}>
