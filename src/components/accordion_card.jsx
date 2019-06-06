@@ -1,78 +1,20 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Droppable } from 'react-beautiful-dnd';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 import AddCustomChallenge from './add_custom_challenge';
 
 class AccordionCard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      challenges: [],
-      editingChallenge: null,
-      highlightedElement: null
-    };
-
-    this.renderRow = this.renderRow.bind(this);
-  }
-
-  editChallenge(challenge) {
-    this.props.setEditingChallenge(challenge);
-  }
-
   openDeleteConfirmModal(challenge) {
     /* global $ */
     $('#confirm-modal').modal();
     $('.modal-body').html('<p>Are you sure you want to delete this challenge?</p>');
     $('.modal-footer .btn-danger').off('click');
     $('.modal-footer .btn-danger').click(() => {
-      this.deleteChallenge(challenge);
+      this.props.deleteChallengeFromCalendar(challenge);
     });
-  }
-
-  deleteChallenge(challenge) {
-    this.props.deleteChallengeFromCalendar(challenge);
-
-    // Hide the ConfirmModal
-    $('#confirm-modal').modal('hide');
-
-    base('Challenges').destroy(challenge.id, (err, deletedRecord) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    });
-  }
-
-  hpImage(category) {
-    switch (category) {
-      case 'Health and Fitness':
-      case 'Health & Fitness':
-        return 'images/HP_Icon_Health_Fitness.png';
-      case 'Growth and Development':
-      case 'Growth & Development':
-        return 'images/HP_Icon_Growth_Development.png';
-      case 'Contribution and Sustainability':
-      case 'Contribution & Sustainability':
-        return 'images/HP_Icon_Contribution_Sustainability.png';
-      case 'Money and Prosperity':
-      case 'Money & Prosperity':
-        return 'images/HP_Icon_Money_Prosperity.png';
-      default:
-        return 'images/HP_Icon_All.png';
-    }
-  }
-
-  teamImage(team) {
-    if (team === 'yes') {
-      return 'images/icon_team.svg';
-    } else {
-      return 'images/icon_individual.svg';
-    }
   }
 
   editStartDate(e, challenge) {
@@ -84,18 +26,12 @@ class AccordionCard extends Component {
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingStartDate').blur((event) => {
       $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
-
-      // Force react to re-render the DOM so Total Points are updated
-      this.setState({ challenges: this.challenges });
     });
 
     // When user hits enter, also change it back
     $('#editingStartDate').on('keypress', (event) => {
       if (event.which === 13) {
         $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
-
-        // Force react to re-render the DOM so Total Points are updated
-        this.setState({ challenges: this.challenges });
       }
     });
 
@@ -125,18 +61,12 @@ class AccordionCard extends Component {
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingEndDate').blur((event) => {
       $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
-
-      // Force react to re-render the DOM so Total Points are updated
-      this.setState({ challenges: this.challenges });
     });
 
     // When user hits enter, also change it back
     $('#editingEndDate').on('keypress', (event) => {
       if (event.which === 13) {
         $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
-
-        // Force react to re-render the DOM so Total Points are updated
-        this.setState({ challenges: this.challenges });
       }
     });
 
@@ -166,9 +96,6 @@ class AccordionCard extends Component {
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingPoints').blur((event) => {
-      // Force react to re-render the DOM so Total Points are updated
-      this.setState({ challenges: this.challenges });
-
       $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
     });
 
@@ -202,12 +129,32 @@ class AccordionCard extends Component {
           }
         });
 
-        // Force react to re-render the DOM so Total Points are updated
-        this.setState({ challenges: this.challenges });
-
         $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
       }
     });
+  }
+
+  hpImage(category) {
+    switch (category) {
+      case 'Health & Fitness':
+        return 'images/HP_Icon_Health_Fitness.png';
+      case 'Growth & Development':
+        return 'images/HP_Icon_Growth_Development.png';
+      case 'Contribution & Sustainability':
+        return 'images/HP_Icon_Contribution_Sustainability.png';
+      case 'Money & Prosperity':
+        return 'images/HP_Icon_Money_Prosperity.png';
+      default:
+        return 'images/HP_Icon_All.png';
+    }
+  }
+
+  teamImage(team) {
+    if (team === 'yes') {
+      return 'images/icon_team.svg';
+    } else {
+      return 'images/icon_individual.svg';
+    }
   }
 
   renderRow(challenge, index) {
@@ -225,13 +172,19 @@ class AccordionCard extends Component {
       <Draggable draggableId={challenge.id} index={index} key={challenge.id}>
         {(provided) => (
           <tr
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref = {provided.innerRef} >
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref = {provided.innerRef}
+          >
             <td>
-              <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.editChallenge(challenge)} />
+              <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.props.setPreviewChallenge(challenge)} />
             </td>
-            <td scope="row"><span className="challenge-title" onClick={() => this.editChallenge(challenge)}>{challenge.fields['Title']}</span>{isFeatured ? <div><p class="featured-badge">Featured</p></div> : ''}</td>
+            <td scope="row">
+              <div className="challenge-title" onClick={() => this.props.setPreviewChallenge(challenge)}>
+                {challenge.fields['Title']}
+              </div>
+              { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
+            </td>
             <td>{challenge.fields['Verified']}</td>
             <td className="text-center">
               <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
@@ -242,7 +195,7 @@ class AccordionCard extends Component {
             <td>{challenge.fields['Reward Occurrence']}</td>
             <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
             <td className="actions text-center">
-              <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.editChallenge(challenge)} />
+              <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.props.setPreviewChallenge(challenge)} />
               <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
             </td>
           </tr>
@@ -252,39 +205,24 @@ class AccordionCard extends Component {
   }
 
   render() {
-    /* global $ */
-    $('.table-icon').tooltip({
-      html: true,
-      trigger: 'click'
-    });
-
-    const { id, phase, title } = this.props;
+    const { id, challenges, phaseTitle } = this.props;
 
     let startDate, endDate, totalPoints = 0;
-    if (phase.length > 0) {
-      startDate = moment(phase[0].fields['Start date']).format('YYYY-MM-DD');
-      endDate = moment(phase[0].fields['End date']).format('YYYY-MM-DD');
 
-      phase.map(challenge => {
-        const frequency = challenge.fields['Reward Occurrence'];
+    if (challenges.length > 0) {
+      startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
+      endDate = moment(challenges[0].fields['End date']).format('YYYY-MM-DD');
+
+      challenges.map(challenge => {
         const start = moment(challenge.fields['Start date']);
         const end = moment(challenge.fields['End date']);
         const dayDifference = end.diff(start, 'days');
         const weeks = Math.ceil(dayDifference / 7);
 
         // Update total points based on points and frequency
-        switch (frequency) {
+        switch (challenge.fields['Reward Occurrence']) {
           case 'Weekly':
             challenge.fields['Total Points'] = (challenge.fields['Points'] * weeks).toString();
-            break;
-          case 'Bi-weekly':
-            challenge.fields['Total Points'] = (challenge.fields['Points'] * 26).toString();
-            break;
-          case 'Monthly':
-            challenge.fields['Total Points'] = (challenge.fields['Points'] * 12).toString();
-            break;
-          case 'Unlimited':
-            challenge.fields['Total Points'] = (challenge.fields['Points'] * 4).toString();
             break;
           default:
             challenge.fields['Total Points'] = challenge.fields['Points'];
@@ -304,8 +242,8 @@ class AccordionCard extends Component {
     const formattedStartDate = startDate ? moment(startDate).format('L') : '';
     const formattedEndDate = endDate ? moment(endDate).format('L') : '';
 
-    // Sort phase by index
-    phase.sort((a, b) => a.fields['Index'] - b.fields['Index']);
+    // Sort challenges by index
+    challenges.sort((a, b) => a.fields['Index'] - b.fields['Index']);
 
     return (
       <section className="card">
@@ -313,7 +251,7 @@ class AccordionCard extends Component {
         <div className="card-header" role="tab" id={'header' + id}>
           <div className="mb-0 row">
             <div className="col-md-4">
-              <h5 id={'title' + id}>{title}</h5>
+              <h5 id={'title' + id}>{phaseTitle}</h5>
             </div>
             <div className="col-md-4">
               <h5 id={'dates' + id}>{formattedStartDate} - {formattedEndDate}</h5>
@@ -331,14 +269,15 @@ class AccordionCard extends Component {
 
         <div id={'collapse' + id} className="collapse show" role="tabpanel">
           <div className="card-body">
-            <Droppable droppableId={this.props.title}>
+            <Droppable droppableId={this.props.phaseTitle}>
               {(provided) => (
                 <table className="table table-striped"
                   ref={provided.innerRef}
-                  {...provided.droppableProps}>
+                  {...provided.droppableProps}
+                >
                   <thead>
                     <tr>
-                      <th scope="col"> {/*Image*/} </th>
+                      <th scope="col">{/*Image*/}</th>
                       <th scope="col">Name</th>
                       <th scope="col">Type</th>
                       <th scope="col">Category</th>
@@ -350,16 +289,14 @@ class AccordionCard extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {phase.map((challenge, index) => this.renderRow(challenge, index))}
-                    {provided.placeholder}
+                    { challenges.map((challenge, index) => this.renderRow(challenge, index)) }
+                    { provided.placeholder }
                   </tbody>
                   <tfoot>
                     <tr>
                       <td colSpan="7">
                         <AddCustomChallenge
-                          calendar={this.props.calendar}
-                          selectedClient={this.props.selectedClient}
-                          phase={this.props.title}
+                          phaseTitle={this.props.phaseTitle}
                           addChallengeToCalendar={this.props.addChallengeToCalendar}
                         />
                       </td>
