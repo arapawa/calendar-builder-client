@@ -1,53 +1,30 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Droppable } from 'react-beautiful-dnd';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 import AddCustomChallenge from './add_custom_challenge';
 
 class AccordionCard extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   openDeleteConfirmModal(challenge) {
     /* global $ */
     $('#confirm-modal').modal();
     $('.modal-body').html('<p>Are you sure you want to delete this challenge?</p>');
     $('.modal-footer .btn-danger').off('click');
     $('.modal-footer .btn-danger').click(() => {
-      this.deleteChallenge(challenge);
-    });
-  }
-
-  deleteChallenge(challenge) {
-    this.props.deleteChallengeFromCalendar(challenge);
-
-    // Hide the ConfirmModal
-    $('#confirm-modal').modal('hide');
-
-    base('Challenges').destroy(challenge.id, (err, deletedRecord) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
+      this.props.deleteChallengeFromCalendar(challenge);
     });
   }
 
   hpImage(category) {
     switch (category) {
-      case 'Health and Fitness':
       case 'Health & Fitness':
         return 'images/HP_Icon_Health_Fitness.png';
-      case 'Growth and Development':
       case 'Growth & Development':
         return 'images/HP_Icon_Growth_Development.png';
-      case 'Contribution and Sustainability':
       case 'Contribution & Sustainability':
         return 'images/HP_Icon_Contribution_Sustainability.png';
-      case 'Money and Prosperity':
       case 'Money & Prosperity':
         return 'images/HP_Icon_Money_Prosperity.png';
       default:
@@ -195,9 +172,10 @@ class AccordionCard extends Component {
       <Draggable draggableId={challenge.id} index={index} key={challenge.id}>
         {(provided) => (
           <tr
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref = {provided.innerRef} >
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref = {provided.innerRef}
+          >
             <td>
               <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.props.setEditingChallenge(challenge)} />
             </td>
@@ -227,39 +205,24 @@ class AccordionCard extends Component {
   }
 
   render() {
-    /* global $ */
-    $('.table-icon').tooltip({
-      html: true,
-      trigger: 'click'
-    });
-
     const { id, phase, title } = this.props;
 
     let startDate, endDate, totalPoints = 0;
+
     if (phase.length > 0) {
       startDate = moment(phase[0].fields['Start date']).format('YYYY-MM-DD');
       endDate = moment(phase[0].fields['End date']).format('YYYY-MM-DD');
 
       phase.map(challenge => {
-        const frequency = challenge.fields['Reward Occurrence'];
         const start = moment(challenge.fields['Start date']);
         const end = moment(challenge.fields['End date']);
         const dayDifference = end.diff(start, 'days');
         const weeks = Math.ceil(dayDifference / 7);
 
         // Update total points based on points and frequency
-        switch (frequency) {
+        switch (challenge.fields['Reward Occurrence']) {
           case 'Weekly':
             challenge.fields['Total Points'] = (challenge.fields['Points'] * weeks).toString();
-            break;
-          case 'Bi-weekly':
-            challenge.fields['Total Points'] = (challenge.fields['Points'] * 26).toString();
-            break;
-          case 'Monthly':
-            challenge.fields['Total Points'] = (challenge.fields['Points'] * 12).toString();
-            break;
-          case 'Unlimited':
-            challenge.fields['Total Points'] = (challenge.fields['Points'] * 4).toString();
             break;
           default:
             challenge.fields['Total Points'] = challenge.fields['Points'];
@@ -310,10 +273,11 @@ class AccordionCard extends Component {
               {(provided) => (
                 <table className="table table-striped"
                   ref={provided.innerRef}
-                  {...provided.droppableProps}>
+                  {...provided.droppableProps}
+                >
                   <thead>
                     <tr>
-                      <th scope="col"> {/*Image*/} </th>
+                      <th scope="col">{/*Image*/}</th>
                       <th scope="col">Name</th>
                       <th scope="col">Type</th>
                       <th scope="col">Category</th>
@@ -325,8 +289,8 @@ class AccordionCard extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {phase.map((challenge, index) => this.renderRow(challenge, index))}
-                    {provided.placeholder}
+                    { phase.map((challenge, index) => this.renderRow(challenge, index)) }
+                    { provided.placeholder }
                   </tbody>
                   <tfoot>
                     <tr>
@@ -334,7 +298,7 @@ class AccordionCard extends Component {
                         <AddCustomChallenge
                           calendar={this.props.calendar}
                           selectedClient={this.props.selectedClient}
-                          phase={this.props.title}
+                          phaseTitle={this.props.title}
                           addChallengeToCalendar={this.props.addChallengeToCalendar}
                         />
                       </td>

@@ -127,7 +127,19 @@ class App extends Component {
   }
 
   deleteChallengeFromCalendar(challengeToBeDeleted) {
+    // Hide the ConfirmModal
+    $('#confirm-modal').modal('hide');
+
+    // Make update in Airtable
+    base('Challenges').destroy(challengeToBeDeleted.id, (err, deletedRecord) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    });
+
     const newCalendar = this.state.calendar.filter(challenge => challenge.id !== challengeToBeDeleted.id);
+
     this.setState({ calendar: newCalendar });
   }
 
