@@ -204,7 +204,6 @@ class PreviewChallengeModal extends Component {
   render() {
     const challenge = this.props.challenge;
     const cannotModify = this.state.instructions === 'THIS TEXT CANNOT BE MODIFIED';
-    console.log(challenge);
 
     return (
       <div id="editChallengeModal" className="modal fade" tabIndex="-1" role="dialog">
