@@ -17,21 +17,17 @@ class App extends Component {
     super(props);
 
     this.state = {
-      calendar: [],
       challenges: [],
-      calendarName: '',
       selectedClient: null,
+      selectedCalendar: null,
+      calendarName: '',
       totalPoints: 0,
-      editingChallenge: null,
-      editingCalendar: null
+      previewChallenge: null
     };
 
     this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
     this.deleteChallengeFromCalendar = this.deleteChallengeFromCalendar.bind(this);
     this.calculateTotalPoints = this.calculateTotalPoints.bind(this);
-    this.setEditingChallenge = this.setEditingChallenge.bind(this);
-    this.openEditChallengeModal = this.openEditChallengeModal.bind(this);
-    this.updateEditingChallenge = this.updateEditingChallenge.bind(this);
     this.openApproveModal = this.openApproveModal.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
@@ -39,7 +35,6 @@ class App extends Component {
   // Make airtable calls when app starts
   componentDidMount() {
     this.fetchAccountName();
-    this.fetchCalendar();
     this.fetchChallenges();
   }
 
@@ -60,7 +55,7 @@ class App extends Component {
           this.setState({
             calendarName: calendar.fields['name'],
             selectedClient: client,
-            editingCalendar: calendar
+            selectedCalendar: calendar
           });
 
           fetchNextPage();
@@ -81,7 +76,7 @@ class App extends Component {
     });
   }
 
-  fetchCalendar() {
+  fetchChallenges() {
     const hash = window.location.hash.slice(2);
 
     base('Challenges').select({
@@ -89,24 +84,8 @@ class App extends Component {
       filterByFormula: `{Calendar}='${hash}'`
     }).eachPage((records, fetchNextPage) => {
 
-      this.setState({ calendar: [...this.state.calendar, ...records] });
-      this.calculateTotalPoints(this.state.calendar);
-
-      fetchNextPage();
-    }, (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    });
-  }
-
-  fetchChallenges() {
-    const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appa7mnDuYdgwx2zP');
-
-    base('Challenges').select().eachPage((records, fetchNextPage) => {
-
       this.setState({ challenges: [...this.state.challenges, ...records] });
+      this.calculateTotalPoints(this.state.challenges);
 
       fetchNextPage();
     }, (err) => {
@@ -118,9 +97,9 @@ class App extends Component {
   }
 
   addChallengeToCalendar(challengeName, phaseTitle) {
-    const hash = this.state.editingCalendar.fields['hash'];
+    const hash = this.state.selectedCalendar.fields['hash'];
     const employerName = this.state.selectedClient.fields['Limeade e='];
-    const programYear = this.state.editingCalendar.fields['year'];
+    const programYear = this.state.selectedCalendar.fields['year'];
 
     // Make update in Airtable
     base('Challenges').create({
@@ -145,11 +124,9 @@ class App extends Component {
         return;
       }
 
-      const newCalendar = [...this.state.calendar, record];
+      const newCalendar = [...this.state.challenges, record];
 
-      this.setState({
-        calendar: newCalendar
-      });
+      this.setState({ challenges: newCalendar });
     });
   }
 
@@ -165,13 +142,9 @@ class App extends Component {
       }
     });
 
-    const newCalendar = this.state.calendar.filter(challenge => challenge.id !== challengeToBeDeleted.id);
+    const newCalendar = this.state.challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
 
-    this.setState({ calendar: newCalendar });
-  }
-  
-  selectCalendar(calendar) {
-    this.setState({ calendar: calendar });
+    this.setState({ challenges: newCalendar });
   }
 
   calculateTotalPoints(calendar) {
@@ -189,12 +162,12 @@ class App extends Component {
     /* global $ */
     $('#approve-modal').modal();
 
-    // Handler for the Save button
+    // Handler for the Accept button
     $('#approve-modal .modal-footer .btn-primary').off('click');
     $('#approve-modal .modal-footer .btn-primary').click(() => {
       $('#approve-modal').modal('hide');
 
-      const calendar = this.state.editingCalendar;
+      const calendar = this.state.selectedCalendar;
       calendar.fields.status = 'Approved by Client';
 
       base('Calendars').replace(calendar.id, calendar.fields, function(err, record) {
@@ -209,61 +182,13 @@ class App extends Component {
 
   }
 
-  openEditChallengeModal() {
-    /* global $ */
-    $('#editChallengeModal').modal();
+  setPreviewChallenge(challenge) {
+    this.setState({ previewChallenge: challenge });
 
-    // Make sure to clear the editingChallenge when the modal is closed
-    $('#editChallengeModal').off('hidden.bs.modal');
-    $('#editChallengeModal').on('hidden.bs.modal', () => {
-      this.setState({ editingChallenge: null });
-    });
-
-    // Handler for the Save button
-    $('.modal-footer .btn-primary').off('click');
-    $('.modal-footer .btn-primary').click(() => {
-      $('#editChallengeModal').modal('hide');
-    });
-  }
-
-  setEditingChallenge(challenge) {
-    this.setState({ editingChallenge: challenge });
-
-    // TODO: Find a better way to handle this problem!
-    setTimeout(this.openEditChallengeModal, 200);
-  }
-
-  updateEditingChallenge(updatedChallenge) {
-
-    base('Challenges').replace(updatedChallenge.id, updatedChallenge.fields, function(err, record) {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      console.log('Updated: ', updatedChallenge);
-      console.log('Saving updated challenge!');
-    });
-
-    // Clear editingChallenge out
-    this.setState({ editingChallenge: null });
-
-    // Recalculate total points
-    this.calculateTotalPoints(this.state.calendar);
-
-  }
-
-  saveCalendarName() {
-    const calendar = this.state.editingCalendar;
-    const id = calendar.id;
-
-    base('Calendars').update(id, {
-      'name': this.state.calendarName
-    }, function(err, record) {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    });
+    // Open the preview challenge modal
+    setTimeout(() => {
+      $('#editChallengeModal').modal();
+    }, 250);
   }
 
   editCalendarName(event) {
@@ -283,7 +208,14 @@ class App extends Component {
         this.setState({ calendarName: event.target.value });
 
         // Update airtable w/ the changes
-        this.saveCalendarName();
+        base('Calendars').update(this.state.selectedCalendar.id, {
+          'name': this.state.calendarName
+        }, function(err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+        });
       }
     });
 
@@ -292,14 +224,21 @@ class App extends Component {
       this.setState({ calendarName: event.target.value });
 
       // Update airtable w/ the changes
-      this.saveCalendarName();
+      base('Calendars').update(this.state.selectedCalendar.id, {
+        'name': this.state.calendarName
+      }, function(err, record) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
     });
   }
 
   onDragEnd(result) {
     const { source, destination, draggableId } = result;
 
-    const newCalendar = Array.from(this.state.calendar);
+    const newCalendar = Array.from(this.state.challenges);
     const draggingChallenge = newCalendar.filter(challenge => challenge.id === draggableId)[0];
 
     const sourcePhase = newCalendar.filter(challenge => challenge.fields['Phase'] === source.droppableId);
@@ -374,17 +313,10 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state);
     const hash = window.location.hash.slice(2);
     const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
     const calendarName = this.state.calendarName;
-
-    let totalPoints = 0;
-    this.state.calendar.map(challenge => {
-      const points = Number(challenge.fields['Total Points']);
-      if (!isNaN(points)) {
-        totalPoints += points;
-      }
-    });
 
     return (
       <div className="app">
@@ -394,14 +326,14 @@ class App extends Component {
 
         <div className="calendar-name-and-link">
           <h4 className="calendar-name" onDoubleClick={(e) => this.editCalendarName(e, calendarName)}>{calendarName}</h4>
-          <CategoryTotals calendar={this.state.calendar} />
+          <CategoryTotals calendar={this.state.challenges} />
         </div>
 
         <CalendarAccordion
-          calendarChallenges={this.state.calendar}
+          calendarChallenges={this.state.challenges}
           selectedClient={this.state.selectedClient}
           addChallengeToCalendar={this.addChallengeToCalendar}
-          setPreviewChallenge={this.setEditingChallenge}
+          setPreviewChallenge={this.setPreviewChallenge.bind(this)}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
           onDragEnd={this.onDragEnd}
         />
@@ -414,11 +346,7 @@ class App extends Component {
 
         <button id="approveButton" type="button" className="btn btn-primary" onClick={this.openApproveModal}>Approve</button>
 
-        {
-          this.state.editingChallenge ?
-          <PreviewChallengeModal challenge={this.state.editingChallenge} /> :
-          ''
-        }
+        { this.state.previewChallenge ? <PreviewChallengeModal challenge={this.state.previewChallenge} /> : '' }
 
       </div>
     );

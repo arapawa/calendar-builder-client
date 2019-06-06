@@ -79,7 +79,7 @@ class PreviewChallengeModal extends Component {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary">Close</button>
+              <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
