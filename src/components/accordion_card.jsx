@@ -173,10 +173,10 @@ class AccordionCard extends Component {
         {(provided) => (
           <tr
             {...provided.draggableProps}
-            {...provided.dragHandleProps}
             ref = {provided.innerRef}
           >
             <td>
+              <img className="table-icon drag-icon" {...provided.dragHandleProps} src="images/icon_drag.svg"/>
               <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.props.setPreviewChallenge(challenge)} />
             </td>
             <td scope="row">
