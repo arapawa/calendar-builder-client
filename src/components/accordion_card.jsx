@@ -180,9 +180,9 @@ class AccordionCard extends Component {
               <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.props.setPreviewChallenge(challenge)} />
             </td>
             <td scope="row">
-              <div className="challenge-title" onClick={() => this.props.setPreviewChallenge(challenge)}>
+              <span className="challenge-title" onClick={() => this.props.setPreviewChallenge(challenge)}>
                 {challenge.fields['Title']}
-              </div>
+              </span>
               { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
             </td>
             <td>{challenge.fields['Verified']}</td>
