@@ -200,6 +200,14 @@ input.form-control {
   width: 130px;
 }
 
+.drag-icon {
+  opacity: 0;
+}
+
+.drag-icon:hover {
+  opacity: 1;
+}
+
 .edit-icon,
 .upload-icon {
   width: 24px;
