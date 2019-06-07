@@ -20,11 +20,6 @@ tbody tr {
   height: 74px;
 }
 
-/* sets padding of featured column */
-/*.table td:nth-of-type(2) {
-  margin: 0;
-}*/
-
 /* sets width of title/name column */
 td:nth-of-type(2) {
   width: 270px;
@@ -205,16 +200,28 @@ input.form-control {
   width: 130px;
 }
 
+.drag-icon {
+  opacity: 0;
+}
+
+.drag-icon:hover {
+  opacity: 1;
+}
+
 .edit-icon,
 .upload-icon {
   width: 24px;
   margin-right: 20%;
 }
 
-.preview-icon,
 .delete-icon {
   width: 24px;
   cursor: pointer;
+  opacity: 0;
+}
+
+.delete-icon:hover {
+  opacity: 1;
 }
 
 .add-icon {

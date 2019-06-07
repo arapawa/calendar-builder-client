@@ -173,16 +173,16 @@ class AccordionCard extends Component {
         {(provided) => (
           <tr
             {...provided.draggableProps}
-            {...provided.dragHandleProps}
             ref = {provided.innerRef}
           >
             <td>
+              <img className="table-icon drag-icon" {...provided.dragHandleProps} src="images/icon_drag.svg"/>
               <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.props.setPreviewChallenge(challenge)} />
             </td>
             <td scope="row">
-              <div className="challenge-title" onClick={() => this.props.setPreviewChallenge(challenge)}>
+              <span className="challenge-title" onClick={() => this.props.setPreviewChallenge(challenge)}>
                 {challenge.fields['Title']}
-              </div>
+              </span>
               { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
             </td>
             <td>{challenge.fields['Verified']}</td>
@@ -195,7 +195,6 @@ class AccordionCard extends Component {
             <td>{challenge.fields['Reward Occurrence']}</td>
             <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
             <td className="actions text-center">
-              <img className="table-icon preview-icon" src={hasBeenEdited ? 'images/icon_preview_notification.svg' : 'images/icon_preview.svg'} onClick={() => this.props.setPreviewChallenge(challenge)} />
               <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
             </td>
           </tr>
@@ -285,7 +284,7 @@ class AccordionCard extends Component {
                       <th scope="col">End Date</th>
                       <th scope="col">Tracking</th>
                       <th scope="col">Points (Total)</th>
-                      <th scope="col" className="actions-header">Actions</th>
+                      <th scope="col" className="actions-header">{/*Actions*/}</th>
                     </tr>
                   </thead>
                   <tbody>
