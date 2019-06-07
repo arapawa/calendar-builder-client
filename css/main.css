@@ -217,6 +217,11 @@ input.form-control {
 .delete-icon {
   width: 24px;
   cursor: pointer;
+  opacity: 0;
+}
+
+.delete-icon:hover {
+  opacity: 1;
 }
 
 .add-icon {
