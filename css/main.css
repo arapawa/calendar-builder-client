@@ -208,6 +208,18 @@ input.form-control {
   opacity: 1;
 }
 
+.start-date {
+  cursor: pointer;
+}
+
+.end-date {
+  cursor: pointer;
+}
+
+.points-text {
+  cursor: pointer;
+}
+
 .edit-icon,
 .upload-icon {
   width: 24px;

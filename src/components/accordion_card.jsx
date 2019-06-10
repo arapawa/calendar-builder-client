@@ -190,10 +190,10 @@ class AccordionCard extends Component {
               <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
               <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
             </td>
-            <td onDoubleClick={(e) => this.editStartDate(e, challenge)}>{moment(startDate).format('L')}</td>
-            <td onDoubleClick={(e) => this.editEndDate(e, challenge)}>{moment(endDate).format('L')}</td>
+            <td onDoubleClick={(e) => this.editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span></td>
+            <td onDoubleClick={(e) => this.editEndDate(e, challenge)}><span className="end-date">{moment(endDate).format('L')}</span></td>
             <td>{challenge.fields['Reward Occurrence']}</td>
-            <td onDoubleClick={(e) => this.editPoints(e, challenge)}>{challenge.fields['Points']} ({challenge.fields['Total Points']})</td>
+            <td onDoubleClick={(e) => this.editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
             <td className="actions text-center">
               <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
             </td>
