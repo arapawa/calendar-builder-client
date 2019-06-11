@@ -166,6 +166,7 @@ class AccordionCard extends Component {
     const verified = challenge.fields['Verified'];
 
     const isFeatured = challenge.fields['Featured Activity'] === 'yes';
+    const isTeam = (challenge.fields['Team Activity'] === 'yes');
     const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
     return (
@@ -176,26 +177,26 @@ class AccordionCard extends Component {
             ref = {provided.innerRef}
           >
             <td>
-              <img className="table-icon drag-icon" {...provided.dragHandleProps} src="images/icon_drag.svg"/>
-              <img className="table-icon-wide" src={challenge.fields['Header Image']} onClick={() => this.props.setPreviewChallenge(challenge)} />
+              <img className="table-icon drag-icon" {...provided.dragHandleProps} src="images/icon_drag.svg" title="Drag row"/>
+              <img className="table-icon-wide" src={challenge.fields['Header Image']} title="View image" onClick={() => this.props.setPreviewChallenge(challenge)} />
             </td>
             <td scope="row">
-              <span className="challenge-title" onClick={() => this.props.setPreviewChallenge(challenge)}>
+              <span className="challenge-title" title="View content" onClick={() => this.props.setPreviewChallenge(challenge)}>
                 {challenge.fields['Title']}
               </span>
               { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
             </td>
-            <td>{challenge.fields['Verified']}</td>
+            <td title="Tracking type">{challenge.fields['Verified']}</td>
             <td className="text-center">
-              <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} />
-              <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} />
+              <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
+              <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} data-placement="top" title={ isTeam ? 'Team' : 'Individual' } />
             </td>
-            <td onDoubleClick={(e) => this.editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span></td>
-            <td onDoubleClick={(e) => this.editEndDate(e, challenge)}><span className="end-date">{moment(endDate).format('L')}</span></td>
-            <td>{challenge.fields['Reward Occurrence']}</td>
-            <td onDoubleClick={(e) => this.editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
+            <td title="Start date" onDoubleClick={(e) => this.editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span></td>
+            <td title="End date" onDoubleClick={(e) => this.editEndDate(e, challenge)}><span className="end-date">{moment(endDate).format('L')}</span></td>
+            <td title="Reward Occurrence">{challenge.fields['Reward Occurrence']}</td>
+            <td title="Points (Total Points)" onDoubleClick={(e) => this.editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
             <td className="actions text-center">
-              <img className="table-icon delete-icon" src="images/icon_delete.svg" onClick={() => this.openDeleteConfirmModal(challenge)} />
+              <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete row" onClick={() => this.openDeleteConfirmModal(challenge)} />
             </td>
           </tr>
         )}
