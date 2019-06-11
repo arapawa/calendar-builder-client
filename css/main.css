@@ -334,7 +334,7 @@ input.form-control {
 #saveNotification {
   position: fixed;
   right: 1em;
-  color: green;
+  color: #1EA369;
   z-index: 100;
   background: white;
 }
