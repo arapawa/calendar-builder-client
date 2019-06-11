@@ -96,6 +96,7 @@ input.form-control {
 
 .calendar-name {
   display: inline-block;
+  cursor: pointer;
 }
 
 .point-total {
@@ -206,6 +207,18 @@ input.form-control {
 
 .drag-icon:hover {
   opacity: 1;
+}
+
+.start-date {
+  cursor: pointer;
+}
+
+.end-date {
+  cursor: pointer;
+}
+
+.points-text {
+  cursor: pointer;
 }
 
 .edit-icon,
