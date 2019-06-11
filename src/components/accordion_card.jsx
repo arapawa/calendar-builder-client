@@ -135,14 +135,15 @@ class AccordionCard extends Component {
   }
 
   hpImage(category) {
+    console.log('category = ' + category);
     switch (category) {
-      case 'Health & Fitness':
+      case 'Health and Fitness':
         return 'images/HP_Icon_Health_Fitness.png';
-      case 'Growth & Development':
+      case 'Growth and Development':
         return 'images/HP_Icon_Growth_Development.png';
-      case 'Contribution & Sustainability':
+      case 'Contribution and Sustainability':
         return 'images/HP_Icon_Contribution_Sustainability.png';
-      case 'Money & Prosperity':
+      case 'Money and Prosperity':
         return 'images/HP_Icon_Money_Prosperity.png';
       default:
         return 'images/HP_Icon_All.png';
@@ -188,7 +189,7 @@ class AccordionCard extends Component {
             </td>
             <td title="Tracking type">{challenge.fields['Verified']}</td>
             <td className="text-center">
-              <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
+              <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} data-placement="top" title={(challenge.fields['Category'])} />
               <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} data-placement="top" title={ isTeam ? 'Team' : 'Individual' } />
             </td>
             <td title="Start date" onDoubleClick={(e) => this.editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span></td>
