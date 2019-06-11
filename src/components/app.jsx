@@ -136,11 +136,13 @@ class App extends Component {
     $('#confirm-modal').modal('hide');
 
     // Make update in Airtable
+    $('#saveNotification').show().html('Saving...');
     base('Challenges').destroy(challengeToBeDeleted.id, (err, deletedRecord) => {
       if (err) {
         console.error(err);
         return;
       }
+      $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
     });
 
     const newCalendar = this.state.challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
@@ -209,6 +211,7 @@ class App extends Component {
         this.setState({ calendarName: event.target.value });
 
         // Update airtable w/ the changes
+        $('#saveNotification').show().html('Saving...');
         base('Calendars').update(this.state.selectedCalendar.id, {
           'name': this.state.calendarName
         }, function(err, record) {
@@ -216,6 +219,7 @@ class App extends Component {
             console.error(err);
             return;
           }
+          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
         });
       }
     });
@@ -225,6 +229,7 @@ class App extends Component {
       this.setState({ calendarName: event.target.value });
 
       // Update airtable w/ the changes
+      $('#saveNotification').show().html('Saving...');
       base('Calendars').update(this.state.selectedCalendar.id, {
         'name': this.state.calendarName
       }, function(err, record) {
@@ -232,6 +237,7 @@ class App extends Component {
           console.error(err);
           return;
         }
+        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
       });
     });
   }
@@ -254,6 +260,7 @@ class App extends Component {
         challenge.fields['Index'] = index;
 
         // Make update to Airtable
+        $('#saveNotification').show().html('Saving...');
         base('Challenges').update(challenge.id, {
           'Index': index
         }, function(err, record) {
@@ -261,6 +268,7 @@ class App extends Component {
             console.error(err);
             return;
           }
+          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
         });
       });
     } else { // We're moving from one phase to another
@@ -273,6 +281,7 @@ class App extends Component {
         challenge.fields['Index'] = index;
 
         // Make update to Airtable
+        $('#saveNotification').show().html('Saving...');
         base('Challenges').update(challenge.id, {
           'Index': index
         }, function(err, record) {
@@ -280,6 +289,7 @@ class App extends Component {
             console.error(err);
             return;
           }
+          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
         });
       });
 
@@ -287,6 +297,7 @@ class App extends Component {
         challenge.fields['Index'] = index;
 
         if (challenge.id === draggableId) {
+          $('#saveNotification').show().html('Saving...');
           base('Challenges').update(challenge.id, {
             'Index': index,
             'Phase': destination.droppableId
@@ -295,8 +306,10 @@ class App extends Component {
               console.error(err);
               return;
             }
+            $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
           });
         } else {
+          $('#saveNotification').show().html('Saving...');
           base('Challenges').update(challenge.id, {
             'Index': index
           }, function(err, record) {
@@ -304,6 +317,7 @@ class App extends Component {
               console.error(err);
               return;
             }
+            $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
           });
         }
       });
