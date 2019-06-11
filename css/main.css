@@ -331,6 +331,12 @@ input.form-control {
   margin-left: 20px;
 }
 
+#saveNotification {
+  position: fixed;
+  right: 1em;
+  color: green;
+}
+
 #readOnlyDescription {
   min-height: 300px;
 }

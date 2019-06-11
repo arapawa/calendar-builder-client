@@ -40,6 +40,7 @@ class AccordionCard extends Component {
       challenge.fields['Start date'] = event.target.value;
 
       // Update airtable w/ the changes
+      $('#saveNotification').html('Saving...');
       base('Challenges').update(challenge.id, {
         'Start date': event.target.value
       }, function(err, record) {
@@ -47,6 +48,7 @@ class AccordionCard extends Component {
           console.error(err);
           return;
         }
+        $('#saveNotification').html('Saved.');
       });
 
     });
@@ -135,7 +137,6 @@ class AccordionCard extends Component {
   }
 
   hpImage(category) {
-    console.log('category = ' + category);
     switch (category) {
       case 'Health and Fitness':
         return 'images/HP_Icon_Health_Fitness.png';
