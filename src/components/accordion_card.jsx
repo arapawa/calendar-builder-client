@@ -189,8 +189,8 @@ class AccordionCard extends Component {
             </td>
             <td title="Tracking type">{challenge.fields['Verified']}</td>
             <td className="text-center">
-              <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} data-placement="top" title={(challenge.fields['Category'])} />
-              <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} data-placement="top" title={ isTeam ? 'Team' : 'Individual' } />
+              <img className="table-icon category-icon" src={this.hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
+              <img className="table-icon team-icon" src={this.teamImage(challenge.fields['Team Activity'])} title={ isTeam ? 'Team' : 'Individual' } />
             </td>
             <td title="Start date" onDoubleClick={(e) => this.editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span></td>
             <td title="End date" onDoubleClick={(e) => this.editEndDate(e, challenge)}><span className="end-date">{moment(endDate).format('L')}</span></td>
