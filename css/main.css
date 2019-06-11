@@ -96,6 +96,7 @@ input.form-control {
 
 .calendar-name {
   display: inline-block;
+  cursor: pointer;
 }
 
 .point-total {
