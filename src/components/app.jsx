@@ -11,6 +11,7 @@ import CongratulationsModal from './congratulations_modal';
 import PreviewChallengeModal from './preview_challenge_modal';
 import CategoryTotals from './category_totals';
 import PointTotals from './point_totals';
+import SaveNotification from './save_notification';
 
 class App extends Component {
   constructor(props) {
@@ -313,13 +314,13 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state);
     const hash = window.location.hash.slice(2);
     const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
     const calendarName = this.state.calendarName;
 
     return (
       <div className="app">
+        <SaveNotification />
         <Header />
         <h2>Edit Calendar</h2>
         <h4 className="client-name my-5">{accountName}</h4>
