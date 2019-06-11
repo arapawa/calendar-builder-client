@@ -31,7 +31,7 @@ class AccordionCard extends Component {
       this.props.updateChallenges();
 
       // Update airtable w/ the changes
-      $('#saveNotification').html('Saving...');
+      $('#saveNotification').show().html('Saving...');
       base('Challenges').update(challenge.id, {
         'Start date': event.target.value
       }, function(err, record) {
@@ -39,7 +39,7 @@ class AccordionCard extends Component {
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
       });
 
     });
@@ -53,7 +53,7 @@ class AccordionCard extends Component {
         this.props.updateChallenges();
 
         // Update airtable w/ the changes
-        $('#saveNotification').html('Saving...');
+        $('#saveNotification').show().html('Saving...');
         base('Challenges').update(challenge.id, {
           'Start date': event.target.value
         }, function(err, record) {
@@ -61,7 +61,7 @@ class AccordionCard extends Component {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
         });
       }
     });
@@ -81,7 +81,7 @@ class AccordionCard extends Component {
       this.props.updateChallenges();
 
       // Update airtable w/ the changes
-      $('#saveNotification').html('Saving...');
+      $('#saveNotification').show().html('Saving...');
       base('Challenges').update(challenge.id, {
         'End date': event.target.value
       }, function(err, record) {
@@ -89,7 +89,7 @@ class AccordionCard extends Component {
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
       });
     });
 
@@ -102,7 +102,7 @@ class AccordionCard extends Component {
         this.props.updateChallenges();
 
         // Update airtable w/ the changes
-        $('#saveNotification').html('Saving...');
+        $('#saveNotification').show().html('Saving...');
         base('Challenges').update(challenge.id, {
           'End date': event.target.value
         }, function(err, record) {
@@ -110,7 +110,7 @@ class AccordionCard extends Component {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
         });
       }
     });
@@ -140,7 +140,7 @@ class AccordionCard extends Component {
       this.props.updateChallenges();
 
       // Update airtable w/ the changes
-      $('#saveNotification').html('Saving...');
+      $('#saveNotification').show().html('Saving...');
       base('Challenges').update(challenge.id, {
         'Points': event.target.value
       }, function(err, record) {
@@ -148,7 +148,7 @@ class AccordionCard extends Component {
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
       });
     });
 
@@ -164,7 +164,7 @@ class AccordionCard extends Component {
         this.props.updateChallenges();
 
         // Update airtable w/ the changes
-        $('#saveNotification').html('Saving...');
+        $('#saveNotification').show().html('Saving...');
         base('Challenges').update(challenge.id, {
           'Points': event.target.value
         }, function(err, record) {
@@ -172,7 +172,7 @@ class AccordionCard extends Component {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
         });
       }
     });
