@@ -335,6 +335,8 @@ input.form-control {
   position: fixed;
   right: 1em;
   color: green;
+  z-index: 100;
+  background: white;
 }
 
 #readOnlyDescription {
