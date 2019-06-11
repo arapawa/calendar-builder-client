@@ -313,6 +313,10 @@ class App extends Component {
     this.setState({ calendar: newCalendar });
   }
 
+  updateChallenges() {
+    this.setState({ challenges: this.state.challenges });
+  }
+
   render() {
     const hash = window.location.hash.slice(2);
     const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
@@ -337,6 +341,7 @@ class App extends Component {
           setPreviewChallenge={this.setPreviewChallenge.bind(this)}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
           onDragEnd={this.onDragEnd}
+          updateChallenges={this.updateChallenges.bind(this)}
         />
 
         <PointTotals totalPoints={this.state.totalPoints} />

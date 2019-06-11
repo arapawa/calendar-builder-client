@@ -26,18 +26,9 @@ class AccordionCard extends Component {
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingStartDate').blur((event) => {
       $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
-    });
 
-    // When user hits enter, also change it back
-    $('#editingStartDate').on('keypress', (event) => {
-      if (event.which === 13) {
-        $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
-      }
-    });
-
-    // The blur event triggers the change event
-    $('#editingStartDate').change((event) => {
       challenge.fields['Start date'] = event.target.value;
+      this.props.updateChallenges();
 
       // Update airtable w/ the changes
       $('#saveNotification').html('Saving...');
@@ -52,6 +43,28 @@ class AccordionCard extends Component {
       });
 
     });
+
+    // When user hits enter, also change it back
+    $('#editingStartDate').on('keypress', (event) => {
+      if (event.which === 13) {
+        $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
+
+        challenge.fields['Start date'] = event.target.value;
+        this.props.updateChallenges();
+
+        // Update airtable w/ the changes
+        $('#saveNotification').html('Saving...');
+        base('Challenges').update(challenge.id, {
+          'Start date': event.target.value
+        }, function(err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          $('#saveNotification').html('Saved.');
+        });
+      }
+    });
   }
 
   editEndDate(e, challenge) {
@@ -63,20 +76,12 @@ class AccordionCard extends Component {
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingEndDate').blur((event) => {
       $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
-    });
 
-    // When user hits enter, also change it back
-    $('#editingEndDate').on('keypress', (event) => {
-      if (event.which === 13) {
-        $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
-      }
-    });
-
-    // The blur event triggers the change event
-    $('#editingEndDate').change((event) => {
       challenge.fields['End date'] = event.target.value;
+      this.props.updateChallenges();
 
       // Update airtable w/ the changes
+      $('#saveNotification').html('Saving...');
       base('Challenges').update(challenge.id, {
         'End date': event.target.value
       }, function(err, record) {
@@ -84,8 +89,30 @@ class AccordionCard extends Component {
           console.error(err);
           return;
         }
+        $('#saveNotification').html('Saved.');
       });
+    });
 
+    // When user hits enter, also change it back
+    $('#editingEndDate').on('keypress', (event) => {
+      if (event.which === 13) {
+        $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
+
+        challenge.fields['End date'] = event.target.value;
+        this.props.updateChallenges();
+
+        // Update airtable w/ the changes
+        $('#saveNotification').html('Saving...');
+        base('Challenges').update(challenge.id, {
+          'End date': event.target.value
+        }, function(err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          $('#saveNotification').html('Saved.');
+        });
+      }
     });
   }
 
@@ -96,16 +123,24 @@ class AccordionCard extends Component {
     // Since autofocus wasn't working, focus using jquery
     $('#editingPoints').focus();
 
+    // Math for weekly calculation
+    const start = moment(challenge.fields['Start date']);
+    const end = moment(challenge.fields['End date']);
+    const dayDifference = end.diff(start, 'days');
+    const weeks = Math.ceil(dayDifference / 7);
+
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingPoints').blur((event) => {
-      $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
-    });
-
-    // The blur event triggers the change event
-    $('#editingPoints').change((event) => {
       challenge.fields['Points'] = event.target.value;
+      challenge.fields['Total Points'] = challenge.fields['Reward Occurrence'] === 'Weekly' ?
+                                         event.target.value * weeks :
+                                         event.target.value;
+
+      $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
+      this.props.updateChallenges();
 
       // Update airtable w/ the changes
+      $('#saveNotification').html('Saving...');
       base('Challenges').update(challenge.id, {
         'Points': event.target.value
       }, function(err, record) {
@@ -113,6 +148,7 @@ class AccordionCard extends Component {
           console.error(err);
           return;
         }
+        $('#saveNotification').html('Saved.');
       });
     });
 
@@ -120,8 +156,15 @@ class AccordionCard extends Component {
     $('#editingPoints').on('keypress', (event) => {
       if (event.which === 13) {
         challenge.fields['Points'] = event.target.value;
+        challenge.fields['Total Points'] = challenge.fields['Reward Occurrence'] === 'Weekly' ?
+                                           event.target.value * weeks :
+                                           event.target.value;
+
+        $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
+        this.props.updateChallenges();
 
         // Update airtable w/ the changes
+        $('#saveNotification').html('Saving...');
         base('Challenges').update(challenge.id, {
           'Points': event.target.value
         }, function(err, record) {
@@ -129,9 +172,8 @@ class AccordionCard extends Component {
             console.error(err);
             return;
           }
+          $('#saveNotification').html('Saved.');
         });
-
-        $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
       }
     });
   }

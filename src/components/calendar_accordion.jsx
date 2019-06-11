@@ -4,10 +4,6 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import AccordionCard from './accordion_card';
 
 class CalendarAccordion extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   renderAccordionCard(challenges, id, phaseTitle) {
     return (
       <AccordionCard
@@ -17,6 +13,7 @@ class CalendarAccordion extends Component {
         setPreviewChallenge={this.props.setPreviewChallenge}
         deleteChallengeFromCalendar={this.props.deleteChallengeFromCalendar}
         addChallengeToCalendar={this.props.addChallengeToCalendar}
+        updateChallenges={this.props.updateChallenges}
       ></AccordionCard>
     );
   }
