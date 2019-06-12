@@ -144,8 +144,6 @@ class App extends Component {
       isFeatured = 'no';
     }
 
-    console.log('isFeatured = ' + isFeatured);
-
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
     base('Challenges').update(challengeToBeFeatured.id, {
@@ -157,8 +155,6 @@ class App extends Component {
         }
       $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
     });
-
-    console.log('challengeToBeFeatured.id = ' + challengeToBeFeatured.id);
 
     // TODO: Update the state to render the changes
     

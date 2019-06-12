@@ -12,7 +12,6 @@ class AccordionCard extends Component {
     $('#featured-modal').modal();
     $('.modal-body').html('<p>Would you like to make this a Featured Challenge?</p>');
     $('.modal-footer .btn-primary').off('click');
-    console.log('isFeatured = ' + isFeatured);
     $('.modal-footer .btn-primary').click(() => {
       this.props.setFeaturedChallengeInCalendar(challenge, isFeatured);
     });
