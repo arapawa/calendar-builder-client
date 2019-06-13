@@ -1,34 +1,23 @@
-import React, { Component } from 'react';
-import moment from 'moment';
-import Airtable from 'airtable';
-const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
+import React from 'react';
 
-class AddCustomChallenge extends Component {
-  constructor(props) {
-    super(props);
+function AddCustomChallenge({ phaseTitle, addChallengeToCalendar }) {
+  const [challengeName, setChallengeName] = React.useState('');
 
-    this.state = {
-      challengeName: ''
-    };
+  function addChallenge() {
+    addChallengeToCalendar(challengeName, phaseTitle);
+    setChallengeName('');
   }
 
-  addChallenge() {
-    this.props.addChallengeToCalendar(this.state.challengeName, this.props.phaseTitle);
-    this.setState({ challengeName: '' });
+  function handleChange(event) {
+    setChallengeName(event.target.value);
   }
 
-  handleChange(e) {
-    this.setState({ challengeName: e.target.value });
-  }
-
-  render() {
-    return (
-      <div className="add-custom-challenge">
-        <input className="form-control" type="text" value={this.state.challengeName} onChange={(e) => this.handleChange(e)} placeholder="Add Custom Challenge" />
-        <img className="add-challenge-icon" src="images/icon_add.svg" onClick={() => this.addChallenge()} />
-      </div>
-    );
-  }
+  return (
+    <div className="add-custom-challenge">
+      <input className="form-control" type="text" value={challengeName} onChange={handleChange} placeholder="Add Custom Challenge" />
+      <img className="add-challenge-icon" src="images/icon_add.svg" onClick={addChallenge} />
+    </div>
+  );
 }
 
 export default AddCustomChallenge;
