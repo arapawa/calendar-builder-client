@@ -1,7 +1,9 @@
 import React from 'react';
 
-export default function SaveNotification() {
+function SaveNotification() {
   return (
     <div id="saveNotification"></div>
   );
 }
+
+export default SaveNotification;

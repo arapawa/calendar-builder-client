@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Header() {
+function Header() {
   function reloadPage() {
     window.location.reload();
   }
@@ -15,3 +15,5 @@ export default function Header() {
     </div>
   );
 }
+
+export default Header;
