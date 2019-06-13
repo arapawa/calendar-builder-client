@@ -11,7 +11,7 @@ class CalendarAccordion extends Component {
         challenges={challenges}
         phaseTitle={phaseTitle}
         setPreviewChallenge={this.props.setPreviewChallenge}
-        setFeaturedChallengeInCalendar={this.props.setFeaturedChallengeInCalendar}
+        toggleFeaturedChallengeInCalendar={this.props.toggleFeaturedChallengeInCalendar}
         deleteChallengeFromCalendar={this.props.deleteChallengeFromCalendar}
         addChallengeToCalendar={this.props.addChallengeToCalendar}
         updateChallenges={this.props.updateChallenges}

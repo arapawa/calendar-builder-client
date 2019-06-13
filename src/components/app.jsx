@@ -28,7 +28,7 @@ class App extends Component {
     };
 
     this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
-    this.setFeaturedChallengeInCalendar = this.setFeaturedChallengeInCalendar.bind(this);
+    this.toggleFeaturedChallengeInCalendar = this.toggleFeaturedChallengeInCalendar.bind(this);
     this.deleteChallengeFromCalendar = this.deleteChallengeFromCalendar.bind(this);
     this.calculateTotalPoints = this.calculateTotalPoints.bind(this);
     this.openApproveModal = this.openApproveModal.bind(this);
@@ -133,21 +133,14 @@ class App extends Component {
     });
   }
 
-  setFeaturedChallengeInCalendar(challengeToBeFeatured, isFeatured) {
+  toggleFeaturedChallengeInCalendar(challengeToBeFeatured, isFeatured) {
     // Hide the FeaturedModal
     $('#featured-modal').modal('hide');
-
-    // set value for isFeatured
-    if (isFeatured === false) {
-      isFeatured = 'yes';
-    } else {
-      isFeatured = 'no';
-    }
 
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
     base('Challenges').update(challengeToBeFeatured.id, {
-        'Featured Activity': isFeatured
+        'Featured Activity': isFeatured ? 'no' : 'yes'
       }, function(err, record) {
         if (err) {
           console.error(err);
@@ -156,8 +149,16 @@ class App extends Component {
       $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
     });
 
-    // TODO: Update the state to render the changes
-    
+    // Update the state to render the changes
+    const newChallenges = this.state.challenges.map(challenge => {
+      // find the single featured activity and update it
+      if (challenge.id === challengeToBeFeatured.id) {
+        challenge.fields['Featured Activity'] = isFeatured ? 'no' : 'yes';
+      }
+      return challenge;
+    });
+
+    this.setState({ challenges: newChallenges });
   }
 
   deleteChallengeFromCalendar(challengeToBeDeleted) {
@@ -382,7 +383,7 @@ class App extends Component {
           selectedClient={this.state.selectedClient}
           addChallengeToCalendar={this.addChallengeToCalendar}
           setPreviewChallenge={this.setPreviewChallenge.bind(this)}
-          setFeaturedChallengeInCalendar={this.setFeaturedChallengeInCalendar}
+          toggleFeaturedChallengeInCalendar={this.toggleFeaturedChallengeInCalendar}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
           onDragEnd={this.onDragEnd}
           updateChallenges={this.updateChallenges.bind(this)}

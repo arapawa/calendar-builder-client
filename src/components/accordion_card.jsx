@@ -13,7 +13,7 @@ class AccordionCard extends Component {
     $('.modal-body').html('<p>Would you like to make this a Featured Challenge?</p>');
     $('.modal-footer .btn-primary').off('click');
     $('.modal-footer .btn-primary').click(() => {
-      this.props.setFeaturedChallengeInCalendar(challenge, isFeatured);
+      this.props.toggleFeaturedChallengeInCalendar(challenge, isFeatured);
     });
   }
 
