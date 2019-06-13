@@ -19,11 +19,11 @@ function CalendarAccordion({
   const phaseThreeChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 3');
   const phaseFourChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 4');
 
-  function renderAccordionCard(challenges, id, phaseTitle) {
+  function renderAccordionCard(challenges, phaseId, phaseTitle) {
     return (
       <AccordionCard
-        id={id}
         challenges={challenges}
+        phaseId={phaseId}
         phaseTitle={phaseTitle}
         setPreviewChallenge={setPreviewChallenge}
         toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
@@ -37,11 +37,11 @@ function CalendarAccordion({
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="calendar-accordion my-4 clear" id="accordion" role="tablist">
-        {renderAccordionCard(yearlongChallenges, 'Yearlong', 'Yearlong', 0)}
-        {renderAccordionCard(phaseOneChallenges, 'PhaseOne', 'Phase 1', 1)}
-        {renderAccordionCard(phaseTwoChallenges, 'PhaseTwo', 'Phase 2', 2)}
-        {renderAccordionCard(phaseThreeChallenges, 'PhaseThree', 'Phase 3', 3)}
-        {renderAccordionCard(phaseFourChallenges, 'PhaseFour', 'Phase 4', 4)}
+        {renderAccordionCard(yearlongChallenges, 'Yearlong', 'Yearlong')}
+        {renderAccordionCard(phaseOneChallenges, 'PhaseOne', 'Phase 1')}
+        {renderAccordionCard(phaseTwoChallenges, 'PhaseTwo', 'Phase 2')}
+        {renderAccordionCard(phaseThreeChallenges, 'PhaseThree', 'Phase 3')}
+        {renderAccordionCard(phaseFourChallenges, 'PhaseFour', 'Phase 4')}
       </div>
     </DragDropContext>
   );
