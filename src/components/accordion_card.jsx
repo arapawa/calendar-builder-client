@@ -13,11 +13,11 @@ class AccordionCard extends Component {
 
     // updates the modal content based on whether we would be setting or disabling this challenge as Featured
     if (isFeatured === false) {
-      $('.modal-body').html('<p>Would you like to make this a Featured Challenge?</p>');
-      $('.modal-footer .btn-primary').html('Make Featured');
+      $('.modal-body').html('<p>Would you like to enable the Featured Activity banner for this tile?</p>');
+      $('.modal-footer .btn-primary').html('Enable Featured Banner');
     } else {
-      $('.modal-body').html('<p>Would you like to remove this Featured Challenge?</p>');
-      $('.modal-footer .btn-primary').html('Remove Featured');
+      $('.modal-body').html('<p>Would you like to disable the Featured Activity banner for this tile?</p>');
+      $('.modal-footer .btn-primary').html('Disable Featured Banner');
     }
     
     $('.modal-footer .btn-primary').off('click');
