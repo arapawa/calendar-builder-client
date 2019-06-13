@@ -227,6 +227,16 @@ input.form-control {
   margin-right: 20%;
 }
 
+.featured-icon {
+  width: 24px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.featured-icon:hover {
+  opacity: 1;
+}
+
 .delete-icon {
   width: 24px;
   cursor: pointer;

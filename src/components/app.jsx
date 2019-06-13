@@ -5,6 +5,7 @@ const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzb
 
 import Header from './header';
 import CalendarAccordion from './calendar_accordion';
+import ConfirmFeaturedModal from './confirm_featured_modal';
 import ConfirmDeleteModal from './confirm_delete_modal';
 import ConfirmApproveModal from './confirm_approve_modal';
 import CongratulationsModal from './congratulations_modal';
@@ -27,6 +28,7 @@ class App extends Component {
     };
 
     this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
+    this.toggleFeaturedChallengeInCalendar = this.toggleFeaturedChallengeInCalendar.bind(this);
     this.deleteChallengeFromCalendar = this.deleteChallengeFromCalendar.bind(this);
     this.calculateTotalPoints = this.calculateTotalPoints.bind(this);
     this.openApproveModal = this.openApproveModal.bind(this);
@@ -129,6 +131,34 @@ class App extends Component {
 
       this.setState({ challenges: newCalendar });
     });
+  }
+
+  toggleFeaturedChallengeInCalendar(challengeToBeFeatured, isFeatured) {
+    // Hide the FeaturedModal
+    $('#featured-modal').modal('hide');
+
+    // Make update in Airtable
+    $('#saveNotification').show().html('Saving...');
+    base('Challenges').update(challengeToBeFeatured.id, {
+        'Featured Activity': isFeatured ? 'no' : 'yes'
+      }, function(err, record) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+    });
+
+    // Update the state to render the changes
+    const newChallenges = this.state.challenges.map(challenge => {
+      // find the single featured activity and update it
+      if (challenge.id === challengeToBeFeatured.id) {
+        challenge.fields['Featured Activity'] = isFeatured ? 'no' : 'yes';
+      }
+      return challenge;
+    });
+
+    this.setState({ challenges: newChallenges });
   }
 
   deleteChallengeFromCalendar(challengeToBeDeleted) {
@@ -353,6 +383,7 @@ class App extends Component {
           selectedClient={this.state.selectedClient}
           addChallengeToCalendar={this.addChallengeToCalendar}
           setPreviewChallenge={this.setPreviewChallenge.bind(this)}
+          toggleFeaturedChallengeInCalendar={this.toggleFeaturedChallengeInCalendar}
           deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
           onDragEnd={this.onDragEnd}
           updateChallenges={this.updateChallenges.bind(this)}
@@ -360,6 +391,7 @@ class App extends Component {
 
         <PointTotals totalPoints={this.state.totalPoints} />
 
+        <ConfirmFeaturedModal />
         <ConfirmDeleteModal />
         <ConfirmApproveModal />
         <CongratulationsModal />

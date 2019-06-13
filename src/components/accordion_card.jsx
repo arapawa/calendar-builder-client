@@ -7,6 +7,25 @@ const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzb
 import AddCustomChallenge from './add_custom_challenge';
 
 class AccordionCard extends Component {
+  openFeaturedConfirmModal(challenge, isFeatured) {
+    /* global $ */
+    $('#featured-modal').modal();
+
+    // updates the modal content based on whether we would be setting or disabling this challenge as Featured
+    if (isFeatured === false) {
+      $('.modal-body').html('<p>Would you like to make this a Featured Challenge?</p>');
+      $('.modal-footer .btn-primary').html('Make Featured');
+    } else {
+      $('.modal-body').html('<p>Would you like to remove this Featured Challenge?</p>');
+      $('.modal-footer .btn-primary').html('Remove Featured');
+    }
+    
+    $('.modal-footer .btn-primary').off('click');
+    $('.modal-footer .btn-primary').click(() => {
+      this.props.toggleFeaturedChallengeInCalendar(challenge, isFeatured);
+    });
+  }
+
   openDeleteConfirmModal(challenge) {
     /* global $ */
     $('#confirm-modal').modal();
@@ -240,6 +259,7 @@ class AccordionCard extends Component {
             <td title="Reward Occurrence">{challenge.fields['Reward Occurrence']}</td>
             <td title="Points (Total Points)" onDoubleClick={(e) => this.editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
             <td className="actions text-center">
+              <img className="table-icon featured-icon" src={ isFeatured ? 'images/icon_star_notification.svg' : 'images/icon_star.svg' } title="Toggle Featured activity" onClick={() => this.openFeaturedConfirmModal(challenge, isFeatured)} />
               <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete row" onClick={() => this.openDeleteConfirmModal(challenge)} />
             </td>
           </tr>
