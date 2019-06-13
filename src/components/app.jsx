@@ -345,7 +345,7 @@ class App extends Component {
 
         <div className="calendar-name-and-link">
           <h4 className="calendar-name" onDoubleClick={(e) => this.editCalendarName(e, calendarName)}>{calendarName}</h4>
-          <CategoryTotals calendar={this.state.challenges} />
+          <CategoryTotals challenges={this.state.challenges} />
         </div>
 
         <CalendarAccordion
