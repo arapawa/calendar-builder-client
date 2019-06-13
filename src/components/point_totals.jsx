@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 function PointTotals({ totalPoints }) {
   const oneHundredPercent = totalPoints;
