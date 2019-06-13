@@ -40,29 +40,6 @@ input.form-control {
   text-align: center;
 }
 
-.get-started {
-  opacity: 0.5;
-  margin: 125px auto 0;
-  width: 300px;
-  color: #000;
-  text-align: center;
-}
-
-.client-search {
-  width: 30%;
-}
-
-.client-list {
-  width: 30%;
-  overflow: hidden;
-}
-
-.add-calendar-button h5 {
-  display: inline;
-  margin-left: 10px;
-  vertical-align: middle;
-}
-
 .select-template {
   max-width: 240px;
 }
