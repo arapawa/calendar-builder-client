@@ -70,7 +70,7 @@ function AccordionCard({
 
     // When user hits enter, also change it back
     $('#editingStartDate').on('keypress', (event) => {
-      if (event.which === 13) {
+      if (event.key === 'Enter') {
         $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
 
         challenge.fields['Start date'] = event.target.value;
@@ -119,7 +119,7 @@ function AccordionCard({
 
     // When user hits enter, also change it back
     $('#editingEndDate').on('keypress', (event) => {
-      if (event.which === 13) {
+      if (event.key === 'Enter') {
         $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
 
         challenge.fields['End date'] = event.target.value;
@@ -178,7 +178,7 @@ function AccordionCard({
 
     // When user hits enter, also change it back
     $('#editingPoints').on('keypress', (event) => {
-      if (event.which === 13) {
+      if (event.key === 'Enter') {
         challenge.fields['Points'] = event.target.value;
         challenge.fields['Total Points'] = challenge.fields['Reward Occurrence'] === 'Weekly' ?
                                            event.target.value * weeks :
