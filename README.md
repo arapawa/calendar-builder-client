@@ -9,6 +9,6 @@ Follow these steps to get started:
 ```
 	> git clone https://github.com/dannytpeck/calendar-builder-client.git
 	> cd calendar-builder-client
-	> npm install
-	> npm start
+	> yarn
+	> yarn start
 ```
