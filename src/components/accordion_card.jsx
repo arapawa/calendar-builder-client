@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
