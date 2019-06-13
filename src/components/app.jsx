@@ -3,15 +3,15 @@ import moment from 'moment';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
-import Header from './header';
 import CalendarAccordion from './calendar_accordion';
-import ConfirmFeaturedModal from './confirm_featured_modal';
-import ConfirmDeleteModal from './confirm_delete_modal';
-import ConfirmApproveModal from './confirm_approve_modal';
-import CongratulationsModal from './congratulations_modal';
-import PreviewChallengeModal from './preview_challenge_modal';
 import CategoryTotals from './category_totals';
+import ConfirmApproveModal from './confirm_approve_modal';
+import ConfirmDeleteModal from './confirm_delete_modal';
+import ConfirmFeaturedModal from './confirm_featured_modal';
+import CongratulationsModal from './congratulations_modal';
+import Header from './header';
 import PointTotals from './point_totals';
+import PreviewChallengeModal from './preview_challenge_modal';
 import SaveNotification from './save_notification';
 
 class App extends Component {

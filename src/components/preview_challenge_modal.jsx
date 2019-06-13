@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class PreviewChallengeModal extends Component {
-  trackingDetails(challenge) {
+function PreviewChallengeModal({ challenge }) {
+  function trackingDetails(challenge) {
     let activityGoalText = challenge.fields['Activity Goal Text'] ? challenge.fields['Activity Goal Text'] : 'do the activity in the description';
     let trackingDetailsText = '';
 
@@ -44,7 +44,7 @@ class PreviewChallengeModal extends Component {
   }
 
   // sets team size in preview if available/required
-  teamSize(challenge) {
+  function teamSize(challenge) {
     let teamSizeText = '';
     if (challenge.fields['Team Activity'] === 'yes') {
       teamSizeText = `Team Size:  ${(challenge.fields['Team Size Minimum'] ? challenge.fields['Team Size Minimum'] : '4')}-${(challenge.fields['Team Size Maximum'] ? challenge.fields['Team Size Maximum'] : '12')}`;
@@ -52,40 +52,36 @@ class PreviewChallengeModal extends Component {
     return teamSizeText;
   }
 
-  render() {
-    const challenge = this.props.challenge;
+  return (
+    <div id="editChallengeModal" className="modal fade" tabIndex="-1" role="dialog">
+      <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="edit-challenge-modal-title">Challenge Preview</h5>
+            <button type="button" className="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <img className="item-info-image" src={challenge.fields['Header Image']} />
 
-    return (
-      <div id="editChallengeModal" className="modal fade" tabIndex="-1" role="dialog">
-        <div className="modal-dialog modal-dialog-centered" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="edit-challenge-modal-title">Challenge Preview</h5>
-              <button type="button" className="close" data-dismiss="modal">
-                <span>&times;</span>
-              </button>
+            <div className="more-info-container">
+              <h3>{challenge.fields['Title']}</h3>
+              <p>{trackingDetails(challenge)}</p>
+              <p>{teamSize(challenge)}</p>
+              <hr/>
+              <h4>About this activity:</h4>
+              <p dangerouslySetInnerHTML={{ __html: challenge.fields['Instructions'] }}></p>
+              <p dangerouslySetInnerHTML={{ __html: challenge.fields['More Information Html'] }}></p>
             </div>
-            <div className="modal-body">
-              <img className="item-info-image" src={challenge.fields['Header Image']} />
-
-              <div className="more-info-container">
-                <h3>{challenge.fields['Title']}</h3>
-                <p>{this.trackingDetails(challenge)}</p>
-                <p>{this.teamSize(challenge)}</p>
-                <hr/>
-                <h4>About this activity:</h4>
-                <p dangerouslySetInnerHTML={{ __html: challenge.fields['Instructions'] }}></p>
-                <p dangerouslySetInnerHTML={{ __html: challenge.fields['More Information Html'] }}></p>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default PreviewChallengeModal;
