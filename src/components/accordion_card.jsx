@@ -23,11 +23,11 @@ function AccordionCard({
 
     // updates the modal content based on whether we would be setting or disabling this challenge as Featured
     if (isFeatured) {
-      $('.modal-body').html('<p>Would you like to disable the Featured Activity banner for this tile?</p>');
-      $('.modal-footer .btn-primary').html('Disable Featured Banner');
+      $('.modal-body').html('<p>Would you like to remove this tile from the Featured Activity banner?</p>');
+      $('.modal-footer .btn-primary').html('Stop Featuring');
     } else {
-      $('.modal-body').html('<p>Would you like to enable the Featured Activity banner for this tile?</p>');
-      $('.modal-footer .btn-primary').html('Enable Featured Banner');
+      $('.modal-body').html('<p>Would you like to add this tile to the Featured Activity banner?</p>');
+      $('.modal-footer .btn-primary').html('Feature Activity');
     }
 
     $('.modal-footer .btn-primary').off('click');
