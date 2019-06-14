@@ -345,11 +345,11 @@ function AccordionCard({
                   <tr>
                     <th scope="col" className="image-header"></th>
                     <th scope="col">Name</th>
-                    <th scope="col">Type</th>
+                    <th scope="col">Tracking</th>
                     <th scope="col">Category</th>
                     <th scope="col">Start Date</th>
                     <th scope="col">End Date</th>
-                    <th scope="col">Tracking</th>
+                    <th scope="col">Frequency</th>
                     <th scope="col">Points (Total)</th>
                     <th scope="col" className="actions-header"></th>
                   </tr>
