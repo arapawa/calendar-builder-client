@@ -63,7 +63,7 @@ function AccordionCard({
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
 
     });
@@ -85,7 +85,7 @@ function AccordionCard({
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
     });
@@ -113,7 +113,7 @@ function AccordionCard({
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     });
 
@@ -134,7 +134,7 @@ function AccordionCard({
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
     });
@@ -172,7 +172,7 @@ function AccordionCard({
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     });
 
@@ -196,7 +196,7 @@ function AccordionCard({
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
     });

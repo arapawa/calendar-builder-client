@@ -146,7 +146,7 @@ class App extends Component {
           console.error(err);
           return;
         }
-      $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
     });
 
     // Update the state to render the changes
@@ -172,7 +172,7 @@ class App extends Component {
         console.error(err);
         return;
       }
-      $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
     });
 
     const newCalendar = this.state.challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
@@ -249,7 +249,7 @@ class App extends Component {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
     });
@@ -267,7 +267,7 @@ class App extends Component {
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     });
   }
@@ -298,7 +298,7 @@ class App extends Component {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       });
     } else { // We're moving from one phase to another
@@ -319,7 +319,7 @@ class App extends Component {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       });
 
@@ -336,7 +336,7 @@ class App extends Component {
               console.error(err);
               return;
             }
-            $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
           });
         } else {
           $('#saveNotification').show().html('Saving...');
@@ -347,7 +347,7 @@ class App extends Component {
               console.error(err);
               return;
             }
-            $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
           });
         }
       });
