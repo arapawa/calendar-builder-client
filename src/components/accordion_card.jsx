@@ -57,6 +57,17 @@ function AccordionCard({
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingStartDate').blur((event) => {
+      validateStartDate(e, challenge);
+    });
+
+    // When user hits enter, also change it back
+    $('#editingStartDate').on('keypress', (event) => {
+      if (event.key === 'Enter') {
+        validateStartDate(e, challenge);
+      }
+    });
+
+    function validateStartDate(e, challenge) {
       let startDate = moment(event.target.value);
       let endDate = moment(challenge.fields['End date']);
 
@@ -84,40 +95,8 @@ function AccordionCard({
           $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
-    });
+    }
 
-    // When user hits enter, also change it back
-    $('#editingStartDate').on('keypress', (event) => {
-      if (event.key === 'Enter') {
-        let startDate = moment(event.target.value);
-        let endDate = moment(challenge.fields['End date']);
-
-        // alert user if the end date is before the start date
-        if (endDate.isBefore(startDate)) {
-          alert('Error: The Start Date must be before the End Date.');
-          $('#editingStartDate').addClass('invalid');
-        } else {
-          // do other actions because end date is valid
-          $('#editingStartDate').parent().removeClass('invalid');
-          $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
-
-          challenge.fields['Start date'] = event.target.value;
-          updateChallenges();
-
-          // Update airtable w/ the changes
-          $('#saveNotification').show().html('Saving...');
-          base('Challenges').update(challenge.id, {
-            'Start date': event.target.value
-          }, function(err, record) {
-            if (err) {
-              console.error(err);
-              return;
-            }
-            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
-          });
-        }
-      }
-    });
   }
 
   function editEndDate(e, challenge) {
@@ -128,6 +107,17 @@ function AccordionCard({
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingEndDate').blur((event) => {
+      validateEndDate(e, challenge);
+    });
+
+    // When user hits enter, also change it back
+    $('#editingEndDate').on('keypress', (event) => {
+      if (event.key === 'Enter') {
+        validateEndDate(e, challenge);
+      }
+    });
+
+    function validateEndDate(e, challenge) {
       let startDate = moment(challenge.fields['Start date']);
       let endDate = moment(event.target.value);
 
@@ -155,40 +145,8 @@ function AccordionCard({
           $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
-    });
+    }
 
-    // When user hits enter, also change it back
-    $('#editingEndDate').on('keypress', (event) => {
-      if (event.key === 'Enter') {
-        let startDate = moment(challenge.fields['Start date']);
-        let endDate = moment(event.target.value);
-
-        // alert user if the end date is before the start date
-        if (endDate.isBefore(startDate)) {
-          alert('Error: The Start Date must be before the End Date.');
-          $('#editingEndDate').parent().addClass('invalid');
-        } else {
-          // do other actions because end date is valid
-          $('#editingEndDate').parent().removeClass('invalid');
-          $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
-
-          challenge.fields['End date'] = event.target.value;
-          updateChallenges();
-
-          // Update airtable w/ the changes
-          $('#saveNotification').show().html('Saving...');
-          base('Challenges').update(challenge.id, {
-            'End date': event.target.value
-          }, function(err, record) {
-            if (err) {
-              console.error(err);
-              return;
-            }
-            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
-          });
-        }
-      }
-    });
   }
 
   function editPoints(event, challenge) {
