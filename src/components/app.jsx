@@ -119,7 +119,9 @@ function App() {
   }
 
   function toggleFeaturedChallengeInCalendar(challengeToBeFeatured, isFeatured) {
-    // Hide the FeaturedModal
+    // Hide the other modals
+    $('#approve-modal').modal('hide');
+    $('#confirm-modal').modal('hide');
     $('#featured-modal').modal('hide');
 
     // Make update in Airtable
@@ -131,7 +133,7 @@ function App() {
           console.error(err);
           return;
         }
-      $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
     });
 
     // Update the state to render the changes
@@ -147,8 +149,10 @@ function App() {
   }
 
   function deleteChallengeFromCalendar(challengeToBeDeleted) {
-    // Hide the ConfirmModal
+    // Hide the other modals
+    $('#approve-modal').modal('hide');
     $('#confirm-modal').modal('hide');
+    $('#featured-modal').modal('hide');
 
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
@@ -157,7 +161,7 @@ function App() {
         console.error(err);
         return;
       }
-      $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
     });
 
     const newChallenges = challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
@@ -177,7 +181,14 @@ function App() {
 
   function openApproveModal() {
     /* global $ */
+
+    // Hide the other modals
+    $('#confirm-modal').modal('hide');
+    $('#featured-modal').modal('hide');
+
     $('#approve-modal').modal();
+    $('.modal-body').html('<p>You are accepting that this calendar is complete and ready to be deployed to your site.</p>');
+    $('.modal-footer .btn-primary').html('Accept');
 
     // Handler for the Accept button
     $('#approve-modal .modal-footer .btn-primary').off('click');
@@ -187,13 +198,17 @@ function App() {
       const calendar = selectedCalendar;
       calendar.fields.status = 'Approved by Client';
 
+      $('#saveNotification').show().html('Saving...');
       base('Calendars').replace(calendar.id, calendar.fields, function(err, record) {
         if (err) {
           console.error(err);
           return;
         }
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
 
         $('#congratulations-modal').modal();
+        $('.modal-body').html('<p>Your calendar is complete and will be loaded into your site.</p>');
+        $('.modal-footer .btn-primary').html('Close');
       });
     });
 
@@ -231,7 +246,7 @@ function App() {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
     });
@@ -249,7 +264,7 @@ function App() {
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     });
   }
@@ -280,7 +295,7 @@ function App() {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       });
     } else { // We're moving from one phase to another
@@ -301,7 +316,7 @@ function App() {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       });
 
@@ -318,7 +333,7 @@ function App() {
               console.error(err);
               return;
             }
-            $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
           });
         } else {
           $('#saveNotification').show().html('Saving...');
@@ -329,7 +344,7 @@ function App() {
               console.error(err);
               return;
             }
-            $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
           });
         }
       });

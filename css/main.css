@@ -207,11 +207,6 @@ input.form-control {
 .featured-icon {
   width: 24px;
   cursor: pointer;
-  opacity: 0;
-}
-
-.featured-icon:hover {
-  opacity: 1;
 }
 
 .delete-icon {
