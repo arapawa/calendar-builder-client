@@ -86,16 +86,12 @@ function App() {
   }, []); // Pass empty array to only run once on mount
 
   function addChallengeToCalendar(challengeName, phaseTitle) {
-    const hash = selectedCalendar.fields['hash'];
-    const employerName = selectedClient.fields['Limeade e='];
-    const programYear = selectedCalendar.fields['year'];
-
     // Make update in Airtable
     base('Challenges').create({
-      'Title': challengeName,
-      'Calendar': hash,
-      'EmployerName': employerName,
-      'Program Year': programYear,
+      'Challenge Name': challengeName,
+      'Calendar Id': selectedCalendar.fields['hash'],
+      'EmployerName': selectedClient.fields['Limeade e='],
+      'Program Year': selectedCalendar.fields['year'],
       'Phase': phaseTitle,
       'Start date': moment().format('YYYY-MM-DD'),
       'End date': moment().format('YYYY-MM-DD'),

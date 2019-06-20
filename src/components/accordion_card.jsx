@@ -236,10 +236,8 @@ function AccordionCard({
   function renderRow(challenge, index) {
     const startDate = moment(challenge.fields['Start date']).format('YYYY-MM-DD');
     const endDate = moment(challenge.fields['End date']).format('YYYY-MM-DD');
-    const name = challenge.fields['Title'];
     const points = challenge.fields['Points'];
     const frequency = challenge.fields['Reward Occurrence'];
-    const verified = challenge.fields['Verified'];
 
     const isFeatured = challenge.fields['Featured Activity'] === 'yes';
     const isTeam = (challenge.fields['Team Activity'] === 'yes');
@@ -258,11 +256,11 @@ function AccordionCard({
             </td>
             <td scope="row">
               <span className="challenge-title" title="View content" onClick={() => openPreviewChallengeModal(challenge)}>
-                {challenge.fields['Title']}
+                {challenge.fields['Challenge Name']}
               </span>
               { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
             </td>
-            <td title="Tracking type">{challenge.fields['Verified']}</td>
+            <td title="Tracking type">{challenge.fields['Tracking']}</td>
             <td className="text-center">
               <img className="table-icon category-icon" src={hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
               <img className="table-icon team-icon" src={teamImage(challenge.fields['Team Activity'])} title={ isTeam ? 'Team' : 'Individual' } />
