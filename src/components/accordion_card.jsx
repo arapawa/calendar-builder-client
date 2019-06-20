@@ -51,21 +51,21 @@ function AccordionCard({
 
   function editStartDate(e, challenge) {
     let td = event.target;
-    td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
+    td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start Date']}" />`;
 
     $('#editingStartDate').focus();
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingStartDate').blur((event) => {
-      $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
+      $('#editingStartDate').parent().html(`${moment(challenge.fields['Start Date']).format('L')}`);
 
-      challenge.fields['Start date'] = event.target.value;
+      challenge.fields['Start Date'] = event.target.value;
       updateChallenges();
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
       base('Challenges').update(challenge.id, {
-        'Start date': event.target.value
+        'Start Date': event.target.value
       }, function(err, record) {
         if (err) {
           console.error(err);
@@ -79,15 +79,15 @@ function AccordionCard({
     // When user hits enter, also change it back
     $('#editingStartDate').on('keypress', (event) => {
       if (event.key === 'Enter') {
-        $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
+        $('#editingStartDate').parent().html(`${moment(challenge.fields['Start Date']).format('L')}`);
 
-        challenge.fields['Start date'] = event.target.value;
+        challenge.fields['Start Date'] = event.target.value;
         updateChallenges();
 
         // Update airtable w/ the changes
         $('#saveNotification').show().html('Saving...');
         base('Challenges').update(challenge.id, {
-          'Start date': event.target.value
+          'Start Date': event.target.value
         }, function(err, record) {
           if (err) {
             console.error(err);
@@ -101,21 +101,21 @@ function AccordionCard({
 
   function editEndDate(e, challenge) {
     let td = event.target;
-    td.innerHTML = `<input type="date" class="form-control" id="editingEndDate" value="${challenge.fields['End date']}" />`;
+    td.innerHTML = `<input type="date" class="form-control" id="editingEndDate" value="${challenge.fields['End Date']}" />`;
 
     $('#editingEndDate').focus();
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingEndDate').blur((event) => {
-      $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
+      $('#editingEndDate').parent().html(`${moment(challenge.fields['End Date']).format('L')}`);
 
-      challenge.fields['End date'] = event.target.value;
+      challenge.fields['End Date'] = event.target.value;
       updateChallenges();
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
       base('Challenges').update(challenge.id, {
-        'End date': event.target.value
+        'End Date': event.target.value
       }, function(err, record) {
         if (err) {
           console.error(err);
@@ -128,15 +128,15 @@ function AccordionCard({
     // When user hits enter, also change it back
     $('#editingEndDate').on('keypress', (event) => {
       if (event.key === 'Enter') {
-        $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
+        $('#editingEndDate').parent().html(`${moment(challenge.fields['End Date']).format('L')}`);
 
-        challenge.fields['End date'] = event.target.value;
+        challenge.fields['End Date'] = event.target.value;
         updateChallenges();
 
         // Update airtable w/ the changes
         $('#saveNotification').show().html('Saving...');
         base('Challenges').update(challenge.id, {
-          'End date': event.target.value
+          'End Date': event.target.value
         }, function(err, record) {
           if (err) {
             console.error(err);
@@ -156,8 +156,8 @@ function AccordionCard({
     $('#editingPoints').focus();
 
     // Math for weekly calculation
-    const start = moment(challenge.fields['Start date']);
-    const end = moment(challenge.fields['End date']);
+    const start = moment(challenge.fields['Start Date']);
+    const end = moment(challenge.fields['End Date']);
     const dayDifference = end.diff(start, 'days');
     const weeks = Math.ceil(dayDifference / 7);
 
@@ -234,8 +234,8 @@ function AccordionCard({
   }
 
   function renderRow(challenge, index) {
-    const startDate = moment(challenge.fields['Start date']).format('YYYY-MM-DD');
-    const endDate = moment(challenge.fields['End date']).format('YYYY-MM-DD');
+    const startDate = moment(challenge.fields['Start Date']).format('YYYY-MM-DD');
+    const endDate = moment(challenge.fields['End Date']).format('YYYY-MM-DD');
     const points = challenge.fields['Points'];
     const frequency = challenge.fields['Reward Occurrence'];
 
@@ -265,8 +265,8 @@ function AccordionCard({
               <img className="table-icon category-icon" src={hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
               <img className="table-icon team-icon" src={teamImage(challenge.fields['Team Activity'])} title={ isTeam ? 'Team' : 'Individual' } />
             </td>
-            <td title="Start date" onDoubleClick={(e) => editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span></td>
-            <td title="End date" onDoubleClick={(e) => editEndDate(e, challenge)}><span className="end-date">{moment(endDate).format('L')}</span></td>
+            <td title="Start Date" onDoubleClick={(e) => editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span></td>
+            <td title="End Date" onDoubleClick={(e) => editEndDate(e, challenge)}><span className="end-date">{moment(endDate).format('L')}</span></td>
             <td title="Reward Occurrence">{challenge.fields['Reward Occurrence']}</td>
             <td title="Points (Total Points)" onDoubleClick={(e) => editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
             <td className="actions text-center">
@@ -282,12 +282,12 @@ function AccordionCard({
   let startDate, endDate, totalPoints = 0;
 
   if (challenges.length > 0) {
-    startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
-    endDate = moment(challenges[0].fields['End date']).format('YYYY-MM-DD');
+    startDate = moment(challenges[0].fields['Start Date']).format('YYYY-MM-DD');
+    endDate = moment(challenges[0].fields['End Date']).format('YYYY-MM-DD');
 
     challenges.map(challenge => {
-      const start = moment(challenge.fields['Start date']);
-      const end = moment(challenge.fields['End date']);
+      const start = moment(challenge.fields['Start Date']);
+      const end = moment(challenge.fields['End Date']);
       const dayDifference = end.diff(start, 'days');
       const weeks = Math.ceil(dayDifference / 7);
 
