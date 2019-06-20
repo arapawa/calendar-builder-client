@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import moment from 'moment';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
@@ -14,105 +14,86 @@ import PointTotals from './point_totals';
 import PreviewChallengeModal from './preview_challenge_modal';
 import SaveNotification from './save_notification';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      challenges: [],
-      selectedClient: null,
-      selectedCalendar: null,
-      calendarName: '',
-      totalPoints: 0,
-      previewChallenge: null
-    };
-
-    this.addChallengeToCalendar = this.addChallengeToCalendar.bind(this);
-    this.toggleFeaturedChallengeInCalendar = this.toggleFeaturedChallengeInCalendar.bind(this);
-    this.deleteChallengeFromCalendar = this.deleteChallengeFromCalendar.bind(this);
-    this.calculateTotalPoints = this.calculateTotalPoints.bind(this);
-    this.openApproveModal = this.openApproveModal.bind(this);
-    this.onDragEnd = this.onDragEnd.bind(this);
-  }
+function App() {
+  const [challenges, setChallenges] = React.useState([]);
+  const [selectedClient, setSelectedClient] = React.useState(null);
+  const [selectedCalendar, setSelectedCalendar] = React.useState(null);
+  const [calendarName, setCalendarName] = React.useState('');
+  const [totalPoints, setTotalPoints] = React.useState(0);
+  const [previewChallenge, setPreviewChallenge] = React.useState(null);
 
   // Make airtable calls when app starts
-  componentDidMount() {
-    this.fetchAccountName();
-    this.fetchChallenges();
-  }
-
-  fetchAccountName() {
+  React.useEffect(() => {
     const hash = window.location.hash.slice(2);
 
-    base('Calendars').select({
-      filterByFormula: `{hash}='${hash}'`
-    }).eachPage((records, fetchNextPage) => {
-      const calendar = records[0];
+    const fetchChallenges = () => {
 
-      if (calendar) {
-        base('Clients').select({
-          filterByFormula: `{Limeade e=}='${calendar.fields['client']}'`
-        }).eachPage((records, fetchNextPage) => {
-          const client = records[0];
+      base('Challenges').select({
+        view: 'Default',
+        filterByFormula: `{Calendar Id}='${hash}'`
+      }).eachPage((records, fetchNextPage) => {
 
-          this.setState({
-            calendarName: calendar.fields['name'],
-            selectedClient: client,
-            selectedCalendar: calendar
+        setChallenges(records);
+        calculateTotalPoints(records);
+
+        fetchNextPage();
+      }, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
+    };
+
+    const fetchAccountName = () => {
+
+      base('Calendars').select({
+        filterByFormula: `{hash}='${hash}'`
+      }).eachPage((records, fetchNextPage) => {
+        const calendar = records[0];
+
+        if (calendar) {
+          base('Clients').select({
+            filterByFormula: `{Limeade e=}='${calendar.fields['client']}'`
+          }).eachPage((records, fetchNextPage) => {
+            const client = records[0];
+
+            setSelectedCalendar(calendar);
+            setCalendarName(calendar.fields['name']);
+            setSelectedClient(client);
+
+            fetchNextPage();
+          }, (err) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
           });
+        }
 
-          fetchNextPage();
-        }, (err) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-        });
-      }
+        fetchNextPage();
+      }, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+      });
+    };
 
-      fetchNextPage();
-    }, (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    });
-  }
+    fetchChallenges();
+    fetchAccountName();
 
-  fetchChallenges() {
-    const hash = window.location.hash.slice(2);
+  }, []); // Pass empty array to only run once on mount
 
-    base('Challenges').select({
-      view: 'Default',
-      filterByFormula: `{Calendar}='${hash}'`
-    }).eachPage((records, fetchNextPage) => {
-
-      this.setState({ challenges: [...this.state.challenges, ...records] });
-      this.calculateTotalPoints(this.state.challenges);
-
-      fetchNextPage();
-    }, (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    });
-  }
-
-  addChallengeToCalendar(challengeName, phaseTitle) {
-    const hash = this.state.selectedCalendar.fields['hash'];
-    const employerName = this.state.selectedClient.fields['Limeade e='];
-    const programYear = this.state.selectedCalendar.fields['year'];
-
+  function addChallengeToCalendar(challengeName, phaseTitle) {
     // Make update in Airtable
     base('Challenges').create({
-      'Title': challengeName,
-      'Calendar': hash,
-      'EmployerName': employerName,
-      'Program Year': programYear,
+      'Challenge Name': challengeName,
+      'Calendar Id': selectedCalendar.fields['hash'],
+      'EmployerName': selectedClient.fields['Limeade e='],
       'Phase': phaseTitle,
-      'Start date': moment().format('YYYY-MM-DD'),
-      'End date': moment().format('YYYY-MM-DD'),
+      'Start Date': moment().format('YYYY-MM-DD'),
+      'End Date': moment().format('YYYY-MM-DD'),
       'Verified': 'Custom',
       'Team Activity': 'no',
       'Reward Occurrence': 'One Time',
@@ -127,13 +108,12 @@ class App extends Component {
         return;
       }
 
-      const newCalendar = [...this.state.challenges, record];
-
-      this.setState({ challenges: newCalendar });
+      const newChallenges = [...challenges, record];
+      setChallenges(newChallenges);
     });
   }
 
-  toggleFeaturedChallengeInCalendar(challengeToBeFeatured, isFeatured) {
+  function toggleFeaturedChallengeInCalendar(challengeToBeFeatured, isFeatured) {
     // Hide the other modals
     $('#approve-modal').modal('hide');
     $('#confirm-modal').modal('hide');
@@ -152,7 +132,7 @@ class App extends Component {
     });
 
     // Update the state to render the changes
-    const newChallenges = this.state.challenges.map(challenge => {
+    const newChallenges = challenges.map(challenge => {
       // find the single featured activity and update it
       if (challenge.id === challengeToBeFeatured.id) {
         challenge.fields['Featured Activity'] = isFeatured ? 'no' : 'yes';
@@ -160,10 +140,10 @@ class App extends Component {
       return challenge;
     });
 
-    this.setState({ challenges: newChallenges });
+    setChallenges(newChallenges);
   }
 
-  deleteChallengeFromCalendar(challengeToBeDeleted) {
+  function deleteChallengeFromCalendar(challengeToBeDeleted) {
     // Hide the other modals
     $('#approve-modal').modal('hide');
     $('#confirm-modal').modal('hide');
@@ -179,12 +159,11 @@ class App extends Component {
       $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
     });
 
-    const newCalendar = this.state.challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
-
-    this.setState({ challenges: newCalendar });
+    const newChallenges = challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
+    setChallenges(newChallenges);
   }
 
-  calculateTotalPoints(calendar) {
+  function calculateTotalPoints(calendar) {
     let totalPoints = 0;
     calendar.map(challenge => {
       const points = Number(challenge.fields['Total Points']);
@@ -192,10 +171,10 @@ class App extends Component {
         totalPoints += points;
       }
     });
-    this.setState({ totalPoints: totalPoints });
+    setTotalPoints(totalPoints);
   }
 
-  openApproveModal() {
+  function openApproveModal() {
     /* global $ */
 
     // Hide the other modals
@@ -211,7 +190,7 @@ class App extends Component {
     $('#approve-modal .modal-footer .btn-primary').click(() => {
       $('#approve-modal').modal('hide');
 
-      const calendar = this.state.selectedCalendar;
+      const calendar = selectedCalendar;
       calendar.fields.status = 'Approved by Client';
 
       $('#saveNotification').show().html('Saving...');
@@ -230,8 +209,8 @@ class App extends Component {
 
   }
 
-  setPreviewChallenge(challenge) {
-    this.setState({ previewChallenge: challenge });
+  function openPreviewChallengeModal(challenge) {
+    setPreviewChallenge(challenge);
 
     // Open the preview challenge modal
     setTimeout(() => {
@@ -239,9 +218,7 @@ class App extends Component {
     }, 250);
   }
 
-  editCalendarName(event) {
-    const calendarName = this.state.calendarName;
-
+  function editCalendarName(event) {
     let h4 = event.target;
     h4.innerHTML = `<input type="text" class="form-control" id="editingCalendarName" value="${calendarName}" />`;
 
@@ -253,12 +230,12 @@ class App extends Component {
       if (calendarName === event.target.value) {
         h4.innerHTML = `${calendarName}`;
       } else {
-        this.setState({ calendarName: event.target.value });
+        setCalendarName(event.target.value);
 
         // Update airtable w/ the changes
         $('#saveNotification').show().html('Saving...');
-        base('Calendars').update(this.state.selectedCalendar.id, {
-          'name': this.state.calendarName
+        base('Calendars').update(selectedCalendar.id, {
+          'name': event.target.value
         }, function(err, record) {
           if (err) {
             console.error(err);
@@ -271,12 +248,12 @@ class App extends Component {
 
     // Supports the user hitting the Enter key or otherwise triggering the change without blurring
     $('#editingCalendarName').change((event) => {
-      this.setState({ calendarName: event.target.value });
+      setCalendarName(event.target.value);
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
-      base('Calendars').update(this.state.selectedCalendar.id, {
-        'name': this.state.calendarName
+      base('Calendars').update(selectedCalendar.id, {
+        'name': event.target.value
       }, function(err, record) {
         if (err) {
           console.error(err);
@@ -287,14 +264,14 @@ class App extends Component {
     });
   }
 
-  onDragEnd(result) {
+  function onDragEnd(result) {
     const { source, destination, draggableId } = result;
 
-    const newCalendar = Array.from(this.state.challenges);
-    const draggingChallenge = newCalendar.filter(challenge => challenge.id === draggableId)[0];
+    const newChallenges = Array.from(challenges);
+    const draggingChallenge = newChallenges.filter(challenge => challenge.id === draggableId)[0];
 
-    const sourcePhase = newCalendar.filter(challenge => challenge.fields['Phase'] === source.droppableId);
-    const destinationPhase = newCalendar.filter(challenge => challenge.fields['Phase'] === destination.droppableId);
+    const sourcePhase = newChallenges.filter(challenge => challenge.fields['Phase'] === source.droppableId);
+    const destinationPhase = newChallenges.filter(challenge => challenge.fields['Phase'] === destination.droppableId);
 
     // Are we still in the same Phase?
     if (source.droppableId === destination.droppableId) {
@@ -369,55 +346,52 @@ class App extends Component {
     }
 
     // Update the state to render the changes
-    this.setState({ calendar: newCalendar });
+    setChallenges(newChallenges);
   }
 
-  updateChallenges() {
-    this.setState({ challenges: this.state.challenges });
+  function updateChallenges() {
+    const newChallenges = Array.from(challenges);
+    setChallenges(newChallenges);
   }
 
-  render() {
-    const hash = window.location.hash.slice(2);
-    const accountName = this.state.selectedClient ? this.state.selectedClient.fields['Account Name'] : '';
-    const calendarName = this.state.calendarName;
+  const accountName = selectedClient ? selectedClient.fields['Account Name'] : '';
 
-    return (
-      <div className="app">
-        <SaveNotification />
-        <Header />
-        <h2>Edit Calendar</h2>
-        <h4 className="client-name my-5">{accountName}</h4>
+  return (
+    <div className="app">
+      <SaveNotification />
+      <Header />
+      <h2>Edit Calendar</h2>
+      <h4 className="client-name my-5">{accountName}</h4>
 
-        <div className="calendar-name-and-link">
-          <h4 className="calendar-name" onDoubleClick={(e) => this.editCalendarName(e, calendarName)}>{calendarName}</h4>
-          <CategoryTotals challenges={this.state.challenges} />
-        </div>
-
-        <CalendarAccordion
-          calendarChallenges={this.state.challenges}
-          selectedClient={this.state.selectedClient}
-          addChallengeToCalendar={this.addChallengeToCalendar}
-          setPreviewChallenge={this.setPreviewChallenge.bind(this)}
-          toggleFeaturedChallengeInCalendar={this.toggleFeaturedChallengeInCalendar}
-          deleteChallengeFromCalendar={this.deleteChallengeFromCalendar}
-          onDragEnd={this.onDragEnd}
-          updateChallenges={this.updateChallenges.bind(this)}
-        />
-
-        <PointTotals totalPoints={this.state.totalPoints} />
-
-        <ConfirmFeaturedModal />
-        <ConfirmDeleteModal />
-        <ConfirmApproveModal />
-        <CongratulationsModal />
-
-        <button id="approveButton" type="button" className="btn btn-primary" onClick={this.openApproveModal}>Approve</button>
-
-        { this.state.previewChallenge ? <PreviewChallengeModal challenge={this.state.previewChallenge} /> : '' }
-
+      <div className="calendar-name-and-link">
+        <h4 className="calendar-name" onDoubleClick={(e) => editCalendarName(e, calendarName)}>{calendarName}</h4>
+        <CategoryTotals challenges={challenges} />
       </div>
-    );
-  }
+
+      <CalendarAccordion
+        calendarChallenges={challenges}
+        selectedClient={selectedClient}
+        addChallengeToCalendar={addChallengeToCalendar}
+        openPreviewChallengeModal={openPreviewChallengeModal}
+        toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
+        deleteChallengeFromCalendar={deleteChallengeFromCalendar}
+        onDragEnd={onDragEnd}
+        updateChallenges={updateChallenges}
+      />
+
+      <PointTotals totalPoints={totalPoints} />
+
+      <ConfirmFeaturedModal />
+      <ConfirmDeleteModal />
+      <ConfirmApproveModal />
+      <CongratulationsModal />
+
+      <button id="approveButton" type="button" className="btn btn-primary" onClick={openApproveModal}>Approve</button>
+
+      { previewChallenge ? <PreviewChallengeModal challenge={previewChallenge} /> : '' }
+
+    </div>
+  );
 }
 
 export default App;
