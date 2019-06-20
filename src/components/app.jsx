@@ -340,10 +340,10 @@ function App() {
   }
 
   function updateChallenges() {
-    setChallenges(challenges);
+    const newChallenges = Array.from(challenges);
+    setChallenges(newChallenges);
   }
 
-  const hash = window.location.hash.slice(2);
   const accountName = selectedClient ? selectedClient.fields['Account Name'] : '';
 
   return (

@@ -6,7 +6,7 @@ import AccordionCard from './accordion_card';
 function CalendarAccordion({
   calendarChallenges,
   onDragEnd,
-  setPreviewChallenge,
+  openPreviewChallengeModal,
   toggleFeaturedChallengeInCalendar,
   deleteChallengeFromCalendar,
   addChallengeToCalendar,
@@ -25,7 +25,7 @@ function CalendarAccordion({
         challenges={challenges}
         phaseId={phaseId}
         phaseTitle={phaseTitle}
-        setPreviewChallenge={setPreviewChallenge}
+        openPreviewChallengeModal={openPreviewChallengeModal}
         toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
         addChallengeToCalendar={addChallengeToCalendar}

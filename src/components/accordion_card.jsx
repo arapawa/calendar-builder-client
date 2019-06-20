@@ -10,7 +10,7 @@ function AccordionCard({
   challenges,
   phaseId,
   phaseTitle,
-  setPreviewChallenge,
+  openPreviewChallengeModal,
   toggleFeaturedChallengeInCalendar,
   deleteChallengeFromCalendar,
   addChallengeToCalendar,
@@ -246,10 +246,10 @@ function AccordionCard({
           >
             <td>
               <img className="table-icon drag-icon" {...provided.dragHandleProps} src="images/icon_drag.svg" title="Drag row"/>
-              <img className="table-icon-wide" src={challenge.fields['Header Image']} title="View image" onClick={() => setPreviewChallenge(challenge)} />
+              <img className="table-icon-wide" src={challenge.fields['Header Image']} title="View image" onClick={() => openPreviewChallengeModal(challenge)} />
             </td>
             <td scope="row">
-              <span className="challenge-title" title="View content" onClick={() => setPreviewChallenge(challenge)}>
+              <span className="challenge-title" title="View content" onClick={() => openPreviewChallengeModal(challenge)}>
                 {challenge.fields['Title']}
               </span>
               { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
