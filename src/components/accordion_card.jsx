@@ -18,6 +18,7 @@ function AccordionCard({
   addChallengeToCalendar,
   updateChallenges
 }) {
+
   let startDate, endDate, totalPoints = 0;
 
   if (challenges.length > 0) {
