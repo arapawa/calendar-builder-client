@@ -5,7 +5,7 @@ import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, deleteChallengeFromCalendar }) {
-
+  /* globals $ */
   function openFeaturedConfirmModal(challenge, isFeatured) {
     // Hide the other modals
     $('#approve-modal').modal('hide');
@@ -37,74 +37,76 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     $('.modal-footer .btn-danger').click(() => deleteChallengeFromCalendar(challenge));
   }
 
+  function validateStartDate(e, challenge) {
+    let startDate = moment(event.target.value);
+    let endDate = moment(challenge.fields['End date']);
+
+    // alert user if the end date is before the start date
+    if (endDate.isBefore(startDate)) {
+      alert('Error: The Start Date must be before the End Date.');
+      $('#editingStartDate').addClass('invalid');
+    } else {
+      // do other actions because end date is valid
+      $('#editingStartDate').parent().removeClass('invalid');
+      $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
+
+      challenge.fields['Start date'] = event.target.value;
+      updateChallenges();
+
+      // Update airtable w/ the changes
+      $('#saveNotification').show().html('Saving...');
+      base('Challenges 2.0').update(challenge.id, {
+        'Start date': event.target.value
+      }, function(err, record) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+      });
+    }
+  }
+
   function editStartDate(e, challenge) {
-    /* globals $ */
     let td = event.target;
-    td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start Date']}" />`;
+    td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
 
     $('#editingStartDate').focus();
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingStartDate').blur((event) => {
-      $('#editingStartDate').parent().html(`${moment(challenge.fields['Start Date']).format('L')}`);
-
-      challenge.fields['Start Date'] = event.target.value;
-      updateChallenges();
-
-      // Update airtable w/ the changes
-      $('#saveNotification').show().html('Saving...');
-      base('Challenges').update(challenge.id, {
-        'Start Date': event.target.value
-      }, function(err, record) {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
-      });
-
+      validateStartDate(e, challenge);
     });
 
     // When user hits enter, also change it back
     $('#editingStartDate').on('keypress', (event) => {
       if (event.key === 'Enter') {
-        $('#editingStartDate').parent().html(`${moment(challenge.fields['Start Date']).format('L')}`);
-
-        challenge.fields['Start Date'] = event.target.value;
-        updateChallenges();
-
-        // Update airtable w/ the changes
-        $('#saveNotification').show().html('Saving...');
-        base('Challenges').update(challenge.id, {
-          'Start Date': event.target.value
-        }, function(err, record) {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
-        });
+        validateStartDate(e, challenge);
       }
     });
+
   }
 
-  function editEndDate(e, challenge) {
-    let td = event.target;
-    td.innerHTML = `<input type="date" class="form-control" id="editingEndDate" value="${challenge.fields['End Date']}" />`;
+  function validateEndDate(e, challenge) {
+    let startDate = moment(challenge.fields['Start date']);
+    let endDate = moment(event.target.value);
 
-    $('#editingEndDate').focus();
+    // alert user if the end date is before the start date
+    if (endDate.isBefore(startDate)) {
+      alert('Error: The Start Date must be before the End Date.');
+      $('#editingEndDate').parent().addClass('invalid');
+    } else {
+      // do other actions because end date is valid
+      $('#editingEndDate').parent().removeClass('invalid');
+      $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
 
-    // When user clicks out of the input, change it back to the original readonly version with the updated data
-    $('#editingEndDate').blur((event) => {
-      $('#editingEndDate').parent().html(`${moment(challenge.fields['End Date']).format('L')}`);
-
-      challenge.fields['End Date'] = event.target.value;
+      challenge.fields['End date'] = event.target.value;
       updateChallenges();
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
-      base('Challenges').update(challenge.id, {
-        'End Date': event.target.value
+      base('Challenges 2.0').update(challenge.id, {
+        'End date': event.target.value
       }, function(err, record) {
         if (err) {
           console.error(err);
@@ -112,29 +114,27 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
         }
         $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
+    }
+  }
+
+  function editEndDate(e, challenge) {
+    let td = event.target;
+    td.innerHTML = `<input type="date" class="form-control" id="editingEndDate" value="${challenge.fields['End date']}" />`;
+
+    $('#editingEndDate').focus();
+
+    // When user clicks out of the input, change it back to the original readonly version with the updated data
+    $('#editingEndDate').blur((event) => {
+      validateEndDate(e, challenge);
     });
 
     // When user hits enter, also change it back
     $('#editingEndDate').on('keypress', (event) => {
       if (event.key === 'Enter') {
-        $('#editingEndDate').parent().html(`${moment(challenge.fields['End Date']).format('L')}`);
-
-        challenge.fields['End Date'] = event.target.value;
-        updateChallenges();
-
-        // Update airtable w/ the changes
-        $('#saveNotification').show().html('Saving...');
-        base('Challenges').update(challenge.id, {
-          'End Date': event.target.value
-        }, function(err, record) {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
-        });
+        validateEndDate(e, challenge);
       }
     });
+
   }
 
   function editPoints(event, challenge) {
@@ -162,7 +162,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
-      base('Challenges').update(challenge.id, {
+      base('Challenges 2.0').update(challenge.id, {
         'Points': event.target.value
       }, function(err, record) {
         if (err) {
@@ -186,7 +186,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
         // Update airtable w/ the changes
         $('#saveNotification').show().html('Saving...');
-        base('Challenges').update(challenge.id, {
+        base('Challenges 2.0').update(challenge.id, {
           'Points': event.target.value
         }, function(err, record) {
           if (err) {
