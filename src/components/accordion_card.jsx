@@ -19,6 +19,10 @@ function AccordionCard({
   /* global $ */
 
   function openFeaturedConfirmModal(challenge, isFeatured) {
+    // Hide the other modals
+    $('#approve-modal').modal('hide');
+    $('#confirm-modal').modal('hide');
+
     $('#featured-modal').modal();
 
     // updates the modal content based on whether we would be setting or disabling this challenge as Featured
@@ -35,6 +39,10 @@ function AccordionCard({
   }
 
   function openDeleteConfirmModal(challenge) {
+    // Hide the other modals
+    $('#approve-modal').modal('hide');
+    $('#featured-modal').modal('hide');
+
     $('#confirm-modal').modal();
     $('.modal-body').html('<p>Are you sure you want to delete this challenge?</p>');
     $('.modal-footer .btn-danger').off('click');
@@ -63,7 +71,7 @@ function AccordionCard({
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
 
     });
@@ -85,7 +93,7 @@ function AccordionCard({
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
     });
@@ -113,7 +121,7 @@ function AccordionCard({
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     });
 
@@ -134,7 +142,7 @@ function AccordionCard({
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
     });
@@ -172,7 +180,7 @@ function AccordionCard({
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     });
 
@@ -196,7 +204,7 @@ function AccordionCard({
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
     });

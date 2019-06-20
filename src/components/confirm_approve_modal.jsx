@@ -12,7 +12,7 @@ function ConfirmApproveModal() {
             </button>
           </div>
           <div className="modal-body">
-            <p>You are accepting that this calendar is complete and ready to be deployed to your site.</p>
+            ...
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-link" data-dismiss="modal">Cancel</button>

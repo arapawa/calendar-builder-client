@@ -134,7 +134,9 @@ class App extends Component {
   }
 
   toggleFeaturedChallengeInCalendar(challengeToBeFeatured, isFeatured) {
-    // Hide the FeaturedModal
+    // Hide the other modals
+    $('#approve-modal').modal('hide');
+    $('#confirm-modal').modal('hide');
     $('#featured-modal').modal('hide');
 
     // Make update in Airtable
@@ -146,7 +148,7 @@ class App extends Component {
           console.error(err);
           return;
         }
-      $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
     });
 
     // Update the state to render the changes
@@ -162,8 +164,10 @@ class App extends Component {
   }
 
   deleteChallengeFromCalendar(challengeToBeDeleted) {
-    // Hide the ConfirmModal
+    // Hide the other modals
+    $('#approve-modal').modal('hide');
     $('#confirm-modal').modal('hide');
+    $('#featured-modal').modal('hide');
 
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
@@ -172,7 +176,7 @@ class App extends Component {
         console.error(err);
         return;
       }
-      $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
     });
 
     const newCalendar = this.state.challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
@@ -193,7 +197,14 @@ class App extends Component {
 
   openApproveModal() {
     /* global $ */
+
+    // Hide the other modals
+    $('#confirm-modal').modal('hide');
+    $('#featured-modal').modal('hide');
+
     $('#approve-modal').modal();
+    $('.modal-body').html('<p>You are accepting that this calendar is complete and ready to be deployed to your site.</p>');
+    $('.modal-footer .btn-primary').html('Accept');
 
     // Handler for the Accept button
     $('#approve-modal .modal-footer .btn-primary').off('click');
@@ -203,13 +214,17 @@ class App extends Component {
       const calendar = this.state.selectedCalendar;
       calendar.fields.status = 'Approved by Client';
 
+      $('#saveNotification').show().html('Saving...');
       base('Calendars').replace(calendar.id, calendar.fields, function(err, record) {
         if (err) {
           console.error(err);
           return;
         }
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
 
         $('#congratulations-modal').modal();
+        $('.modal-body').html('<p>Your calendar is complete and will be loaded into your site.</p>');
+        $('.modal-footer .btn-primary').html('Close');
       });
     });
 
@@ -249,7 +264,7 @@ class App extends Component {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
     });
@@ -267,7 +282,7 @@ class App extends Component {
           console.error(err);
           return;
         }
-        $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     });
   }
@@ -298,7 +313,7 @@ class App extends Component {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       });
     } else { // We're moving from one phase to another
@@ -319,7 +334,7 @@ class App extends Component {
             console.error(err);
             return;
           }
-          $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       });
 
@@ -336,7 +351,7 @@ class App extends Component {
               console.error(err);
               return;
             }
-            $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
           });
         } else {
           $('#saveNotification').show().html('Saving...');
@@ -347,7 +362,7 @@ class App extends Component {
               console.error(err);
               return;
             }
-            $('#saveNotification').html('Saved.').delay(800).fadeOut('slow');
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
           });
         }
       });
