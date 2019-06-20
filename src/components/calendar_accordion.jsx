@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 
 import AccordionCard from './accordion_card';
