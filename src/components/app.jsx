@@ -30,7 +30,7 @@ function App() {
 
       base('Challenges').select({
         view: 'Default',
-        filterByFormula: `{Calendar}='${hash}'`
+        filterByFormula: `{Calendar Id}='${hash}'`
       }).eachPage((records, fetchNextPage) => {
 
         setChallenges(records);
