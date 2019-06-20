@@ -335,6 +335,11 @@ input.form-control {
   border: 3px solid blue !important;
 }
 
+.invalid {
+  border: 2px solid red;
+  color: red;
+}
+
 #editChallengeModal .modal-dialog {
   max-width: 650px;
 }
