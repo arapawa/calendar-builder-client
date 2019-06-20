@@ -364,6 +364,7 @@ input.form-control {
 
 #editingCalendarName {
   width: 100%;
+  min-width: 300px;
 }
 
 /* Helpers */
