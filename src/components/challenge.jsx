@@ -38,8 +38,8 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
   }
 
   function validateStartDate(e, challenge) {
-    let startDate = moment(event.target.value);
-    let endDate = moment(challenge.fields['End date']);
+    let startDate = moment(e.target.value);
+    let endDate = moment(challenge.fields['End Date']);
 
     // alert user if the end date is before the start date
     if (endDate.isBefore(startDate)) {
@@ -47,16 +47,16 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
       $('#editingStartDate').addClass('invalid');
     } else {
       // do other actions because end date is valid
-      $('#editingStartDate').parent().removeClass('invalid');
-      $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
+      $('#editingStartDate').removeClass('invalid');
+      $('#editingStartDate').parent().html(`${moment(challenge.fields['Start Date']).format('L')}`);
 
-      challenge.fields['Start date'] = event.target.value;
+      challenge.fields['Start Date'] = e.target.value;
       updateChallenges();
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
       base('Challenges 2.0').update(challenge.id, {
-        'Start date': event.target.value
+        'Start Date': e.target.value
       }, function(err, record) {
         if (err) {
           console.error(err);
@@ -68,45 +68,45 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
   }
 
   function editStartDate(e, challenge) {
-    let td = event.target;
-    td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
+    let td = e.target;
+    td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start Date']}" />`;
 
     $('#editingStartDate').focus();
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
-    $('#editingStartDate').blur((event) => {
-      validateStartDate(e, challenge);
+    $('#editingStartDate').blur((ev) => {
+      validateStartDate(ev, challenge);
     });
 
     // When user hits enter, also change it back
-    $('#editingStartDate').on('keypress', (event) => {
+    $('#editingStartDate').on('keypress', (ev) => {
       if (event.key === 'Enter') {
-        validateStartDate(e, challenge);
+        validateStartDate(ev, challenge);
       }
     });
 
   }
 
   function validateEndDate(e, challenge) {
-    let startDate = moment(challenge.fields['Start date']);
-    let endDate = moment(event.target.value);
+    let startDate = moment(challenge.fields['Start Date']);
+    let endDate = moment(e.target.value);
 
     // alert user if the end date is before the start date
     if (endDate.isBefore(startDate)) {
       alert('Error: The Start Date must be before the End Date.');
-      $('#editingEndDate').parent().addClass('invalid');
+      $('#editingEndDate').addClass('invalid');
     } else {
       // do other actions because end date is valid
-      $('#editingEndDate').parent().removeClass('invalid');
-      $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
+      $('#editingEndDate').removeClass('invalid');
+      $('#editingEndDate').parent().html(`${moment(challenge.fields['End Date']).format('L')}`);
 
-      challenge.fields['End date'] = event.target.value;
+      challenge.fields['End Date'] = e.target.value;
       updateChallenges();
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
       base('Challenges 2.0').update(challenge.id, {
-        'End date': event.target.value
+        'End Date': e.target.value
       }, function(err, record) {
         if (err) {
           console.error(err);
@@ -118,23 +118,22 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
   }
 
   function editEndDate(e, challenge) {
-    let td = event.target;
-    td.innerHTML = `<input type="date" class="form-control" id="editingEndDate" value="${challenge.fields['End date']}" />`;
+    let td = e.target;
+    td.innerHTML = `<input type="date" class="form-control" id="editingEndDate" value="${challenge.fields['End Date']}" />`;
 
     $('#editingEndDate').focus();
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
-    $('#editingEndDate').blur((event) => {
-      validateEndDate(e, challenge);
+    $('#editingEndDate').blur((ev) => {
+      validateEndDate(ev, challenge);
     });
 
     // When user hits enter, also change it back
-    $('#editingEndDate').on('keypress', (event) => {
+    $('#editingEndDate').on('keypress', (ev) => {
       if (event.key === 'Enter') {
-        validateEndDate(e, challenge);
+        validateEndDate(ev, challenge);
       }
     });
-
   }
 
   function editPoints(event, challenge) {
