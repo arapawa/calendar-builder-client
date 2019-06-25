@@ -246,6 +246,19 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
   const isTeam = (challenge.fields['Team Activity'] === 'yes');
   const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
+  function allowFeatured(challenge) {
+    if (challenge.fields['Tracking'] === 'System Awarded') {
+      return <img />;
+    } else {
+      // check if featured and feature if appropriate
+      if (challenge.fields['Featured Activity'] === 'yes') {
+        return <img className="table-icon featured-icon" src="images/icon_star_notification.svg" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
+      } else {
+        return <img className="table-icon featured-icon" src="images/icon_star.svg" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
+      }
+    }
+  }
+
   return (
     <Draggable draggableId={challenge.id} index={index} key={challenge.id}>
       {(provided) => (
@@ -273,7 +286,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           <td title="Reward Occurrence">{challenge.fields['Reward Occurrence']}</td>
           <td title="Points (Total Points)" onDoubleClick={(e) => editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
           <td className="actions text-center">
-            <img className="table-icon featured-icon" src={ isFeatured ? 'images/icon_star_notification.svg' : 'images/icon_star.svg' } title="Toggle Featured activity" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />
+            { allowFeatured(challenge) }
             <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete row" onClick={() => openDeleteConfirmModal(challenge)} />
           </td>
         </tr>
