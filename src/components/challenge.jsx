@@ -4,8 +4,20 @@ import { Draggable } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
-function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, deleteChallengeFromCalendar }) {
+function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, deleteChallengeFromCalendar, selectedCalendar }) {
   /* globals $ */
+
+  function updateCalendarUpdated() {
+    base('Calendars').update(selectedCalendar.id, {
+      'updated': moment().format('l')
+    }, function(err, record) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    });
+  }
+
   function openFeaturedConfirmModal(challenge, isFeatured) {
     // Hide the other modals
     $('#approve-modal').modal('hide');
@@ -62,6 +74,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           console.error(err);
           return;
         }
+        updateCalendarUpdated();
         $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     }
@@ -112,6 +125,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           console.error(err);
           return;
         }
+        updateCalendarUpdated();
         $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     }
@@ -168,6 +182,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           console.error(err);
           return;
         }
+        updateCalendarUpdated();
         $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     });
@@ -192,6 +207,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
             console.error(err);
             return;
           }
+          updateCalendarUpdated();
           $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }

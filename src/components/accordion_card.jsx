@@ -16,7 +16,8 @@ function AccordionCard({
   toggleFeaturedChallengeInCalendar,
   deleteChallengeFromCalendar,
   addChallengeToCalendar,
-  updateChallenges
+  updateChallenges,
+  selectedCalendar
 }) {
 
   let startDate, endDate, totalPoints = 0;
@@ -111,6 +112,7 @@ function AccordionCard({
                         updateChallenges={updateChallenges}
                         toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
                         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
+                        selectedCalendar={selectedCalendar}
                       />
                     );
                   })}

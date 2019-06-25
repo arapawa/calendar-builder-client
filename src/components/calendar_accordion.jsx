@@ -10,7 +10,8 @@ function CalendarAccordion({
   toggleFeaturedChallengeInCalendar,
   deleteChallengeFromCalendar,
   addChallengeToCalendar,
-  updateChallenges
+  updateChallenges,
+  selectedCalendar
 }) {
   // Split calendar into phases
   const yearlongChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Yearlong');
@@ -30,6 +31,7 @@ function CalendarAccordion({
         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
         addChallengeToCalendar={addChallengeToCalendar}
         updateChallenges={updateChallenges}
+        selectedCalendar={selectedCalendar}
       ></AccordionCard>
     );
   }

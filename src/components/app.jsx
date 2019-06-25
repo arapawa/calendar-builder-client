@@ -85,6 +85,17 @@ function App() {
 
   }, []); // Pass empty array to only run once on mount
 
+  function updateCalendarUpdated() {
+    base('Calendars').update(selectedCalendar.id, {
+      'updated': moment().format('l')
+    }, function(err, record) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+    });
+  }
+
   function addChallengeToCalendar(challengeName, phaseTitle) {
     // Make update in Airtable
     base('Challenges 2.0').create({
@@ -107,7 +118,7 @@ function App() {
         console.error(err);
         return;
       }
-
+      updateCalendarUpdated();
       const newChallenges = [...challenges, record];
       setChallenges(newChallenges);
     });
@@ -122,12 +133,13 @@ function App() {
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
     base('Challenges 2.0').update(challengeToBeFeatured.id, {
-        'Featured Activity': isFeatured ? 'no' : 'yes'
-      }, function(err, record) {
-        if (err) {
-          console.error(err);
-          return;
-        }
+      'Featured Activity': isFeatured ? 'no' : 'yes'
+    }, function(err, record) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      updateCalendarUpdated();
       $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
     });
 
@@ -156,6 +168,7 @@ function App() {
         console.error(err);
         return;
       }
+      updateCalendarUpdated();
       $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
     });
 
@@ -190,21 +203,29 @@ function App() {
     $('#approve-modal .modal-footer .btn-primary').click(() => {
       $('#approve-modal').modal('hide');
 
-      const calendar = selectedCalendar;
-      calendar.fields.status = 'Approved by Client';
+      selectedCalendar.fields['status'] = 'Approved by Client';
+      selectedCalendar.fields['approved'] = moment().format('l');
 
       $('#saveNotification').show().html('Saving...');
-      base('Calendars').replace(calendar.id, calendar.fields, function(err, record) {
+
+      // Update airtable w/ the changes
+      base('Calendars').update(selectedCalendar.id, {
+        'status': 'Approved by Client',
+        'approved': moment().format('l')
+      }, function(err, record) {
         if (err) {
           console.error(err);
           return;
         }
+
         $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
 
         $('#congratulations-modal').modal();
         $('.modal-body').html('<p>Your calendar is complete and will be loaded into your site.</p>');
         $('.modal-footer .btn-primary').html('Close');
+
       });
+
     });
 
   }
@@ -241,6 +262,7 @@ function App() {
             console.error(err);
             return;
           }
+          updateCalendarUpdated();
           $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       }
@@ -259,6 +281,7 @@ function App() {
           console.error(err);
           return;
         }
+        updateCalendarUpdated();
         $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
       });
     });
@@ -290,6 +313,7 @@ function App() {
             console.error(err);
             return;
           }
+          updateCalendarUpdated();
           $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       });
@@ -311,6 +335,7 @@ function App() {
             console.error(err);
             return;
           }
+          updateCalendarUpdated();
           $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
         });
       });
@@ -328,6 +353,7 @@ function App() {
               console.error(err);
               return;
             }
+            updateCalendarUpdated();
             $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
           });
         } else {
@@ -339,6 +365,7 @@ function App() {
               console.error(err);
               return;
             }
+            updateCalendarUpdated();
             $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
           });
         }
@@ -371,6 +398,7 @@ function App() {
       <CalendarAccordion
         calendarChallenges={challenges}
         selectedClient={selectedClient}
+        selectedCalendar={selectedCalendar}
         addChallengeToCalendar={addChallengeToCalendar}
         openPreviewChallengeModal={openPreviewChallengeModal}
         toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
