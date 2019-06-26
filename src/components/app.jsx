@@ -28,9 +28,9 @@ function App() {
 
     const fetchChallenges = () => {
 
-      base('Challenges 2.0').select({
+      base('Challenges').select({
         view: 'Default',
-        filterByFormula: `{Calendar Id}='${hash}'`
+        filterByFormula: `{Calendar}='${hash}'`
       }).eachPage((records, fetchNextPage) => {
 
         setChallenges(records);
@@ -98,13 +98,13 @@ function App() {
 
   function addChallengeToCalendar(challengeName, phaseTitle) {
     // Make update in Airtable
-    base('Challenges 2.0').create({
-      'Challenge Name': challengeName,
-      'Calendar Id': selectedCalendar.fields['hash'],
+    base('Challenges').create({
+      'Title': challengeName,
+      'Calendar': selectedCalendar.fields['hash'],
       'EmployerName': selectedClient.fields['Limeade e='],
       'Phase': phaseTitle,
-      'Start Date': moment().format('YYYY-MM-DD'),
-      'End Date': moment().format('YYYY-MM-DD'),
+      'Start date': moment().format('YYYY-MM-DD'),
+      'End date': moment().format('YYYY-MM-DD'),
       'Verified': 'Custom',
       'Team Activity': 'no',
       'Reward Occurrence': 'One Time',
@@ -132,7 +132,7 @@ function App() {
 
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
-    base('Challenges 2.0').update(challengeToBeFeatured.id, {
+    base('Challenges').update(challengeToBeFeatured.id, {
       'Featured Activity': isFeatured ? 'no' : 'yes'
     }, function(err, record) {
       if (err) {
@@ -163,7 +163,7 @@ function App() {
 
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
-    base('Challenges 2.0').destroy(challengeToBeDeleted.id, (err, deletedRecord) => {
+    base('Challenges').destroy(challengeToBeDeleted.id, (err, deletedRecord) => {
       if (err) {
         console.error(err);
         return;
@@ -306,7 +306,7 @@ function App() {
 
         // Make update to Airtable
         $('#saveNotification').show().html('Saving...');
-        base('Challenges 2.0').update(challenge.id, {
+        base('Challenges').update(challenge.id, {
           'Index': index
         }, function(err, record) {
           if (err) {
@@ -328,7 +328,7 @@ function App() {
 
         // Make update to Airtable
         $('#saveNotification').show().html('Saving...');
-        base('Challenges 2.0').update(challenge.id, {
+        base('Challenges').update(challenge.id, {
           'Index': index
         }, function(err, record) {
           if (err) {
@@ -345,7 +345,7 @@ function App() {
 
         if (challenge.id === draggableId) {
           $('#saveNotification').show().html('Saving...');
-          base('Challenges 2.0').update(challenge.id, {
+          base('Challenges').update(challenge.id, {
             'Index': index,
             'Phase': destination.droppableId
           }, function(err, record) {
@@ -358,7 +358,7 @@ function App() {
           });
         } else {
           $('#saveNotification').show().html('Saving...');
-          base('Challenges 2.0').update(challenge.id, {
+          base('Challenges').update(challenge.id, {
             'Index': index
           }, function(err, record) {
             if (err) {

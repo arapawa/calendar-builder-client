@@ -23,12 +23,12 @@ function AccordionCard({
   let startDate, endDate, totalPoints = 0;
 
   if (challenges.length > 0) {
-    startDate = moment(challenges[0].fields['Start Date']).format('YYYY-MM-DD');
-    endDate = moment(challenges[0].fields['End Date']).format('YYYY-MM-DD');
+    startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
+    endDate = moment(challenges[0].fields['End date']).format('YYYY-MM-DD');
 
     challenges.map(challenge => {
-      const start = moment(challenge.fields['Start Date']);
-      const end = moment(challenge.fields['End Date']);
+      const start = moment(challenge.fields['Start date']);
+      const end = moment(challenge.fields['End date']);
       const dayDifference = end.diff(start, 'days');
       const weeks = Math.ceil(dayDifference / 7);
 

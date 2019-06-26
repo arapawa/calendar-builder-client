@@ -66,7 +66,7 @@ function PreviewChallengeModal({ challenge }) {
             <img className="item-info-image" src={challenge.fields['Header Image']} />
 
             <div className="more-info-container">
-              <h3>{challenge.fields['Challenge Name']}</h3>
+              <h3>{challenge.fields['Title']}</h3>
               <p>{trackingDetails(challenge)}</p>
               <p>{teamSize(challenge)}</p>
               <hr/>
