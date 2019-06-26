@@ -92,6 +92,7 @@ function AccordionCard({
                   <tr>
                     <th scope="col" className="image-header"></th>
                     <th scope="col">Name</th>
+                    <th scope="col" className="short-description">Description</th>
                     <th scope="col">Tracking</th>
                     <th scope="col">Category</th>
                     <th scope="col">Start Date</th>

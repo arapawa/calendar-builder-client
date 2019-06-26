@@ -248,6 +248,10 @@ input.form-control {
   opacity: 0.7;
 }
 
+.short-description {
+  display: none;
+}
+
 .add-targeting-button, .add-resource-button {
   width: 24px;
 }
@@ -388,7 +392,8 @@ input.form-control {
 /* Media queries */
 
 @media print {
-  .collapse {
+  .collapse,
+  .short-description {
     display: block;
   }
 
