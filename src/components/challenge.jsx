@@ -55,11 +55,13 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
     // alert user if the end date is before the start date
     if (endDate.isBefore(startDate)) {
-      alert('Error: The Start Date must be before the End Date.');
+      // alert('Error: The Start Date must be before the End Date.');
       $('#editingStartDate').addClass('invalid');
+      $('.start-date-validate').show();
     } else {
       // do other actions because end date is valid
       $('#editingStartDate').removeClass('invalid');
+      $('.end-date-validate').hide();
       $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
 
       challenge.fields['Start date'] = e.target.value;
@@ -106,11 +108,13 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
     // alert user if the end date is before the start date
     if (endDate.isBefore(startDate)) {
-      alert('Error: The Start Date must be before the End Date.');
+      // alert('Error: The Start Date must be before the End Date.');
       $('#editingEndDate').addClass('invalid');
+      $('.end-date-validate').show();
     } else {
       // do other actions because end date is valid
       $('#editingEndDate').removeClass('invalid');
+      $('.end-date-validate').show();
       $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
 
       challenge.fields['End date'] = e.target.value;
@@ -283,8 +287,8 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
             <img className="table-icon category-icon" src={hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
             <img className="table-icon team-icon" src={teamImage(challenge.fields['Team Activity'])} title={ isTeam ? 'Team' : 'Individual' } />
           </td>
-          <td title="Start date" onDoubleClick={(e) => editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span></td>
-          <td title="End date" onDoubleClick={(e) => editEndDate(e, challenge)}><span className="end-date">{moment(endDate).format('L')}</span></td>
+          <td title="Start date" onDoubleClick={(e) => editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span><p className="start-date-validate">Error.</p></td>
+          <td title="End date" onDoubleClick={(e) => editEndDate(e, challenge)}><span className="end-date">{moment(endDate).format('L')}</span><p className="end-date-validate">Error.</p></td>
           <td title="Reward Occurrence">{challenge.fields['Reward Occurrence']}</td>
           <td title="Points (Total Points)" onDoubleClick={(e) => editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
           <td className="actions text-center">

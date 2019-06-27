@@ -143,6 +143,16 @@ input.form-control {
   border-radius: 12px;
 }
 
+.start-date-validate {
+  color: red;
+  display: none;
+}
+
+.end-date-validate {
+  color: red;
+  display: none;
+}
+
 .preview {
   position: absolute;
   right: 15px;
