@@ -241,6 +241,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
   const endDate = moment(challenge.fields['End date']).format('YYYY-MM-DD');
   const points = challenge.fields['Points'];
   const frequency = challenge.fields['Reward Occurrence'];
+  const tileImage = challenge.fields['Header Image'];
 
   const isFeatured = challenge.fields['Featured Activity'] === 'yes';
   const isTeam = (challenge.fields['Team Activity'] === 'yes');
@@ -268,7 +269,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
         >
           <td>
             <img className="table-icon drag-icon" {...provided.dragHandleProps} src="images/icon_drag.svg" title="Drag row"/>
-            <img className="table-icon-wide" src={challenge.fields['Header Image']} title="View image" onClick={() => openPreviewChallengeModal(challenge)} />
+            <img className="table-icon-wide" src={ tileImage ? tileImage : 'images/placeholder.svg' } title="View image" onClick={() => openPreviewChallengeModal(challenge)} />
           </td>
           <td scope="row">
             <span className="challenge-title" title="View content" onClick={() => openPreviewChallengeModal(challenge)}>
