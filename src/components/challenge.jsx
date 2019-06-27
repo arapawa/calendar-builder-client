@@ -276,6 +276,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
             </span>
             { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
           </td>
+          <td className="short-description">{challenge.fields['Instructions']}</td>
           <td title="Tracking type">{challenge.fields['Verified']}</td>
           <td className="text-center">
             <img className="table-icon category-icon" src={hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
