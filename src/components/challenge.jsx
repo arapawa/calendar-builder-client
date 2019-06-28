@@ -90,14 +90,6 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     $('#editingStartDate').blur((ev) => {
       validateStartDate(ev, challenge);
     });
-
-    // When user hits enter, also change it back
-    $('#editingStartDate').on('keypress', (ev) => {
-      if (event.key === 'Enter') {
-        validateStartDate(ev, challenge);
-      }
-    });
-
   }
 
   function validateEndDate(e, challenge) {
@@ -140,13 +132,6 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingEndDate').blur((ev) => {
       validateEndDate(ev, challenge);
-    });
-
-    // When user hits enter, also change it back
-    $('#editingEndDate').on('keypress', (ev) => {
-      if (event.key === 'Enter') {
-        validateEndDate(ev, challenge);
-      }
     });
   }
 
