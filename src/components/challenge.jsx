@@ -75,7 +75,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           return;
         }
         updateCalendarUpdated();
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
       });
     }
   }
@@ -118,7 +118,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           return;
         }
         updateCalendarUpdated();
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
       });
     }
   }
@@ -168,7 +168,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           return;
         }
         updateCalendarUpdated();
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
       });
     });
 
@@ -193,7 +193,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
             return;
           }
           updateCalendarUpdated();
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
         });
       }
     });

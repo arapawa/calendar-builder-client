@@ -140,7 +140,7 @@ function App() {
         return;
       }
       updateCalendarUpdated();
-      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
     });
 
     // Update the state to render the changes
@@ -169,7 +169,7 @@ function App() {
         return;
       }
       updateCalendarUpdated();
-      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
     });
 
     const newChallenges = challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
@@ -218,7 +218,7 @@ function App() {
           return;
         }
 
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
 
         $('#congratulations-modal').modal();
         $('.modal-body').html('<p>Your calendar is complete and will be loaded into your site.</p>');
@@ -263,7 +263,7 @@ function App() {
             return;
           }
           updateCalendarUpdated();
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
         });
       }
     });
@@ -282,7 +282,7 @@ function App() {
           return;
         }
         updateCalendarUpdated();
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
       });
     });
   }
@@ -314,7 +314,7 @@ function App() {
             return;
           }
           updateCalendarUpdated();
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
         });
       });
     } else { // We're moving from one phase to another
@@ -336,7 +336,7 @@ function App() {
             return;
           }
           updateCalendarUpdated();
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
         });
       });
 
@@ -354,7 +354,7 @@ function App() {
               return;
             }
             updateCalendarUpdated();
-            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
           });
         } else {
           $('#saveNotification').show().html('Saving...');
@@ -366,7 +366,7 @@ function App() {
               return;
             }
             updateCalendarUpdated();
-            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
           });
         }
       });
