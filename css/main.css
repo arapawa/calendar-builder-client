@@ -22,7 +22,7 @@ tbody tr {
 
 /* sets width of title/name column */
 td:nth-of-type(2) {
-  width: 270px;
+  width: 220px;
 }
 
 /* sets width of input form for date and point editing */
@@ -209,12 +209,14 @@ input.form-control {
   cursor: pointer;
 }
 
+.duplicate-icon,
 .delete-icon {
   width: 24px;
   cursor: pointer;
   opacity: 0;
 }
 
+.duplicate-icon:hover,
 .delete-icon:hover {
   opacity: 1;
 }

@@ -49,6 +49,17 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     $('.modal-footer .btn-danger').click(() => deleteChallengeFromCalendar(challenge));
   }
 
+  function openDuplicateConfirmModal(challenge) {
+    // TODO: write modal code
+
+
+    // TODO: add the duplication code
+
+
+    // duplicate challenge
+
+  }
+
   function validateStartDate(e, challenge) {
     let startDate = moment(e.target.value);
     let endDate = moment(challenge.fields['End date']);
@@ -274,7 +285,8 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           <td title="Points (Total Points)" onDoubleClick={(e) => editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
           <td className="actions text-center">
             { allowFeatured(challenge) }
-            <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete row" onClick={() => openDeleteConfirmModal(challenge)} />
+            <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} />
+            <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} />
           </td>
         </tr>
       )}
