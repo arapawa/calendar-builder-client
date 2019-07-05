@@ -7,6 +7,8 @@ const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzb
 function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, deleteChallengeFromCalendar, selectedCalendar }) {
   /* globals $ */
 
+  // TODO: add props/state for number of featured challenges for each phase
+
   function updateCalendarUpdated() {
     base('Calendars').update(selectedCalendar.id, {
       'updated': moment().format('l')
@@ -50,7 +52,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
   }
 
   function openDuplicateConfirmModal(challenge) {
-    // TODO: write modal code
+    // TODO: write duplicate confirmation modal code
 
 
     // TODO: add the duplication code
@@ -245,13 +247,13 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
   function allowFeatured(challenge) {
     if (challenge.fields['Verified'] === 'System Awarded') {
-      return <img className="table-icon" style={{ opacity: '0' }} />;
+      return <img className="table-icon" style={{ opacity: '0' }} />; // setting an empty image with 0 opacity so the icon space is taken up but not visible
     } else {
       // check if featured and feature if appropriate
       if (challenge.fields['Featured Activity'] === 'yes') {
-        return <img className="table-icon featured-icon" src="images/icon_star_notification.svg" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
+        return <img className="table-icon featured-icon" src="images/icon_star_notification.svg" title="Feature Activity" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
       } else {
-        return <img className="table-icon featured-icon" src="images/icon_star.svg" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
+        return <img className="table-icon featured-icon" src="images/icon_star.svg" title="Feature Activity" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
       }
     }
   }
