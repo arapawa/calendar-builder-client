@@ -245,7 +245,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
   function allowFeatured(challenge) {
     if (challenge.fields['Verified'] === 'System Awarded') {
-      return <img />;
+      return <img className="table-icon" style={{ opacity: '0' }} />;
     } else {
       // check if featured and feature if appropriate
       if (challenge.fields['Featured Activity'] === 'yes') {
