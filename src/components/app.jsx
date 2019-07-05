@@ -107,7 +107,7 @@ function App() {
       'End date': moment().format('YYYY-MM-DD'),
       'Verified': 'Custom',
       'Team Activity': 'no',
-      'Reward Occurrence': 'One Time',
+      'Reward Occurrence': 'Once',
       'Points': '0',
       'Total Points': '0',
       'Device Enabled': 'No',
