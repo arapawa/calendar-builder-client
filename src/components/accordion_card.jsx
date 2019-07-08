@@ -15,6 +15,7 @@ function AccordionCard({
   openPreviewChallengeModal,
   toggleFeaturedChallengeInCalendar,
   deleteChallengeFromCalendar,
+  duplicateChallengeInCalendar,
   addChallengeToCalendar,
   updateChallenges,
   selectedCalendar
@@ -119,6 +120,7 @@ function AccordionCard({
                         toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
                         featuredCount={featuredCount}
                         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
+                        duplicateChallengeInCalendar={duplicateChallengeInCalendar}
                         selectedCalendar={selectedCalendar}
                       />
                     );

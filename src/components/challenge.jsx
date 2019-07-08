@@ -4,7 +4,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
-function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, featuredCount, deleteChallengeFromCalendar, selectedCalendar }) {
+function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, featuredCount, deleteChallengeFromCalendar, duplicateChallengeInCalendar, selectedCalendar }) {
   /* globals $ */
   
   function updateCalendarUpdated() {
@@ -22,6 +22,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     // Hide the other modals
     $('#approve-modal').modal('hide');
     $('#confirm-modal').modal('hide');
+    $('duplicate-modal').modal('hide');
 
     $('#featured-modal').modal();
 
@@ -42,6 +43,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     // Hide the other modals
     $('#approve-modal').modal('hide');
     $('#featured-modal').modal('hide');
+    $('duplicate-modal').modal('hide');
 
     $('#confirm-modal').modal();
     $('.modal-body').html('<p>Are you sure you want to delete this challenge?</p>');
@@ -53,8 +55,9 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     // TODO: write duplicate confirmation modal code
     $('#approve-modal').modal('hide');
     $('#featured-modal').modal('hide');
+    $('#confirm-modal').modal('hide');
 
-    $('#confirm-modal').modal();
+    $('#duplicate-modal').modal();
     $('.modal-body').html('<p>Would you like to duplicate this challenge?</p>');
     $('.modal-footer .btn-primary').off('click');
     // TODO: duplicate challenge
