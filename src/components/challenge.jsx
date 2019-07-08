@@ -4,9 +4,9 @@ import { Draggable } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
-function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, deleteChallengeFromCalendar, selectedCalendar }) {
+function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, featuredCount, deleteChallengeFromCalendar, duplicateChallengeInCalendar, selectedCalendar }) {
   /* globals $ */
-
+  
   function updateCalendarUpdated() {
     base('Calendars').update(selectedCalendar.id, {
       'updated': moment().format('l')
@@ -22,16 +22,17 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     // Hide the other modals
     $('#approve-modal').modal('hide');
     $('#confirm-modal').modal('hide');
+    $('duplicate-modal').modal('hide');
 
     $('#featured-modal').modal();
 
     // updates the modal content based on whether we would be setting or disabling this challenge as Featured
     if (isFeatured) {
-      $('.modal-body').html('<p>Would you like to remove this tile from the Featured Activity banner?</p>');
-      $('.modal-footer .btn-primary').html('Stop Featuring');
+      $('#featured-modal .modal-body').html(`<p>Would you like to remove this tile from the Featured Activity banner?</p><p>${featuredCount} of 4 challenges are currently featured for this phase.</p>`);
+      $('#featured-modal .modal-footer .btn-primary').html('Stop Featuring');
     } else {
-      $('.modal-body').html('<p>Would you like to add this tile to the Featured Activity banner?</p>');
-      $('.modal-footer .btn-primary').html('Feature Activity');
+      $('#featured-modal .modal-body').html(`<p>Would you like to add this tile to the Featured Activity banner?</p><p>${featuredCount} of 4 challenges are currently featured for this phase.</p>`);
+      $('#featured-modal .modal-footer .btn-primary').html('Feature Activity');
     }
 
     $('.modal-footer .btn-primary').off('click');
@@ -42,11 +43,25 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     // Hide the other modals
     $('#approve-modal').modal('hide');
     $('#featured-modal').modal('hide');
+    $('duplicate-modal').modal('hide');
 
     $('#confirm-modal').modal();
     $('.modal-body').html('<p>Are you sure you want to delete this challenge?</p>');
     $('.modal-footer .btn-danger').off('click');
     $('.modal-footer .btn-danger').click(() => deleteChallengeFromCalendar(challenge));
+  }
+
+  function openDuplicateConfirmModal(challenge) {
+    // TODO: write duplicate confirmation modal code
+    $('#approve-modal').modal('hide');
+    $('#featured-modal').modal('hide');
+    $('#confirm-modal').modal('hide');
+
+    $('#duplicate-modal').modal();
+    $('.modal-body').html('<p>Would you like to duplicate this challenge?</p>');
+    $('.modal-footer .btn-primary').off('click');
+    // TODO: duplicate challenge
+    $('.modal-footer .btn-primary').click(() => duplicateChallengeInCalendar(challenge));
   }
 
   function validateStartDate(e, challenge) {
@@ -75,7 +90,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           return;
         }
         updateCalendarUpdated();
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
       });
     }
   }
@@ -118,7 +133,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           return;
         }
         updateCalendarUpdated();
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
       });
     }
   }
@@ -168,7 +183,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           return;
         }
         updateCalendarUpdated();
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
       });
     });
 
@@ -193,7 +208,7 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
             return;
           }
           updateCalendarUpdated();
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
         });
       }
     });
@@ -234,13 +249,13 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
   function allowFeatured(challenge) {
     if (challenge.fields['Verified'] === 'System Awarded') {
-      return <img />;
+      return <img className="table-icon" style={{ opacity: '0' }} />; // setting an empty image with 0 opacity so the icon space is taken up but not visible
     } else {
       // check if featured and feature if appropriate
       if (challenge.fields['Featured Activity'] === 'yes') {
-        return <img className="table-icon featured-icon" src="images/icon_star_notification.svg" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
+        return <img className="table-icon featured-icon" src="images/icon_star_notification.svg" title="Feature Activity" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
       } else {
-        return <img className="table-icon featured-icon" src="images/icon_star.svg" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
+        return <img className="table-icon featured-icon" src="images/icon_star.svg" title="Feature Activity" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
       }
     }
   }
@@ -274,7 +289,8 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
           <td title="Points (Total Points)" onDoubleClick={(e) => editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
           <td className="actions text-center">
             { allowFeatured(challenge) }
-            <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete row" onClick={() => openDeleteConfirmModal(challenge)} />
+            <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} />
+            <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} />
           </td>
         </tr>
       )}

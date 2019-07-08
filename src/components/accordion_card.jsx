@@ -15,12 +15,13 @@ function AccordionCard({
   openPreviewChallengeModal,
   toggleFeaturedChallengeInCalendar,
   deleteChallengeFromCalendar,
+  duplicateChallengeInCalendar,
   addChallengeToCalendar,
   updateChallenges,
   selectedCalendar
 }) {
 
-  let startDate, endDate, totalPoints = 0;
+  let startDate, endDate, totalPoints, featuredCount = 0;
 
   if (challenges.length > 0) {
     startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
@@ -45,6 +46,11 @@ function AccordionCard({
       const points = Number(challenge.fields['Total Points']);
       if (!isNaN(points)) {
         totalPoints += points;
+      }
+
+      // Count how many are Featured Challenges
+      if (challenge.fields['Featured Activity'] === 'yes') {
+        featuredCount++;
       }
     });
   } else {
@@ -112,7 +118,9 @@ function AccordionCard({
                         openPreviewChallengeModal={openPreviewChallengeModal}
                         updateChallenges={updateChallenges}
                         toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
+                        featuredCount={featuredCount}
                         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
+                        duplicateChallengeInCalendar={duplicateChallengeInCalendar}
                         selectedCalendar={selectedCalendar}
                       />
                     );

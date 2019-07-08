@@ -9,6 +9,7 @@ function CalendarAccordion({
   openPreviewChallengeModal,
   toggleFeaturedChallengeInCalendar,
   deleteChallengeFromCalendar,
+  duplicateChallengeInCalendar,
   addChallengeToCalendar,
   updateChallenges,
   selectedCalendar
@@ -29,6 +30,7 @@ function CalendarAccordion({
         openPreviewChallengeModal={openPreviewChallengeModal}
         toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
+        duplicateChallengeInCalendar={duplicateChallengeInCalendar}
         addChallengeToCalendar={addChallengeToCalendar}
         updateChallenges={updateChallenges}
         selectedCalendar={selectedCalendar}

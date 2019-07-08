@@ -7,6 +7,7 @@ import CalendarAccordion from './calendar_accordion';
 import CategoryTotals from './category_totals';
 import ConfirmApproveModal from './confirm_approve_modal';
 import ConfirmDeleteModal from './confirm_delete_modal';
+import ConfirmDuplicateModal from './confirm_duplicate_modal';
 import ConfirmFeaturedModal from './confirm_featured_modal';
 import CongratulationsModal from './congratulations_modal';
 import Header from './header';
@@ -107,7 +108,7 @@ function App() {
       'End date': moment().format('YYYY-MM-DD'),
       'Verified': 'Custom',
       'Team Activity': 'no',
-      'Reward Occurrence': 'One Time',
+      'Reward Occurrence': 'Once',
       'Points': '0',
       'Total Points': '0',
       'Device Enabled': 'No',
@@ -129,6 +130,7 @@ function App() {
     $('#approve-modal').modal('hide');
     $('#confirm-modal').modal('hide');
     $('#featured-modal').modal('hide');
+    $('#duplicate-modal').modal('hide');
 
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
@@ -140,7 +142,7 @@ function App() {
         return;
       }
       updateCalendarUpdated();
-      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
     });
 
     // Update the state to render the changes
@@ -160,6 +162,7 @@ function App() {
     $('#approve-modal').modal('hide');
     $('#confirm-modal').modal('hide');
     $('#featured-modal').modal('hide');
+    $('#duplicate-modal').modal('hide');
 
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
@@ -169,11 +172,60 @@ function App() {
         return;
       }
       updateCalendarUpdated();
-      $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
     });
 
     const newChallenges = challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
     setChallenges(newChallenges);
+  }
+
+  function duplicateChallengeInCalendar(challengeToBeDuplicated) {
+    // Hide the other modals
+    $('#approve-modal').modal('hide');
+    $('#confirm-modal').modal('hide');
+    $('#featured-modal').modal('hide');
+    $('#duplicate-modal').modal('hide');
+
+    const newIndex = challenges.filter(challenge => challenge.fields['Phase'] === challengeToBeDuplicated.fields['Phase']).length;
+
+    // Make update in Airtable
+    $('#saveNotification').show().html('Saving...');
+    base('Challenges').create({
+      'Title': challengeToBeDuplicated.fields['Title'],
+      'Calendar': challengeToBeDuplicated.fields['Calendar'],
+      'EmployerName': challengeToBeDuplicated.fields['EmployerName'],
+      'Phase': challengeToBeDuplicated.fields['Phase'],
+      'Start date': challengeToBeDuplicated.fields['Start date'],
+      'End date': challengeToBeDuplicated.fields['End date'],
+      'Verified': challengeToBeDuplicated.fields['Verified'],
+      'Team Activity': challengeToBeDuplicated.fields['Team Activity'],
+      'Team Size Minimum': challengeToBeDuplicated.fields['Team Size Minimum'],
+      'Team Size Maximum': challengeToBeDuplicated.fields['Team Size Maximum'],
+      'Reward Occurrence': challengeToBeDuplicated.fields['Reward Occurrence'],
+      'Points': challengeToBeDuplicated.fields['Points'],
+      'Total Points': challengeToBeDuplicated.fields['Total Points'],
+      'Device Enabled': challengeToBeDuplicated.fields['Device Enabled'],
+      'Category': challengeToBeDuplicated.fields['Category'],
+      'Challenge Id': challengeToBeDuplicated.fields['Challenge Id'],
+      'Activity Tracking Type': challengeToBeDuplicated.fields['Activity Tracking Type'],
+      'Activity Goal': challengeToBeDuplicated.fields['Activity Goal'],
+      'Activity Goal Text': challengeToBeDuplicated.fields['Activity Goal Text'],
+      'Device Units': challengeToBeDuplicated.fields['Device Units'],
+      'Header Image': challengeToBeDuplicated.fields['Header Image'],
+      'Instructions': challengeToBeDuplicated.fields['Instructions'],
+      'More Information Html': challengeToBeDuplicated.fields['More Information Html'],
+      'Featured Activity': 'no',
+      'Index': newIndex
+    }, (err, record) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      updateCalendarUpdated();
+      const newChallenges = [...challenges, record];
+      setChallenges(newChallenges);
+      $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
+    });
   }
 
   function calculateTotalPoints(calendar) {
@@ -193,9 +245,10 @@ function App() {
     // Hide the other modals
     $('#confirm-modal').modal('hide');
     $('#featured-modal').modal('hide');
+    $('#duplicate-modal').modal('hide');
 
     $('#approve-modal').modal();
-    $('.modal-body').html('<p>You are accepting that this calendar is complete and ready to be deployed to your site.</p>');
+    $('.modal-body').html('<p>You are accepting that this calendar is complete and ready to be deployed to your site. No changes or edits can be made once approved.</p>');
     $('.modal-footer .btn-primary').html('Accept');
 
     // Handler for the Accept button
@@ -218,7 +271,7 @@ function App() {
           return;
         }
 
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
 
         $('#congratulations-modal').modal();
         $('.modal-body').html('<p>Your calendar is complete and will be loaded into your site.</p>');
@@ -231,6 +284,12 @@ function App() {
   }
 
   function openPreviewChallengeModal(challenge) {
+    // Hide the other modals
+    $('#confirm-modal').modal('hide');
+    $('#featured-modal').modal('hide');
+    $('#approve-modal').modal('hide');
+    $('#duplicate-modal').modal('hide');
+
     setPreviewChallenge(challenge);
 
     // Open the preview challenge modal
@@ -263,7 +322,7 @@ function App() {
             return;
           }
           updateCalendarUpdated();
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
         });
       }
     });
@@ -282,7 +341,7 @@ function App() {
           return;
         }
         updateCalendarUpdated();
-        $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+        $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
       });
     });
   }
@@ -314,7 +373,7 @@ function App() {
             return;
           }
           updateCalendarUpdated();
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
         });
       });
     } else { // We're moving from one phase to another
@@ -336,7 +395,7 @@ function App() {
             return;
           }
           updateCalendarUpdated();
-          $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
         });
       });
 
@@ -354,7 +413,7 @@ function App() {
               return;
             }
             updateCalendarUpdated();
-            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
           });
         } else {
           $('#saveNotification').show().html('Saving...');
@@ -366,7 +425,7 @@ function App() {
               return;
             }
             updateCalendarUpdated();
-            $('#saveNotification').html('Saved.').delay(800).fadeOut(1200);
+            $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
           });
         }
       });
@@ -403,6 +462,7 @@ function App() {
         openPreviewChallengeModal={openPreviewChallengeModal}
         toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
+        duplicateChallengeInCalendar={duplicateChallengeInCalendar}
         onDragEnd={onDragEnd}
         updateChallenges={updateChallenges}
       />
@@ -411,6 +471,7 @@ function App() {
 
       <ConfirmFeaturedModal />
       <ConfirmDeleteModal />
+      <ConfirmDuplicateModal />
       <ConfirmApproveModal />
       <CongratulationsModal />
 
