@@ -4,11 +4,9 @@ import { Draggable } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
-function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, deleteChallengeFromCalendar, selectedCalendar }) {
+function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, featuredCount, deleteChallengeFromCalendar, selectedCalendar }) {
   /* globals $ */
-
-  // TODO: add props/state for number of featured challenges for each phase
-
+  
   function updateCalendarUpdated() {
     base('Calendars').update(selectedCalendar.id, {
       'updated': moment().format('l')
@@ -29,10 +27,10 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
     // updates the modal content based on whether we would be setting or disabling this challenge as Featured
     if (isFeatured) {
-      $('.modal-body').html('<p>Would you like to remove this tile from the Featured Activity banner?</p>');
+      $('.modal-body').html(`<p>Would you like to remove this tile from the Featured Activity banner?</p><p>${featuredCount} of 4 challenges are currently featured for this phase.</p>`);
       $('.modal-footer .btn-primary').html('Stop Featuring');
     } else {
-      $('.modal-body').html('<p>Would you like to add this tile to the Featured Activity banner?</p>');
+      $('.modal-body').html(`<p>Would you like to add this tile to the Featured Activity banner?</p><p>${featuredCount} of 4 challenges are currently featured for this phase.</p>`);
       $('.modal-footer .btn-primary').html('Feature Activity');
     }
 
