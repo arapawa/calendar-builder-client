@@ -176,6 +176,45 @@ function App() {
     setChallenges(newChallenges);
   }
 
+  function duplicateChallengeInCalendar(challengeToBeDuplicated) {
+    // // Hide the other modals
+    // $('#approve-modal').modal('hide');
+    // $('#confirm-modal').modal('hide');
+    // $('#featured-modal').modal('hide');
+
+    // // Make update in Airtable
+    // $('#saveNotification').show().html('Saving...');
+    // base('Challenges').create({
+    //   "Title": challengeToBeDuplicated.title,
+    //   "EmployerName": "USPI",
+    //   "Phase": "Yearlong",
+    //   "Start date": "2019-01-08",
+    //   "End date": "2019-10-31",
+    //   "Verified": "Verified",
+    //   "Team Activity": "no",
+    //   "Reward Occurrence": "Once",
+    //   "Points": "300",
+    //   "Total Points": "300",
+    //   "Device Enabled": "no",
+    //   "Category": "All",
+    //   "Calendar": "3f179618b43eb9",
+    //   "Activity Tracking Type": "Event",
+    //   "Header Image": "https://d1dyf6uqjwvcrk.cloudfront.net/cfs-file.ashx/__key/CommunityServer-Components-PostAttachments/00-11-20-92-84/Tile_5F00_CompleteAssessment.jpg",
+    //   "Instructions": "THIS TEXT CANNOT BE MODIFIED",
+    //   "More Information Html": "Complete the Well-being Assessment"
+    // }) => {
+    //   if (err) {
+    //     console.error(err);
+    //     return;
+    //   }
+    //   updateCalendarUpdated();
+    //   $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
+    // });
+
+    // const newChallenges = challenges.map(challenge); // TODO: show new challenge in calendar state
+    // setChallenges(newChallenges);
+  }
+
   function calculateTotalPoints(calendar) {
     let totalPoints = 0;
     calendar.map(challenge => {
@@ -231,6 +270,11 @@ function App() {
   }
 
   function openPreviewChallengeModal(challenge) {
+    // Hide the other modals
+    $('#confirm-modal').modal('hide');
+    $('#featured-modal').modal('hide');
+    $('#approve-modal').modal('hide');
+
     setPreviewChallenge(challenge);
 
     // Open the preview challenge modal

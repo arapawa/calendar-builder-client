@@ -27,11 +27,11 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
     // updates the modal content based on whether we would be setting or disabling this challenge as Featured
     if (isFeatured) {
-      $('.modal-body').html(`<p>Would you like to remove this tile from the Featured Activity banner?</p><p>${featuredCount} of 4 challenges are currently featured for this phase.</p>`);
-      $('.modal-footer .btn-primary').html('Stop Featuring');
+      $('#featured-modal .modal-body').html(`<p>Would you like to remove this tile from the Featured Activity banner?</p><p>${featuredCount} of 4 challenges are currently featured for this phase.</p>`);
+      $('#featured-modal .modal-footer .btn-primary').html('Stop Featuring');
     } else {
-      $('.modal-body').html(`<p>Would you like to add this tile to the Featured Activity banner?</p><p>${featuredCount} of 4 challenges are currently featured for this phase.</p>`);
-      $('.modal-footer .btn-primary').html('Feature Activity');
+      $('#featured-modal .modal-body').html(`<p>Would you like to add this tile to the Featured Activity banner?</p><p>${featuredCount} of 4 challenges are currently featured for this phase.</p>`);
+      $('#featured-modal .modal-footer .btn-primary').html('Feature Activity');
     }
 
     $('.modal-footer .btn-primary').off('click');
@@ -51,13 +51,14 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
 
   function openDuplicateConfirmModal(challenge) {
     // TODO: write duplicate confirmation modal code
+    $('#approve-modal').modal('hide');
+    $('#featured-modal').modal('hide');
 
-
-    // TODO: add the duplication code
-
-
-    // duplicate challenge
-
+    $('#confirm-modal').modal();
+    $('.modal-body').html('<p>Would you like to duplicate this challenge?</p>');
+    $('.modal-footer .btn-primary').off('click');
+    // TODO: duplicate challenge
+    $('.modal-footer .btn-primary').click(() => duplicateChallengeInCalendar(challenge));
   }
 
   function validateStartDate(e, challenge) {
