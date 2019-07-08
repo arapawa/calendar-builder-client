@@ -195,7 +195,7 @@ function App() {
     $('#featured-modal').modal('hide');
 
     $('#approve-modal').modal();
-    $('.modal-body').html('<p>You are accepting that this calendar is complete and ready to be deployed to your site.</p>');
+    $('.modal-body').html('<p>You are accepting that this calendar is complete and ready to be deployed to your site. No changes or edits can be made once approved.</p>');
     $('.modal-footer .btn-primary').html('Accept');
 
     // Handler for the Accept button
