@@ -346,7 +346,16 @@ function App() {
     });
   }
 
+  function updateChallengeIndexById(id, index) {
+    challenges.map(challenge => {
+      if (challenge.id === id) {
+        challenge.fields['Index'] = index;
+      }
+    });
+  }
+
   function onDragEnd(result) {
+
     const { source, destination, draggableId } = result;
 
     const newChallenges = Array.from(challenges);
@@ -357,11 +366,13 @@ function App() {
 
     // Are we still in the same Phase?
     if (source.droppableId === destination.droppableId) {
-      destinationPhase.splice(source.index, 1);
-      destinationPhase.splice(destination.index, 0, draggingChallenge);
+
+      const [removed] = destinationPhase.splice(source.index, 1);
+      destinationPhase.splice(destination.index, 0, removed);
 
       destinationPhase.map((challenge, index) => {
         challenge.fields['Index'] = index;
+        updateChallengeIndexById(challenge.id, index);
 
         // Make update to Airtable
         $('#saveNotification').show().html('Saving...');
@@ -376,6 +387,7 @@ function App() {
           $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
         });
       });
+
     } else { // We're moving from one phase to another
       draggingChallenge.fields['Phase'] = destination.droppableId;
 
@@ -384,6 +396,7 @@ function App() {
 
       sourcePhase.map((challenge, index) => {
         challenge.fields['Index'] = index;
+        updateChallengeIndexById(challenge.id, index);
 
         // Make update to Airtable
         $('#saveNotification').show().html('Saving...');
@@ -401,6 +414,7 @@ function App() {
 
       destinationPhase.map((challenge, index) => {
         challenge.fields['Index'] = index;
+        updateChallengeIndexById(challenge.id, index);
 
         if (challenge.id === draggableId) {
           $('#saveNotification').show().html('Saving...');
