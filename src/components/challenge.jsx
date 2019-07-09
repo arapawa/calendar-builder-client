@@ -4,9 +4,19 @@ import { Draggable } from 'react-beautiful-dnd';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
-function Challenge({ challenge, index, openPreviewChallengeModal, updateChallenges, toggleFeaturedChallengeInCalendar, featuredCount, deleteChallengeFromCalendar, duplicateChallengeInCalendar, selectedCalendar }) {
+function Challenge({
+  challenge,
+  index,
+  openPreviewChallengeModal,
+  updateChallenges,
+  toggleFeaturedChallengeInCalendar,
+  featuredCount,
+  deleteChallengeFromCalendar,
+  duplicateChallengeInCalendar,
+  selectedCalendar
+ }) {
   /* globals $ */
-  
+
   function updateCalendarUpdated() {
     base('Calendars').update(selectedCalendar.id, {
       'updated': moment().format('l')
@@ -74,10 +84,10 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
       $('#editingStartDate').addClass('invalid');
     } else {
       // do other actions because end date is valid
+      challenge.fields['Start date'] = e.target.value;
+
       $('#editingStartDate').removeClass('invalid');
       $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
-
-      challenge.fields['Start date'] = e.target.value;
       updateChallenges();
 
       // Update airtable w/ the changes
@@ -95,15 +105,15 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
     }
   }
 
-  function editStartDate(e, challenge) {
-    let td = e.target;
+  function editStartDate(event, challenge) {
+    let td = event.target;
     td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
 
     $('#editingStartDate').focus();
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
-    $('#editingStartDate').blur((ev) => {
-      validateStartDate(ev, challenge);
+    $('#editingStartDate').blur((event) => {
+      validateStartDate(event, challenge);
     });
   }
 
@@ -117,10 +127,10 @@ function Challenge({ challenge, index, openPreviewChallengeModal, updateChalleng
       $('#editingEndDate').addClass('invalid');
     } else {
       // do other actions because end date is valid
+      challenge.fields['End date'] = e.target.value;
+
       $('#editingEndDate').removeClass('invalid');
       $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
-
-      challenge.fields['End date'] = e.target.value;
       updateChallenges();
 
       // Update airtable w/ the changes

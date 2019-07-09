@@ -461,6 +461,7 @@ function App() {
 
   const accountName = selectedClient ? selectedClient.fields['Account Name'] : '';
 
+  console.log(challenges);
   return (
     <div className="app">
       <SaveNotification />

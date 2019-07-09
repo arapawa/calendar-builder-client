@@ -21,7 +21,10 @@ function AccordionCard({
   selectedCalendar
 }) {
 
-  let startDate, endDate, totalPoints = 0, featuredCount = 0;
+  let startDate = '';
+  let endDate = '';
+  let totalPoints = 0;
+  let featuredCount = 0;
 
   if (challenges) {
     startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
@@ -53,9 +56,6 @@ function AccordionCard({
         featuredCount++;
       }
     });
-  } else {
-    startDate = '';
-    endDate = '';
   }
 
   const formattedStartDate = startDate ? moment(startDate).format('L') : '';
