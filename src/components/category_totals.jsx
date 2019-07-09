@@ -6,22 +6,24 @@ function CategoryTotals({ challenges }) {
   let contributionSustainabilityTotal = 0;
   let moneyProsperityTotal = 0;
 
-  challenges.map(challenge => {
-    switch (challenge.fields['Category']) {
-      case 'Health and Fitness':
-        healthFitnessTotal += 1;
-        break;
-      case 'Growth and Development':
-        growthDevelopmentTotal += 1;
-        break;
-      case 'Contribution and Sustainability':
-        contributionSustainabilityTotal += 1;
-        break;
-      case 'Money and Prosperity':
-        moneyProsperityTotal += 1;
-        break;
-    }
-  });
+  for (let phase in challenges) {
+    challenges[phase].map(challenge => {
+      switch (challenge.fields['Category']) {
+        case 'Health and Fitness':
+          healthFitnessTotal += 1;
+          break;
+        case 'Growth and Development':
+          growthDevelopmentTotal += 1;
+          break;
+        case 'Contribution and Sustainability':
+          contributionSustainabilityTotal += 1;
+          break;
+        case 'Money and Prosperity':
+          moneyProsperityTotal += 1;
+          break;
+      }
+    });
+  }
 
   return (
     <div id="categoryTotals">

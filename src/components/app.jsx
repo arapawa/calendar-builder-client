@@ -16,7 +16,7 @@ import PreviewChallengeModal from './preview_challenge_modal';
 import SaveNotification from './save_notification';
 
 function App() {
-  const [challenges, setChallenges] = React.useState([]);
+  const [challenges, setChallenges] = React.useState({});
   const [selectedClient, setSelectedClient] = React.useState(null);
   const [selectedCalendar, setSelectedCalendar] = React.useState(null);
   const [calendarName, setCalendarName] = React.useState('');
@@ -34,8 +34,16 @@ function App() {
         filterByFormula: `{Calendar}='${hash}'`
       }).eachPage((records, fetchNextPage) => {
 
-        setChallenges(records);
-        calculateTotalPoints(records);
+        const phasedChallenges = {
+          'Yearlong': records.filter(record => record.fields['Phase'] === 'Yearlong'),
+          'Phase 1': records.filter(record => record.fields['Phase'] === 'Phase 1'),
+          'Phase 2': records.filter(record => record.fields['Phase'] === 'Phase 2'),
+          'Phase 3': records.filter(record => record.fields['Phase'] === 'Phase 3'),
+          'Phase 4': records.filter(record => record.fields['Phase'] === 'Phase 4')
+        };
+
+        setChallenges(phasedChallenges);
+        calculateTotalPoints(phasedChallenges);
 
         fetchNextPage();
       }, (err) => {
@@ -146,13 +154,16 @@ function App() {
     });
 
     // Update the state to render the changes
-    const newChallenges = challenges.map(challenge => {
-      // find the single featured activity and update it
-      if (challenge.id === challengeToBeFeatured.id) {
-        challenge.fields['Featured Activity'] = isFeatured ? 'no' : 'yes';
-      }
-      return challenge;
-    });
+    let newChallenges = Object.assign(challenges);
+    for (let phase in newChallenges) {
+      newChallenges[phase].map(challenge => {
+        // find the single featured activity and update it
+        if (challenge.id === challengeToBeFeatured.id) {
+          challenge.fields['Featured Activity'] = isFeatured ? 'no' : 'yes';
+        }
+        return challenge;
+      });
+    }
 
     setChallenges(newChallenges);
   }
@@ -230,12 +241,16 @@ function App() {
 
   function calculateTotalPoints(calendar) {
     let totalPoints = 0;
-    calendar.map(challenge => {
-      const points = Number(challenge.fields['Total Points']);
-      if (!isNaN(points)) {
-        totalPoints += points;
-      }
-    });
+
+    for (let phase in calendar) {
+      calendar[phase].map(challenge => {
+        const points = Number(challenge.fields['Total Points']);
+        if (!isNaN(points)) {
+          totalPoints += points;
+        }
+      });
+    }
+
     setTotalPoints(totalPoints);
   }
 
@@ -346,23 +361,15 @@ function App() {
     });
   }
 
-  function updateChallengeIndexById(id, index) {
-    challenges.map(challenge => {
-      if (challenge.id === id) {
-        challenge.fields['Index'] = index;
-      }
-    });
-  }
-
   function onDragEnd(result) {
 
     const { source, destination, draggableId } = result;
 
-    const newChallenges = Array.from(challenges);
-    const draggingChallenge = newChallenges.filter(challenge => challenge.id === draggableId)[0];
+    // clone the challenges object
+    const newChallenges = Object.assign(challenges);
 
-    const sourcePhase = newChallenges.filter(challenge => challenge.fields['Phase'] === source.droppableId);
-    const destinationPhase = newChallenges.filter(challenge => challenge.fields['Phase'] === destination.droppableId);
+    const sourcePhase = newChallenges[source.droppableId];
+    const destinationPhase = newChallenges[destination.droppableId];
 
     // Are we still in the same Phase?
     if (source.droppableId === destination.droppableId) {
@@ -372,7 +379,6 @@ function App() {
 
       destinationPhase.map((challenge, index) => {
         challenge.fields['Index'] = index;
-        updateChallengeIndexById(challenge.id, index);
 
         // Make update to Airtable
         $('#saveNotification').show().html('Saving...');
@@ -389,14 +395,13 @@ function App() {
       });
 
     } else { // We're moving from one phase to another
-      draggingChallenge.fields['Phase'] = destination.droppableId;
 
-      sourcePhase.splice(source.index, 1);
-      destinationPhase.splice(destination.index, 0, draggingChallenge);
+      const [removed] = sourcePhase.splice(source.index, 1);
+      removed.fields['Phase'] = destination.droppableId;
+      destinationPhase.splice(destination.index, 0, removed);
 
       sourcePhase.map((challenge, index) => {
         challenge.fields['Index'] = index;
-        updateChallengeIndexById(challenge.id, index);
 
         // Make update to Airtable
         $('#saveNotification').show().html('Saving...');
@@ -414,7 +419,6 @@ function App() {
 
       destinationPhase.map((challenge, index) => {
         challenge.fields['Index'] = index;
-        updateChallengeIndexById(challenge.id, index);
 
         if (challenge.id === draggableId) {
           $('#saveNotification').show().html('Saving...');
@@ -450,8 +454,9 @@ function App() {
   }
 
   function updateChallenges() {
-    const newChallenges = Array.from(challenges);
+    const newChallenges = Object.assign(challenges);
     setChallenges(newChallenges);
+    calculateTotalPoints(newChallenges);
   }
 
   const accountName = selectedClient ? selectedClient.fields['Account Name'] : '';

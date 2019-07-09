@@ -21,9 +21,9 @@ function AccordionCard({
   selectedCalendar
 }) {
 
-  let startDate, endDate, totalPoints, featuredCount = 0;
+  let startDate, endDate, totalPoints = 0, featuredCount = 0;
 
-  if (challenges.length > 0) {
+  if (challenges) {
     startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
     endDate = moment(challenges[0].fields['End date']).format('YYYY-MM-DD');
 
@@ -62,7 +62,9 @@ function AccordionCard({
   const formattedEndDate = endDate ? moment(endDate).format('L') : '';
 
   // Sort challenges within the phase by the Index column
-  challenges.sort((a, b) => a.fields['Index'] - b.fields['Index']);
+  if (challenges) {
+    challenges.sort((a, b) => a.fields['Index'] - b.fields['Index']);
+  }
 
   return (
     <section className="card">
@@ -109,7 +111,7 @@ function AccordionCard({
                   </tr>
                 </thead>
                 <tbody>
-                  {challenges.map((challenge, index) => {
+                  {challenges ? challenges.map((challenge, index) => {
                     return (
                       <Challenge
                         key={index}
@@ -124,7 +126,7 @@ function AccordionCard({
                         selectedCalendar={selectedCalendar}
                       />
                     );
-                  })}
+                  }): []}
                   {provided.placeholder}
                 </tbody>
                 <tfoot>

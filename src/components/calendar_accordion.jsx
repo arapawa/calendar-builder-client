@@ -15,11 +15,11 @@ function CalendarAccordion({
   selectedCalendar
 }) {
   // Split calendar into phases
-  const yearlongChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Yearlong');
-  const phaseOneChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 1');
-  const phaseTwoChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 2');
-  const phaseThreeChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 3');
-  const phaseFourChallenges = calendarChallenges.filter(challenge => challenge.fields['Phase'] === 'Phase 4');
+  const yearlongChallenges = calendarChallenges['Yearlong'];
+  const phaseOneChallenges = calendarChallenges['Phase 1'];
+  const phaseTwoChallenges = calendarChallenges['Phase 2'];
+  const phaseThreeChallenges = calendarChallenges['Phase 3'];
+  const phaseFourChallenges = calendarChallenges['Phase 4'];
 
   function renderAccordionCard(challenges, phaseId, phaseTitle) {
     return (
