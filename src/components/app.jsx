@@ -272,8 +272,8 @@ function App() {
     $('#duplicate-modal').modal('hide');
 
     $('#approve-modal').modal();
-    $('.modal-body').html('<p>You are accepting that this calendar is complete and ready to be deployed to your site. No changes or edits can be made once approved.</p>');
-    $('.modal-footer .btn-primary').html('Accept');
+    $('#approve-modal .modal-body').html('<p>You are accepting that this calendar is complete and ready to be deployed to your site. No changes or edits can be made once approved.</p>');
+    $('#approve-modal .modal-footer .btn-primary').html('Accept');
 
     // Handler for the Accept button
     $('#approve-modal .modal-footer .btn-primary').off('click');
@@ -298,8 +298,8 @@ function App() {
         $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
 
         $('#congratulations-modal').modal();
-        $('.modal-body').html('<p>Your calendar is complete and will be loaded into your site.</p>');
-        $('.modal-footer .btn-primary').html('Close');
+        $('#congratulations-modal .modal-body').html('<p>Your calendar is complete and will be loaded into your site.</p>');
+        $('#congratulations-modal .modal-footer .btn-primary').html('Close');
 
       });
 
