@@ -300,6 +300,7 @@ function App() {
         $('#congratulations-modal').modal();
         $('#congratulations-modal .modal-body').html('<p>Your calendar is complete and will be loaded into your site.</p>');
         $('#congratulations-modal .modal-footer .btn-primary').html('Close');
+        $('#congratulations-modal .modal-footer .btn-primary').off('click');
 
       });
 
