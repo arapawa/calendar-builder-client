@@ -62,7 +62,6 @@ function Challenge({
   }
 
   function openDuplicateConfirmModal(challenge) {
-    // TODO: write duplicate confirmation modal code
     $('#approve-modal').modal('hide');
     $('#featured-modal').modal('hide');
     $('#confirm-modal').modal('hide');
@@ -70,7 +69,6 @@ function Challenge({
     $('#duplicate-modal').modal();
     $('.modal-body').html('<p>Would you like to duplicate this challenge?</p>');
     $('.modal-footer .btn-primary').off('click');
-    // TODO: duplicate challenge
     $('.modal-footer .btn-primary').click(() => duplicateChallengeInCalendar(challenge));
   }
 
