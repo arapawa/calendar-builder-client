@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "airtable": "^0.5.10",
+    "lodash.clonedeep": "^4.5.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-beautiful-dnd": "^11.0.3",
