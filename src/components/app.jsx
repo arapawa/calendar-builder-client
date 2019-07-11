@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
+import cloneDeep from 'lodash.clonedeep';
 
 import CalendarAccordion from './calendar_accordion';
 import CategoryTotals from './category_totals';
@@ -128,7 +129,9 @@ function App() {
         return;
       }
       updateCalendarUpdated();
-      const newChallenges = [...challenges, record];
+      const newChallenges = cloneDeep(challenges);
+      newChallenges[phaseTitle] = [...newChallenges[phaseTitle], record];
+      console.log(newChallenges);
       setChallenges(newChallenges);
     });
   }
@@ -154,7 +157,7 @@ function App() {
     });
 
     // Update the state to render the changes
-    let newChallenges = Object.assign(challenges);
+    let newChallenges = cloneDeep(challenges);
     for (let phase in newChallenges) {
       newChallenges[phase].map(challenge => {
         // find the single featured activity and update it
@@ -186,7 +189,11 @@ function App() {
       $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
     });
 
-    const newChallenges = challenges.filter(challenge => challenge.id !== challengeToBeDeleted.id);
+    const newChallenges = cloneDeep(challenges);
+    for (let phase in newChallenges) {
+      newChallenges[phase] = newChallenges[phase].filter(challenge => challenge.id !== challengeToBeDeleted.id);
+    }
+    
     setChallenges(newChallenges);
   }
 
@@ -197,7 +204,8 @@ function App() {
     $('#featured-modal').modal('hide');
     $('#duplicate-modal').modal('hide');
 
-    const newIndex = challenges.filter(challenge => challenge.fields['Phase'] === challengeToBeDuplicated.fields['Phase']).length;
+    const phaseTitle = challengeToBeDuplicated.fields['Phase'];
+    const newIndex = challenges[phaseTitle].filter(challenge => challenge.fields['Phase'] === challengeToBeDuplicated.fields['Phase']).length;
 
     // Make update in Airtable
     $('#saveNotification').show().html('Saving...');
@@ -205,7 +213,7 @@ function App() {
       'Title': challengeToBeDuplicated.fields['Title'],
       'Calendar': challengeToBeDuplicated.fields['Calendar'],
       'EmployerName': challengeToBeDuplicated.fields['EmployerName'],
-      'Phase': challengeToBeDuplicated.fields['Phase'],
+      'Phase': phaseTitle,
       'Start date': challengeToBeDuplicated.fields['Start date'],
       'End date': challengeToBeDuplicated.fields['End date'],
       'Verified': challengeToBeDuplicated.fields['Verified'],
@@ -233,7 +241,8 @@ function App() {
         return;
       }
       updateCalendarUpdated();
-      const newChallenges = [...challenges, record];
+      const newChallenges = cloneDeep(challenges);
+      newChallenges[phaseTitle] = [...newChallenges[phaseTitle], record];
       setChallenges(newChallenges);
       $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
     });
@@ -366,7 +375,7 @@ function App() {
     const { source, destination, draggableId } = result;
 
     // clone the challenges object
-    const newChallenges = Object.assign(challenges);
+    const newChallenges = cloneDeep(challenges);
 
     const sourcePhase = newChallenges[source.droppableId];
     const destinationPhase = newChallenges[destination.droppableId];
@@ -454,14 +463,13 @@ function App() {
   }
 
   function updateChallenges() {
-    const newChallenges = Object.assign(challenges);
+    const newChallenges = cloneDeep(challenges);
     setChallenges(newChallenges);
     calculateTotalPoints(newChallenges);
   }
 
   const accountName = selectedClient ? selectedClient.fields['Account Name'] : '';
 
-  console.log(challenges);
   return (
     <div className="app">
       <SaveNotification />
