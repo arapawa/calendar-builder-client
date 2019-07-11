@@ -56,9 +56,9 @@ function Challenge({
     $('duplicate-modal').modal('hide');
 
     $('#confirm-modal').modal();
-    $('.modal-body').html('<p>Are you sure you want to delete this challenge?</p>');
-    $('.modal-footer .btn-danger').off('click');
-    $('.modal-footer .btn-danger').click(() => deleteChallengeFromCalendar(challenge));
+    $('#confirm-modal .modal-body').html('<p>Are you sure you want to delete this challenge?</p>');
+    $('#confirm-modal .modal-footer .btn-danger').off('click');
+    $('#confirm-modal .modal-footer .btn-danger').click(() => deleteChallengeFromCalendar(challenge));
   }
 
   function openDuplicateConfirmModal(challenge) {
@@ -67,9 +67,9 @@ function Challenge({
     $('#confirm-modal').modal('hide');
 
     $('#duplicate-modal').modal();
-    $('.modal-body').html('<p>Would you like to duplicate this challenge?</p>');
-    $('.modal-footer .btn-primary').off('click');
-    $('.modal-footer .btn-primary').click(() => duplicateChallengeInCalendar(challenge));
+    $('#duplicate-modal .modal-body').html('<p>Would you like to duplicate this challenge?</p>');
+    $('#duplicate-modal .modal-footer .btn-primary').off('click');
+    $('#duplicate-modal .modal-footer .btn-primary').click(() => duplicateChallengeInCalendar(challenge));
   }
 
   function validateStartDate(e, challenge) {
