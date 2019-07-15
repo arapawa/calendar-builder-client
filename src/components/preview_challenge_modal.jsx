@@ -38,8 +38,14 @@ function PreviewChallengeModal({ challenge }) {
           }
           break;
       }
+
     }
 
+    // CIEs (System Awarded and Points Upload) don't get tracking text
+    if (challenge.fields['Verified'] === 'System Awarded' || challenge.fields['Verified'] === 'Points Upload') {
+      trackingDetailsText = '';
+    }
+    
     return trackingDetailsText;
   }
 

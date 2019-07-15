@@ -189,7 +189,7 @@ function AccordionCard({
                     <th scope="col">End Date</th>
                     <th scope="col">Frequency</th>
                     <th scope="col">Points (Total)</th>
-                    <th scope="col" className="actions-header"></th>
+                    <th scope="col" className="actions-header">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
