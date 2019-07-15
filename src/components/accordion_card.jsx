@@ -26,9 +26,19 @@ function AccordionCard({
   let totalPoints = 0;
   let featuredCount = 0;
 
-  if (challenges) {
-    startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
-    endDate = moment(challenges[0].fields['End date']).format('YYYY-MM-DD');
+  if (selectedCalendar) {
+    startDate = selectedCalendar.fields[`${phaseTitle} Start Date`];
+    endDate = selectedCalendar.fields[`${phaseTitle} End Date`];
+  }
+
+  if (challenges && challenges.length > 0) {
+    console.log('challenges', challenges);
+    console.log(selectedCalendar);
+
+    if (!selectedCalendar || !selectedCalendar.fields[`${phaseTitle} Start Date`]) {
+      startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
+      endDate = moment(challenges[0].fields['End date']).format('YYYY-MM-DD');
+    }
 
     challenges.map(challenge => {
       const start = moment(challenge.fields['Start date']);
