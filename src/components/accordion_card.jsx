@@ -21,6 +21,76 @@ function AccordionCard({
   selectedCalendar
 }) {
 
+  function editPhaseStartDate(e) {
+    /* globals $ */
+    const phaseStartDate = selectedCalendar.fields[`${phaseTitle} Start Date`];
+
+    let el = e.target;
+    console.log(el);
+    el.innerHTML = `<input type="date" class="form-control" id="editingPhaseStartDate" value="${phaseStartDate}" />`;
+
+    $('#editingPhaseStartDate').focus();
+
+    // When user clicks out of the input, change it back to the original readonly version with the updated data
+    $('#editingPhaseStartDate').blur((e) => {
+      if (selectedCalendar.fields[`${phaseTitle} Start Date`] === e.target.value) {
+        el.innerHTML = `${moment(phaseStartDate).format('L')}`;
+      } else {
+        $('#saveNotification').show().html('Saving...');
+
+        let data = {};
+        data[`${phaseTitle} Start Date`] = e.target.value;
+        data['updated'] = moment().format('l');
+
+        // Update airtable w/ the changes
+        base('Calendars').update(selectedCalendar.id, data, function(err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
+          el.innerHTML = `${moment(e.target.value).format('L')}`;
+        });
+
+      }
+    });
+  }
+
+  function editPhaseEndDate(e) {
+    /* globals $ */
+    const phaseEndDate = selectedCalendar.fields[`${phaseTitle} End Date`];
+
+    let el = e.target;
+    console.log(el);
+    el.innerHTML = `<input type="date" class="form-control" id="editingPhaseEndDate" value="${phaseEndDate}" />`;
+
+    $('#editingPhaseEndDate').focus();
+
+    // When user clicks out of the input, change it back to the original readonly version with the updated data
+    $('#editingPhaseEndDate').blur((e) => {
+      if (selectedCalendar.fields[`${phaseTitle} End Date`] === e.target.value) {
+        el.innerHTML = `${moment(phaseEndDate).format('L')}`;
+      } else {
+        $('#saveNotification').show().html('Saving...');
+
+        let data = {};
+        data[`${phaseTitle} End Date`] = e.target.value;
+        data['updated'] = moment().format('l');
+
+        // Update airtable w/ the changes
+        base('Calendars').update(selectedCalendar.id, data, function(err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
+          el.innerHTML = `${moment(e.target.value).format('L')}`;
+        });
+
+      }
+    });
+  }
+
   let startDate = '';
   let endDate = '';
   let totalPoints = 0;
@@ -83,7 +153,11 @@ function AccordionCard({
             <h5 id={'title' + phaseId}>{phaseTitle}</h5>
           </div>
           <div className="col-md-4">
-            <h5 id={'dates' + phaseId}>{formattedStartDate} - {formattedEndDate}</h5>
+            <h5 id={'dates' + phaseId} className="phase-dates">
+              <span onDoubleClick={editPhaseStartDate}>{formattedStartDate}</span>
+              <span> - </span>
+              <span onDoubleClick={editPhaseEndDate}>{formattedEndDate}</span>
+            </h5>
           </div>
           <div className="col-md-3">
             <h5 id={'points' + phaseId}>{totalPoints} Points</h5>
