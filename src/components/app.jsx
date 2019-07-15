@@ -193,7 +193,7 @@ function App() {
     for (let phase in newChallenges) {
       newChallenges[phase] = newChallenges[phase].filter(challenge => challenge.id !== challengeToBeDeleted.id);
     }
-    
+
     setChallenges(newChallenges);
   }
 
@@ -408,6 +408,13 @@ function App() {
 
       const [removed] = sourcePhase.splice(source.index, 1);
       removed.fields['Phase'] = destination.droppableId;
+
+      // Update start and end date to match the phase if available in the Calendar object
+      if (selectedCalendar.fields[`${destination.droppableId} Start Date`]) {
+        removed.fields['Start date'] = selectedCalendar.fields[`${destination.droppableId} Start Date`];
+        removed.fields['End date'] = selectedCalendar.fields[`${destination.droppableId} End Date`];
+      }
+
       destinationPhase.splice(destination.index, 0, removed);
 
       sourcePhase.map((challenge, index) => {
@@ -430,20 +437,39 @@ function App() {
       destinationPhase.map((challenge, index) => {
         challenge.fields['Index'] = index;
 
-        if (challenge.id === draggableId) {
+        if (challenge.id === draggableId) { // Update values for the dragged challenge
           $('#saveNotification').show().html('Saving...');
-          base('Challenges').update(challenge.id, {
-            'Index': index,
-            'Phase': destination.droppableId
-          }, function(err, record) {
-            if (err) {
-              console.error(err);
-              return;
-            }
-            updateCalendarUpdated();
-            $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
-          });
-        } else {
+
+          // Update start and end date to match the phase if available in the Calendar object
+          if (selectedCalendar.fields[`${destination.droppableId} Start Date`]) {
+            base('Challenges').update(challenge.id, {
+              'Index': index,
+              'Phase': destination.droppableId,
+              'Start date': selectedCalendar.fields[`${destination.droppableId} Start Date`],
+              'End date': selectedCalendar.fields[`${destination.droppableId} End Date`]
+            }, function(err, record) {
+              if (err) {
+                console.error(err);
+                return;
+              }
+              updateCalendarUpdated();
+              $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
+            });
+          } else {
+            base('Challenges').update(challenge.id, {
+              'Index': index,
+              'Phase': destination.droppableId
+            }, function(err, record) {
+              if (err) {
+                console.error(err);
+                return;
+              }
+              updateCalendarUpdated();
+              $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
+            });
+          }
+            
+        } else { // Update indexes for all other challenges
           $('#saveNotification').show().html('Saving...');
           base('Challenges').update(challenge.id, {
             'Index': index
