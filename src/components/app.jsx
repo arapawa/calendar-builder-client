@@ -1,8 +1,8 @@
 import React from 'react';
+import _ from 'lodash';
 import moment from 'moment';
 import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
-import cloneDeep from 'lodash.clonedeep';
 
 import CalendarAccordion from './calendar_accordion';
 import CategoryTotals from './category_totals';
@@ -129,7 +129,7 @@ function App() {
         return;
       }
       updateCalendarUpdated();
-      const newChallenges = cloneDeep(challenges);
+      const newChallenges = _.cloneDeep(challenges);
       newChallenges[phaseTitle] = [...newChallenges[phaseTitle], record];
       console.log(newChallenges);
       setChallenges(newChallenges);
@@ -157,7 +157,7 @@ function App() {
     });
 
     // Update the state to render the changes
-    let newChallenges = cloneDeep(challenges);
+    let newChallenges = _.cloneDeep(challenges);
     for (let phase in newChallenges) {
       newChallenges[phase].map(challenge => {
         // find the single featured activity and update it
@@ -189,7 +189,7 @@ function App() {
       $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
     });
 
-    const newChallenges = cloneDeep(challenges);
+    const newChallenges = _.cloneDeep(challenges);
     for (let phase in newChallenges) {
       newChallenges[phase] = newChallenges[phase].filter(challenge => challenge.id !== challengeToBeDeleted.id);
     }
@@ -241,7 +241,7 @@ function App() {
         return;
       }
       updateCalendarUpdated();
-      const newChallenges = cloneDeep(challenges);
+      const newChallenges = _.cloneDeep(challenges);
       newChallenges[phaseTitle] = [...newChallenges[phaseTitle], record];
       setChallenges(newChallenges);
       $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
@@ -376,7 +376,7 @@ function App() {
     const { source, destination, draggableId } = result;
 
     // clone the challenges object
-    const newChallenges = cloneDeep(challenges);
+    const newChallenges = _.cloneDeep(challenges);
 
     const sourcePhase = newChallenges[source.droppableId];
     const destinationPhase = newChallenges[destination.droppableId];
@@ -468,7 +468,7 @@ function App() {
               $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
             });
           }
-            
+
         } else { // Update indexes for all other challenges
           $('#saveNotification').show().html('Saving...');
           base('Challenges').update(challenge.id, {
@@ -490,7 +490,7 @@ function App() {
   }
 
   function updateChallenges() {
-    const newChallenges = cloneDeep(challenges);
+    const newChallenges = _.cloneDeep(challenges);
     setChallenges(newChallenges);
     calculateTotalPoints(newChallenges);
   }
