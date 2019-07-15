@@ -32,8 +32,6 @@ function AccordionCard({
   }
 
   if (challenges && challenges.length > 0) {
-    console.log('challenges', challenges);
-    console.log(selectedCalendar);
 
     if (!selectedCalendar || !selectedCalendar.fields[`${phaseTitle} Start Date`]) {
       startDate = moment(challenges[0].fields['Start date']).format('YYYY-MM-DD');
