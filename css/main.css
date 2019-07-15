@@ -373,6 +373,10 @@ input.form-control {
   min-width: 300px;
 }
 
+.phase-dates input {
+  display: inline-block;
+}
+
 /* Helpers */
 .clear {
   clear: both;

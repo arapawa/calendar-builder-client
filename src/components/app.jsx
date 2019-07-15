@@ -63,13 +63,14 @@ function App() {
         const calendar = records[0];
 
         if (calendar) {
+          setSelectedCalendar(calendar);
+          setCalendarName(calendar.fields['name']);
+
           base('Clients').select({
             filterByFormula: `{Limeade e=}='${calendar.fields['client']}'`
           }).eachPage((records, fetchNextPage) => {
             const client = records[0];
 
-            setSelectedCalendar(calendar);
-            setCalendarName(calendar.fields['name']);
             setSelectedClient(client);
 
             fetchNextPage();
@@ -90,8 +91,8 @@ function App() {
       });
     };
 
-    fetchChallenges();
     fetchAccountName();
+    fetchChallenges();
 
   }, []); // Pass empty array to only run once on mount
 
