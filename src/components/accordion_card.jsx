@@ -36,6 +36,7 @@ function AccordionCard({
       if (selectedCalendar.fields[`${phaseTitle} Start Date`] === e.target.value) {
         el.innerHTML = `${moment(phaseStartDate).format('L')}`;
       } else {
+        selectedCalendar.fields[`${phaseTitle} Start Date`] = e.target.value;
         $('#saveNotification').show().html('Saving...');
 
         let data = {};
@@ -71,6 +72,7 @@ function AccordionCard({
       if (selectedCalendar.fields[`${phaseTitle} End Date`] === e.target.value) {
         el.innerHTML = `${moment(phaseEndDate).format('L')}`;
       } else {
+        selectedCalendar.fields[`${phaseTitle} End Date`] = e.target.value;
         $('#saveNotification').show().html('Saving...');
 
         let data = {};
