@@ -10,15 +10,19 @@ function CategoryTotals({ challenges }) {
     challenges[phase].map(challenge => {
       switch (challenge.fields['Category']) {
         case 'Health and Fitness':
+        case 'Health & Fitness':
           healthFitnessTotal += 1;
           break;
         case 'Growth and Development':
+        case 'Growth & Development':
           growthDevelopmentTotal += 1;
           break;
         case 'Contribution and Sustainability':
+        case 'Contribution & Sustainability':
           contributionSustainabilityTotal += 1;
           break;
         case 'Money and Prosperity':
+        case 'Money & Prosperity':
           moneyProsperityTotal += 1;
           break;
       }
