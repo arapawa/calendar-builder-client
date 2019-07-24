@@ -255,6 +255,14 @@ function Challenge({
   const isTeam = (challenge.fields['Team Activity'] === 'yes');
   const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
+  // Verified/Points Upload/System Awarded Exceptions
+  let verified = challenge.fields['Verified'];
+  if (challenge.fields['Title'] === ('Connect with a Coach')) {
+    verified = 'System Awarded';
+  } else if (challenge.fields['Title'] === ('Hot Topics On the Go!')) {
+    verified = 'System Awarded';
+  }
+
   function allowFeatured(challenge) {
     if (challenge.fields['Verified'] === 'System Awarded') {
       return <img className="table-icon" style={{ opacity: '0' }} />; // setting an empty image with 0 opacity so the icon space is taken up but not visible
@@ -286,7 +294,7 @@ function Challenge({
             { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
           </td>
           <td className="short-description">{challenge.fields['Instructions']}</td>
-          <td title="Tracking type">{challenge.fields['Verified']}</td>
+          <td title="Tracking type">{verified}</td>
           <td className="text-center">
             <img className="table-icon category-icon" src={hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
             <img className="table-icon team-icon" src={teamImage(challenge.fields['Team Activity'])} title={ isTeam ? 'Team' : 'Individual' } />
