@@ -225,12 +225,16 @@ function Challenge({
   function hpImage(category) {
     switch (category) {
       case 'Health and Fitness':
+      case 'Health & Fitness':
         return 'images/HP_Icon_Health_Fitness.png';
       case 'Growth and Development':
+      case 'Growth & Development':
         return 'images/HP_Icon_Growth_Development.png';
       case 'Contribution and Sustainability':
+      case 'Contribution & Sustainability':
         return 'images/HP_Icon_Contribution_Sustainability.png';
       case 'Money and Prosperity':
+      case 'Money & Prosperity':
         return 'images/HP_Icon_Money_Prosperity.png';
       default:
         return 'images/HP_Icon_All.png';
@@ -238,7 +242,7 @@ function Challenge({
   }
 
   function teamImage(team) {
-    if (team === 'yes') {
+    if (team === 'yes' || team === 'Yes') {
       return 'images/icon_team.svg';
     } else {
       return 'images/icon_individual.svg';
@@ -251,15 +255,13 @@ function Challenge({
   const frequency = challenge.fields['Reward Occurrence'];
   const tileImage = challenge.fields['Header Image'];
 
-  const isFeatured = challenge.fields['Featured Activity'] === 'yes';
-  const isTeam = (challenge.fields['Team Activity'] === 'yes');
+  const isFeatured = (challenge.fields['Featured Activity'] === 'yes' || challenge.fields['Featured Activity'] === 'Yes');
+  const isTeam = (challenge.fields['Team Activity'] === 'yes' || challenge.fields['Team Activity'] === 'Yes');
   const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
   // Verified/Points Upload/System Awarded Exceptions
   let verified = challenge.fields['Verified'];
-  if (challenge.fields['Title'] === ('Connect with a Coach')) {
-    verified = 'System Awarded';
-  } else if (challenge.fields['Title'] === ('Hot Topics On the Go!')) {
+  if (challenge.fields['Title'] === 'Connect with a Coach' || challenge.fields['Title'] === 'Hot Topics On the Go!' || challenge.fields['Title'] === 'Health & Fitness' || challenge.fields['Title'] === 'Money & Prosperity' || challenge.fields['Title'] === 'Growth & Development' || challenge.fields['Title'] === 'Contribution & Sustainability') {
     verified = 'System Awarded';
   }
 
@@ -268,7 +270,7 @@ function Challenge({
       return <img className="table-icon" style={{ opacity: '0' }} />; // setting an empty image with 0 opacity so the icon space is taken up but not visible
     } else {
       // check if featured and feature if appropriate
-      if (challenge.fields['Featured Activity'] === 'yes') {
+      if (challenge.fields['Featured Activity'] === 'yes' || challenge.fields['Featured Activity'] === 'Yes') {
         return <img className="table-icon featured-icon" src="images/icon_star_notification.svg" title="Feature Activity" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
       } else {
         return <img className="table-icon featured-icon" src="images/icon_star.svg" title="Feature Activity" onClick={() => openFeaturedConfirmModal(challenge, isFeatured)} />;
