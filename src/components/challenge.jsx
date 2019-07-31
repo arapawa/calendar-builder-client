@@ -287,7 +287,7 @@ function Challenge({
         >
           <td>
             <img className="table-icon drag-icon" {...provided.dragHandleProps} src="images/icon_drag.svg" title="Drag row"/>
-            <img className="table-icon-wide" src={ tileImage ? tileImage : 'images/placeholder.svg' } title="View image" onClick={() => openPreviewChallengeModal(challenge)} />
+            <img className="table-icon-wide challenge-image" src={ tileImage ? tileImage : 'images/placeholder.svg' } title="View image" onClick={() => openPreviewChallengeModal(challenge)} />
           </td>
           <td scope="row">
             <span className="challenge-title" title="View content" onClick={() => openPreviewChallengeModal(challenge)}>

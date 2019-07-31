@@ -407,6 +407,7 @@ input.form-control {
     display: none;
   }
 
+  .challenge-image,
   .actions-header,
   .actions {
     display: none;
