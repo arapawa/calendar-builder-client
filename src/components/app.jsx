@@ -16,8 +16,28 @@ import PointTotals from './point_totals';
 import PreviewChallengeModal from './preview_challenge_modal';
 import SaveNotification from './save_notification';
 
+function challengesReducer(state, action) {
+  const newChallenges = _.cloneDeep(state);
+  newChallenges['Yearlong'] = [...newChallenges['Yearlong'], ...action.filter(record => record.fields['Phase'] === 'Yearlong')];
+  newChallenges['Phase 1'] = [...newChallenges['Phase 1'], ...action.filter(record => record.fields['Phase'] === 'Phase 1')];
+  newChallenges['Phase 2'] = [...newChallenges['Phase 1'], ...action.filter(record => record.fields['Phase'] === 'Phase 2')];
+  newChallenges['Phase 3'] = [...newChallenges['Phase 1'], ...action.filter(record => record.fields['Phase'] === 'Phase 3')];
+  newChallenges['Phase 4'] = [...newChallenges['Phase 1'], ...action.filter(record => record.fields['Phase'] === 'Phase 4')];
+  return newChallenges;
+}
+
 function App() {
-  const [challenges, setChallenges] = React.useState({});
+  const [challenges, dispatchChallenges] = React.useReducer(
+    challengesReducer,
+    {
+      'Yearlong': [],
+      'Phase 1': [],
+      'Phase 2': [],
+      'Phase 3': [],
+      'Phase 4': []
+    } // initial challenges
+  );
+
   const [selectedClient, setSelectedClient] = React.useState(null);
   const [selectedCalendar, setSelectedCalendar] = React.useState(null);
   const [calendarName, setCalendarName] = React.useState('');
@@ -35,16 +55,7 @@ function App() {
         filterByFormula: `{Calendar}='${hash}'`
       }).eachPage((records, fetchNextPage) => {
 
-        const phasedChallenges = {
-          'Yearlong': records.filter(record => record.fields['Phase'] === 'Yearlong'),
-          'Phase 1': records.filter(record => record.fields['Phase'] === 'Phase 1'),
-          'Phase 2': records.filter(record => record.fields['Phase'] === 'Phase 2'),
-          'Phase 3': records.filter(record => record.fields['Phase'] === 'Phase 3'),
-          'Phase 4': records.filter(record => record.fields['Phase'] === 'Phase 4')
-        };
-
-        setChallenges(phasedChallenges);
-        calculateTotalPoints(phasedChallenges);
+        dispatchChallenges(records);
 
         fetchNextPage();
       }, (err) => {
@@ -133,7 +144,7 @@ function App() {
       const newChallenges = _.cloneDeep(challenges);
       newChallenges[phaseTitle] = [...newChallenges[phaseTitle], record];
       console.log(newChallenges);
-      setChallenges(newChallenges);
+      dispatchChallenges(newChallenges);
     });
   }
 
@@ -169,7 +180,7 @@ function App() {
       });
     }
 
-    setChallenges(newChallenges);
+    dispatchChallenges(newChallenges);
   }
 
   function deleteChallengeFromCalendar(challengeToBeDeleted) {
@@ -195,7 +206,7 @@ function App() {
       newChallenges[phase] = newChallenges[phase].filter(challenge => challenge.id !== challengeToBeDeleted.id);
     }
 
-    setChallenges(newChallenges);
+    dispatchChallenges(newChallenges);
   }
 
   function duplicateChallengeInCalendar(challengeToBeDuplicated) {
@@ -244,24 +255,9 @@ function App() {
       updateCalendarUpdated();
       const newChallenges = _.cloneDeep(challenges);
       newChallenges[phaseTitle] = [...newChallenges[phaseTitle], record];
-      setChallenges(newChallenges);
+      dispatchChallenges(newChallenges);
       $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
     });
-  }
-
-  function calculateTotalPoints(calendar) {
-    let totalPoints = 0;
-
-    for (let phase in calendar) {
-      calendar[phase].map(challenge => {
-        const points = Number(challenge.fields['Total Points']);
-        if (!isNaN(points)) {
-          totalPoints += points;
-        }
-      });
-    }
-
-    setTotalPoints(totalPoints);
   }
 
   function openApproveModal() {
@@ -487,13 +483,12 @@ function App() {
     }
 
     // Update the state to render the changes
-    setChallenges(newChallenges);
+    dispatchChallenges(newChallenges);
   }
 
   function updateChallenges() {
     const newChallenges = _.cloneDeep(challenges);
-    setChallenges(newChallenges);
-    calculateTotalPoints(newChallenges);
+    // dispatchChallenges(newChallenges);
   }
 
   const accountName = selectedClient ? selectedClient.fields['Account Name'] : '';
@@ -523,7 +518,7 @@ function App() {
         updateChallenges={updateChallenges}
       />
 
-      <PointTotals totalPoints={totalPoints} />
+      <PointTotals challenges={challenges} setTotalPoints={setTotalPoints} />
 
       <ConfirmFeaturedModal />
       <ConfirmDeleteModal />
