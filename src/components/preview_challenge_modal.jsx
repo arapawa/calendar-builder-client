@@ -76,8 +76,9 @@ function PreviewChallengeModal({ challenge }) {
               <p>{trackingDetails(challenge)}</p>
               <p>{teamSize(challenge)}</p>
               <hr/>
-              <h4>About this activity:</h4>
+              <h4 className="limeade-header">About this activity</h4>
               <p dangerouslySetInnerHTML={{ __html: challenge.fields['Instructions'] }}></p>
+              { challenge.fields['Verified'] === 'Self-Report' ? <h4 className="limeade-header">More information</h4> : '' }
               <p dangerouslySetInnerHTML={{ __html: challenge.fields['More Information Html'] }}></p>
             </div>
           </div>

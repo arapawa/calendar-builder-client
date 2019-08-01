@@ -2,6 +2,11 @@ h1, h2, h3, h4, h5 {
   font-weight: normal;
 }
 
+.limeade-header {
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
 /* for Chrome/Safari */
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-clear-button {
