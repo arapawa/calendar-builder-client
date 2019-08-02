@@ -115,11 +115,11 @@ function App() {
 
   function updateChallenge(challengeToBeUpdated) {
     const newChallenges = _.cloneDeep(challenges);
-    
+
     for (let phase in newChallenges) {
-      newChallenges[phase].map(challenge => {
+      newChallenges[phase].map((challenge, i) => {
         if (challenge.id === challengeToBeUpdated.id) {
-          challenge = challengeToBeUpdated;
+          newChallenges[phase][i] = challengeToBeUpdated;
         }
       });
     }
