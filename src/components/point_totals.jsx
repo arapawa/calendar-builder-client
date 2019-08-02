@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PointTotals({ challenges, setTotalPoints }) {
+function PointTotals({ challenges }) {
   let totalPoints = 0;
 
   for (let phase in challenges) {
@@ -11,8 +11,6 @@ function PointTotals({ challenges, setTotalPoints }) {
       }
     });
   }
-
-  // setTotalPoints(totalPoints);
 
   const oneHundredPercent = totalPoints;
   const twentyFivePercent = Math.floor(oneHundredPercent * 0.25);

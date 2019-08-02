@@ -5,13 +5,13 @@ import AccordionCard from './accordion_card';
 
 function CalendarAccordion({
   calendarChallenges,
+  updateChallenge,
   onDragEnd,
   openPreviewChallengeModal,
   toggleFeaturedChallengeInCalendar,
   deleteChallengeFromCalendar,
   duplicateChallengeInCalendar,
   addChallengeToCalendar,
-  updateChallenges,
   selectedCalendar
 }) {
   // Split calendar into phases
@@ -25,6 +25,7 @@ function CalendarAccordion({
     return (
       <AccordionCard
         challenges={challenges}
+        updateChallenge={updateChallenge}
         phaseId={phaseId}
         phaseTitle={phaseTitle}
         openPreviewChallengeModal={openPreviewChallengeModal}
@@ -32,7 +33,6 @@ function CalendarAccordion({
         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
         duplicateChallengeInCalendar={duplicateChallengeInCalendar}
         addChallengeToCalendar={addChallengeToCalendar}
-        updateChallenges={updateChallenges}
         selectedCalendar={selectedCalendar}
       ></AccordionCard>
     );

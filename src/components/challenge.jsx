@@ -6,9 +6,9 @@ const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzb
 
 function Challenge({
   challenge,
+  updateChallenge,
   index,
   openPreviewChallengeModal,
-  updateChallenges,
   toggleFeaturedChallengeInCalendar,
   featuredCount,
   deleteChallengeFromCalendar,
@@ -86,7 +86,7 @@ function Challenge({
 
       $('#editingStartDate').removeClass('invalid');
       $('#editingStartDate').parent().html(`${moment(challenge.fields['Start date']).format('L')}`);
-      updateChallenges();
+      updateChallenge(challenge);
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
@@ -129,7 +129,7 @@ function Challenge({
 
       $('#editingEndDate').removeClass('invalid');
       $('#editingEndDate').parent().html(`${moment(challenge.fields['End date']).format('L')}`);
-      updateChallenges();
+      updateChallenge(challenge);
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
@@ -179,7 +179,7 @@ function Challenge({
                                          event.target.value;
 
       $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
-      updateChallenges();
+      updateChallenge(challenge);
 
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
@@ -204,7 +204,7 @@ function Challenge({
                                            event.target.value;
 
         $('#editingPoints').parent().html(`${challenge.fields['Points']} (${challenge.fields['Total Points']})`);
-        updateChallenges();
+        updateChallenge(challenge);
 
         // Update airtable w/ the changes
         $('#saveNotification').show().html('Saving...');
