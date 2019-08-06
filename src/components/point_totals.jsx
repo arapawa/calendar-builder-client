@@ -1,6 +1,17 @@
 import React from 'react';
 
-function PointTotals({ totalPoints }) {
+function PointTotals({ challenges }) {
+  let totalPoints = 0;
+
+  for (let phase in challenges) {
+    challenges[phase].map(challenge => {
+      const points = Number(challenge.fields['Total Points']);
+      if (!isNaN(points)) {
+        totalPoints += points;
+      }
+    });
+  }
+
   const oneHundredPercent = totalPoints;
   const twentyFivePercent = Math.floor(oneHundredPercent * 0.25);
   const fiftyPercent = Math.floor(oneHundredPercent * 0.5);

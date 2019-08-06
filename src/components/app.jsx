@@ -16,12 +16,38 @@ import PointTotals from './point_totals';
 import PreviewChallengeModal from './preview_challenge_modal';
 import SaveNotification from './save_notification';
 
+function reducer(state, action) {
+  let newChallenges;
+  switch (action.type) {
+    case 'addChallenges':
+      newChallenges = _.cloneDeep(state);
+      newChallenges['Yearlong'] = [...newChallenges['Yearlong'], ...action.payload.filter(record => record.fields['Phase'] === 'Yearlong')];
+      newChallenges['Phase 1'] = [...newChallenges['Phase 1'], ...action.payload.filter(record => record.fields['Phase'] === 'Phase 1')];
+      newChallenges['Phase 2'] = [...newChallenges['Phase 2'], ...action.payload.filter(record => record.fields['Phase'] === 'Phase 2')];
+      newChallenges['Phase 3'] = [...newChallenges['Phase 3'], ...action.payload.filter(record => record.fields['Phase'] === 'Phase 3')];
+      newChallenges['Phase 4'] = [...newChallenges['Phase 4'], ...action.payload.filter(record => record.fields['Phase'] === 'Phase 4')];
+      return newChallenges;
+    case 'updateChallenges':
+      return action.payload;
+  }
+  
+}
+
 function App() {
-  const [challenges, setChallenges] = React.useState({});
+  const [challenges, dispatch] = React.useReducer(
+    reducer,
+    {
+      'Yearlong': [],
+      'Phase 1': [],
+      'Phase 2': [],
+      'Phase 3': [],
+      'Phase 4': []
+    } // initial challenges
+  );
+
   const [selectedClient, setSelectedClient] = React.useState(null);
   const [selectedCalendar, setSelectedCalendar] = React.useState(null);
   const [calendarName, setCalendarName] = React.useState('');
-  const [totalPoints, setTotalPoints] = React.useState(0);
   const [previewChallenge, setPreviewChallenge] = React.useState(null);
 
   // Make airtable calls when app starts
@@ -35,16 +61,7 @@ function App() {
         filterByFormula: `{Calendar}='${hash}'`
       }).eachPage((records, fetchNextPage) => {
 
-        const phasedChallenges = {
-          'Yearlong': records.filter(record => record.fields['Phase'] === 'Yearlong'),
-          'Phase 1': records.filter(record => record.fields['Phase'] === 'Phase 1'),
-          'Phase 2': records.filter(record => record.fields['Phase'] === 'Phase 2'),
-          'Phase 3': records.filter(record => record.fields['Phase'] === 'Phase 3'),
-          'Phase 4': records.filter(record => record.fields['Phase'] === 'Phase 4')
-        };
-
-        setChallenges(phasedChallenges);
-        calculateTotalPoints(phasedChallenges);
+        dispatch({ type: 'addChallenges', payload: records });
 
         fetchNextPage();
       }, (err) => {
@@ -96,6 +113,20 @@ function App() {
 
   }, []); // Pass empty array to only run once on mount
 
+  function updateChallenge(challengeToBeUpdated) {
+    const newChallenges = _.cloneDeep(challenges);
+
+    for (let phase in newChallenges) {
+      newChallenges[phase].map((challenge, i) => {
+        if (challenge.id === challengeToBeUpdated.id) {
+          newChallenges[phase][i] = challengeToBeUpdated;
+        }
+      });
+    }
+
+    dispatch({ type: 'updateChallenges', payload: newChallenges });
+  }
+
   function updateCalendarUpdated() {
     base('Calendars').update(selectedCalendar.id, {
       'updated': moment().format('l')
@@ -133,7 +164,7 @@ function App() {
       const newChallenges = _.cloneDeep(challenges);
       newChallenges[phaseTitle] = [...newChallenges[phaseTitle], record];
       console.log(newChallenges);
-      setChallenges(newChallenges);
+      dispatch({ type: 'updateChallenges', payload: newChallenges });
     });
   }
 
@@ -169,7 +200,7 @@ function App() {
       });
     }
 
-    setChallenges(newChallenges);
+    dispatch({ type: 'updateChallenges', payload: newChallenges });
   }
 
   function deleteChallengeFromCalendar(challengeToBeDeleted) {
@@ -195,7 +226,7 @@ function App() {
       newChallenges[phase] = newChallenges[phase].filter(challenge => challenge.id !== challengeToBeDeleted.id);
     }
 
-    setChallenges(newChallenges);
+    dispatch({ type: 'updateChallenges', payload: newChallenges });
   }
 
   function duplicateChallengeInCalendar(challengeToBeDuplicated) {
@@ -244,24 +275,9 @@ function App() {
       updateCalendarUpdated();
       const newChallenges = _.cloneDeep(challenges);
       newChallenges[phaseTitle] = [...newChallenges[phaseTitle], record];
-      setChallenges(newChallenges);
+      dispatch({ type: 'updateChallenges', payload: newChallenges });
       $('#saveNotification').html('Saved.').delay(800).fadeOut(2000);
     });
-  }
-
-  function calculateTotalPoints(calendar) {
-    let totalPoints = 0;
-
-    for (let phase in calendar) {
-      calendar[phase].map(challenge => {
-        const points = Number(challenge.fields['Total Points']);
-        if (!isNaN(points)) {
-          totalPoints += points;
-        }
-      });
-    }
-
-    setTotalPoints(totalPoints);
   }
 
   function openApproveModal() {
@@ -487,13 +503,7 @@ function App() {
     }
 
     // Update the state to render the changes
-    setChallenges(newChallenges);
-  }
-
-  function updateChallenges() {
-    const newChallenges = _.cloneDeep(challenges);
-    setChallenges(newChallenges);
-    calculateTotalPoints(newChallenges);
+    dispatch({ type: 'updateChallenges', payload: newChallenges });
   }
 
   const accountName = selectedClient ? selectedClient.fields['Account Name'] : '';
@@ -512,6 +522,7 @@ function App() {
 
       <CalendarAccordion
         calendarChallenges={challenges}
+        updateChallenge={updateChallenge}
         selectedClient={selectedClient}
         selectedCalendar={selectedCalendar}
         addChallengeToCalendar={addChallengeToCalendar}
@@ -520,10 +531,9 @@ function App() {
         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
         duplicateChallengeInCalendar={duplicateChallengeInCalendar}
         onDragEnd={onDragEnd}
-        updateChallenges={updateChallenges}
       />
 
-      <PointTotals totalPoints={totalPoints} />
+      <PointTotals challenges={challenges} />
 
       <ConfirmFeaturedModal />
       <ConfirmDeleteModal />

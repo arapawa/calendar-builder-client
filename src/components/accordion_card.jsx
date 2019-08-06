@@ -10,6 +10,7 @@ import Challenge from './challenge';
 // Each phase gets its own Card
 function AccordionCard({
   challenges,
+  updateChallenge,
   phaseId,
   phaseTitle,
   openPreviewChallengeModal,
@@ -17,7 +18,6 @@ function AccordionCard({
   deleteChallengeFromCalendar,
   duplicateChallengeInCalendar,
   addChallengeToCalendar,
-  updateChallenges,
   selectedCalendar
 }) {
 
@@ -200,9 +200,9 @@ function AccordionCard({
                       <Challenge
                         key={index}
                         challenge={challenge}
+                        updateChallenge={updateChallenge}
                         index={index}
                         openPreviewChallengeModal={openPreviewChallengeModal}
-                        updateChallenges={updateChallenges}
                         toggleFeaturedChallengeInCalendar={toggleFeaturedChallengeInCalendar}
                         featuredCount={featuredCount}
                         deleteChallengeFromCalendar={deleteChallengeFromCalendar}
