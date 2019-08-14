@@ -147,14 +147,15 @@ function App() {
       'Phase': phaseTitle,
       'Start date': moment().format('YYYY-MM-DD'),
       'End date': moment().format('YYYY-MM-DD'),
-      'Verified': 'Custom',
+      'Verified': 'Self-Report',
       'Team Activity': 'no',
       'Reward Occurrence': 'Once',
       'Points': '0',
       'Total Points': '0',
       'Device Enabled': 'No',
       'Category': 'Health and Fitness',
-      'Challenge Id': ''
+      'Challenge Id': '',
+      'Custom Tile Type': 'Net New'
     }, (err, record) => {
       if (err) {
         console.error(err);
