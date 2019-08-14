@@ -255,7 +255,9 @@ function Challenge({
   const frequency = challenge.fields['Reward Occurrence'];
   const tileImage = challenge.fields['Header Image'];
 
+  const isCustom = challenge.fields['Custom Tile Type'];
   const isFeatured = (challenge.fields['Featured Activity'] === 'yes' || challenge.fields['Featured Activity'] === 'Yes');
+  const isTargeted = (challenge.fields['Targeted Activity'] === 'yes' || challenge.fields['Targeted Activity'] === 'Yes');
   const isTeam = (challenge.fields['Team Activity'] === 'yes' || challenge.fields['Team Activity'] === 'Yes');
   const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
@@ -290,10 +292,14 @@ function Challenge({
             <img className="table-icon-wide challenge-image" src={ tileImage ? tileImage : 'images/placeholder.svg' } title="View image" onClick={() => openPreviewChallengeModal(challenge)} />
           </td>
           <td scope="row">
-            <span className="challenge-title" title="View content" onClick={() => openPreviewChallengeModal(challenge)}>
+            <div className="challenge-title" title="View content" onClick={() => openPreviewChallengeModal(challenge)}>
               {challenge.fields['Title']}
-            </span>
-            { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
+            </div>
+            <div className="badges">
+              { isCustom ? <p className="badge custom-badge">Custom: {challenge.fields['Custom Tile Type']}</p> : '' }
+              { isFeatured ? <p className="badge featured-badge">Featured</p> : '' }
+              { isTargeted ? <p className="badge targeted-badge" title={`Targeted to ${challenge.fields['Targeting Notes']}`}>Targeted</p> : '' }
+            </div>
           </td>
           <td className="short-description">{challenge.fields['Instructions']}</td>
           <td title="Tracking type">{verified}</td>
