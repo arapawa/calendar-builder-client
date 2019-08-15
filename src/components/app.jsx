@@ -5,6 +5,7 @@ import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 import CalendarAccordion from './calendar_accordion';
+import CustomTotals from './custom_totals';
 import CategoryTotals from './category_totals';
 import ConfirmApproveModal from './confirm_approve_modal';
 import ConfirmDeleteModal from './confirm_delete_modal';
@@ -518,7 +519,10 @@ function App() {
 
       <div className="calendar-name-and-link">
         <h4 className="calendar-name" onDoubleClick={(e) => editCalendarName(e, calendarName)}>{calendarName}</h4>
-        <CategoryTotals challenges={challenges} />
+        <div className="totals">
+          <CategoryTotals challenges={challenges} />
+          <CustomTotals challenges={challenges} />
+        </div>
       </div>
 
       <CalendarAccordion
