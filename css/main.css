@@ -152,8 +152,16 @@ input.form-control {
   border-radius: 12px;
 }
 
-.custom-badge {
+.custom-badge-netnew {
   background-color: #8fa4e7;
+}
+
+.custom-badge-rerun {
+  background-color: #8968d5;
+}
+
+.custom-badge-revised {
+  background-color: #6947bb;
 }
 
 .featured-badge {
@@ -339,6 +347,7 @@ input.form-control {
 #categoryTotals {
   float: right;
   margin-bottom: 1em;
+  margin-left: 2em;
 }
 
 #categoryTotals h5 {

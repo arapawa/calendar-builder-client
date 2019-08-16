@@ -267,6 +267,18 @@ function Challenge({
     verified = 'System Awarded';
   }
 
+  // declares which color of custom tile badge will show
+  function customTileBadge(challenge) {
+    switch (challenge.fields['Custom Tile Type']) {
+      case 'Net New':
+        return <p className="badge custom-badge-netnew">Custom: {challenge.fields['Custom Tile Type']}</p>;
+      case 'Rerun':
+        return <p className="badge custom-badge-rerun">Custom: {challenge.fields['Custom Tile Type']}</p>;
+      case 'Revised':
+        return <p className="badge custom-badge-revised">Custom: {challenge.fields['Custom Tile Type']}</p>;
+    }
+  }
+
   function allowFeatured(challenge) {
     if (challenge.fields['Verified'] === 'System Awarded') {
       return <img className="table-icon" style={{ opacity: '0' }} />; // setting an empty image with 0 opacity so the icon space is taken up but not visible
@@ -296,7 +308,7 @@ function Challenge({
               {challenge.fields['Title']}
             </div>
             <div className="badges">
-              { isCustom ? <p className="badge custom-badge">Custom: {challenge.fields['Custom Tile Type']}</p> : '' }
+              { isCustom ? customTileBadge(challenge) : '' }
               { isFeatured ? <p className="badge featured-badge">Featured</p> : '' }
               { isTargeted ? <p className="badge targeted-badge" title={`Targeted to ${challenge.fields['Targeting Notes']}`}>Targeted</p> : '' }
             </div>

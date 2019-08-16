@@ -24,11 +24,11 @@ function CustomTotals({ challenges }) {
   return (
     <div id="customTotals">
       <h5>Custom Content Totals</h5>
-      <span className="badge custom-badge">Net New</span>
+      <span className="badge custom-badge-netnew">Net New</span>
       <span>{netNewTotal}</span>
-      <span className="badge custom-badge">Rerun</span>
+      <span className="badge custom-badge-rerun">Rerun</span>
       <span>{rerunTotal}</span>
-      <span className="badge custom-badge">Revised</span>
+      <span className="badge custom-badge-revised">Revised</span>
       <span>{revisedTotal}</span>
     </div>
   );
