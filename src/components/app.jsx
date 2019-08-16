@@ -5,6 +5,7 @@ import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 import CalendarAccordion from './calendar_accordion';
+import CustomTotals from './custom_totals';
 import CategoryTotals from './category_totals';
 import ConfirmApproveModal from './confirm_approve_modal';
 import ConfirmDeleteModal from './confirm_delete_modal';
@@ -147,14 +148,15 @@ function App() {
       'Phase': phaseTitle,
       'Start date': moment().format('YYYY-MM-DD'),
       'End date': moment().format('YYYY-MM-DD'),
-      'Verified': 'Custom',
+      'Verified': 'Self-Report',
       'Team Activity': 'no',
       'Reward Occurrence': 'Once',
       'Points': '0',
       'Total Points': '0',
       'Device Enabled': 'No',
       'Category': 'Health and Fitness',
-      'Challenge Id': ''
+      'Challenge Id': '',
+      'Custom Tile Type': 'Net New'
     }, (err, record) => {
       if (err) {
         console.error(err);
@@ -517,7 +519,10 @@ function App() {
 
       <div className="calendar-name-and-link">
         <h4 className="calendar-name" onDoubleClick={(e) => editCalendarName(e, calendarName)}>{calendarName}</h4>
-        <CategoryTotals challenges={challenges} />
+        <div className="totals">
+          <CategoryTotals challenges={challenges} />
+          <CustomTotals challenges={challenges} />
+        </div>
       </div>
 
       <CalendarAccordion

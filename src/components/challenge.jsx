@@ -255,7 +255,9 @@ function Challenge({
   const frequency = challenge.fields['Reward Occurrence'];
   const tileImage = challenge.fields['Header Image'];
 
+  const isCustom = challenge.fields['Custom Tile Type'];
   const isFeatured = (challenge.fields['Featured Activity'] === 'yes' || challenge.fields['Featured Activity'] === 'Yes');
+  const isTargeted = (challenge.fields['Targeted Activity'] === 'yes' || challenge.fields['Targeted Activity'] === 'Yes');
   const isTeam = (challenge.fields['Team Activity'] === 'yes' || challenge.fields['Team Activity'] === 'Yes');
   const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
@@ -263,6 +265,18 @@ function Challenge({
   let verified = challenge.fields['Verified'];
   if (challenge.fields['Title'] === 'Connect with a Coach' || challenge.fields['Title'] === 'Hot Topics On the Go!' || challenge.fields['Title'] === 'Health & Fitness' || challenge.fields['Title'] === 'Money & Prosperity' || challenge.fields['Title'] === 'Growth & Development' || challenge.fields['Title'] === 'Contribution & Sustainability') {
     verified = 'System Awarded';
+  }
+
+  // declares which color of custom tile badge will show
+  function customTileBadge(challenge) {
+    switch (challenge.fields['Custom Tile Type']) {
+      case 'Net New':
+        return <p className="badge custom-badge-netnew">Custom: {challenge.fields['Custom Tile Type']}</p>;
+      case 'Rerun':
+        return <p className="badge custom-badge-rerun">Custom: {challenge.fields['Custom Tile Type']}</p>;
+      case 'Revised':
+        return <p className="badge custom-badge-revised">Custom: {challenge.fields['Custom Tile Type']}</p>;
+    }
   }
 
   function allowFeatured(challenge) {
@@ -290,10 +304,14 @@ function Challenge({
             <img className="table-icon-wide challenge-image" src={ tileImage ? tileImage : 'images/placeholder.svg' } title="View image" onClick={() => openPreviewChallengeModal(challenge)} />
           </td>
           <td scope="row">
-            <span className="challenge-title" title="View content" onClick={() => openPreviewChallengeModal(challenge)}>
+            <div className="challenge-title" title="View content" onClick={() => openPreviewChallengeModal(challenge)}>
               {challenge.fields['Title']}
-            </span>
-            { isFeatured ? <div><p className="featured-badge">Featured</p></div> : '' }
+            </div>
+            <div className="badges">
+              { isCustom ? customTileBadge(challenge) : '' }
+              { isFeatured ? <p className="badge featured-badge">Featured</p> : '' }
+              { isTargeted ? <p className="badge targeted-badge" title={`Targeted to ${challenge.fields['Targeting Notes']}`}>Targeted</p> : '' }
+            </div>
           </td>
           <td className="short-description">{challenge.fields['Instructions']}</td>
           <td title="Tracking type">{verified}</td>

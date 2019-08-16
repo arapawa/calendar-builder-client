@@ -135,17 +135,41 @@ input.form-control {
   text-decoration: underline;
 }
 
-.featured-badge {
-  text-transform: uppercase;
-  font-size: 0.5em;
-  background-color: #83d2e2;
-  border: none;
-  color: #ffffff;
-  padding: 2px 8px;
+.badges {
   margin: 0;
+  padding: 0;
+}
+
+.badge {
+  text-transform: uppercase;
+  color: #ffffff;
+  font-size: 0.5em;
+  border: none;
+  padding: 4px 10px;
+  margin: 0 0.5em 0 0;
   text-align: center;
   display: inline-block;
   border-radius: 12px;
+}
+
+.custom-badge-netnew {
+  background-color: #8fa4e7;
+}
+
+.custom-badge-rerun {
+  background-color: #8968d5;
+}
+
+.custom-badge-revised {
+  background-color: #6947bb;
+}
+
+.featured-badge {
+  background-color: #83d2e2;
+}
+
+.targeted-badge {
+  background-color: #3798ab;
 }
 
 .preview {
@@ -301,9 +325,29 @@ input.form-control {
   margin: 2em 50%;
 }
 
+.totals {
+  float: right;
+  display: inline-block;
+}
+
+#customTotals {
+  float: right;
+  margin-bottom: 1em;
+}
+
+#customTotals h5 {
+  text-align: right;
+  padding-right: 12px;
+}
+
+#customTotals span {
+  margin-right: 12px;
+}
+
 #categoryTotals {
   float: right;
   margin-bottom: 1em;
+  margin-left: 2em;
 }
 
 #categoryTotals h5 {
