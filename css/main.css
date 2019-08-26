@@ -242,12 +242,6 @@ input.form-control {
 .delete-icon {
   width: 24px;
   cursor: pointer;
-  opacity: 0;
-}
-
-.duplicate-icon:hover,
-.delete-icon:hover {
-  opacity: 1;
 }
 
 .add-icon {
