@@ -265,9 +265,20 @@ function App() {
       'Activity Goal Text': challengeToBeDuplicated.fields['Activity Goal Text'],
       'Device Units': challengeToBeDuplicated.fields['Device Units'],
       'Header Image': challengeToBeDuplicated.fields['Header Image'],
+      'Limeade Image Url': challengeToBeDuplicated.fields['Limeade Image Url'],
       'Instructions': challengeToBeDuplicated.fields['Instructions'],
       'More Information Html': challengeToBeDuplicated.fields['More Information Html'],
       'Featured Activity': 'no',
+      'Targeted Activity': challengeToBeDuplicated.fields['Targeted Activity'],
+      'Targeting Notes': challengeToBeDuplicated.fields['Targeting Notes'],
+      'Subgroup': challengeToBeDuplicated.fields['Subgroup'],
+      'Targeting Column 1': challengeToBeDuplicated.fields['Targeting Column 1'],
+      'Targeting Value 1': challengeToBeDuplicated.fields['Targeting Value 1'],
+      'Targeting Column 2': challengeToBeDuplicated.fields['Targeting Column 2'],
+      'Targeting Value 2': challengeToBeDuplicated.fields['Targeting Value 2'],
+      'Targeting Column 3': challengeToBeDuplicated.fields['Targeting Column 3'],
+      'Targeting Value 3': challengeToBeDuplicated.fields['Targeting Value 3'],
+      'Custom Tile Type': challengeToBeDuplicated.fields['Custom Tile Type'],
       'Index': newIndex
     }, (err, record) => {
       if (err) {
