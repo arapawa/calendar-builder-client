@@ -5,6 +5,7 @@ import Airtable from 'airtable';
 const base = new Airtable({ apiKey: 'keyCxnlep0bgotSrX' }).base('appN1J6yscNwlzbzq');
 
 import AddCustomChallenge from './add_custom_challenge';
+import AddCustomChallengeButton from './add_custom_challenge_button'; // this is the blackburrow button
 import Challenge from './challenge';
 
 // Each phase gets its own Card
@@ -216,6 +217,8 @@ function AccordionCard({
                 <tfoot>
                   <tr>
                     <td colSpan="7">
+                      <AddCustomChallengeButton selectedCalendar={selectedCalendar} />
+                      <p>or</p>
                       <AddCustomChallenge phaseTitle={phaseTitle} addChallengeToCalendar={addChallengeToCalendar} />
                     </td>
                   </tr>

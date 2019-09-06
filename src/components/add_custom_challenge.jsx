@@ -20,7 +20,7 @@ function AddCustomChallenge({ phaseTitle, addChallengeToCalendar }) {
 
   return (
     <div className="add-custom-challenge">
-      <input className="form-control" type="text" value={challengeName} onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Add Custom Challenge" />
+      <input className="form-control" type="text" value={challengeName} onChange={handleChange} onKeyDown={handleKeyDown} placeholder="Add Placeholder Challenge" />
       <img className="add-challenge-icon" src="images/icon_add.svg" onClick={addChallenge} />
     </div>
   );
