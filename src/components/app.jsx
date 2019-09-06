@@ -148,7 +148,7 @@ function App() {
       'Phase': phaseTitle,
       'Start date': moment().format('YYYY-MM-DD'),
       'End date': moment().format('YYYY-MM-DD'),
-      'Verified': 'Self-Report',
+      'Verified': 'Placeholder',
       'Team Activity': 'no',
       'Reward Occurrence': 'Once',
       'Points': '0',

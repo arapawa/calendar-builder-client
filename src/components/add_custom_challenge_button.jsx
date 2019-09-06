@@ -3,7 +3,7 @@ import React from 'react';
 function AddCustomChallengeButton() {
   // grabbing the calendar hash the lazy way
   const hash = window.location.hash.slice(2);
-  const blackburrowUrl = `https://calendarbuilder.dev.adurolife.com/blackburrow/#/${hash}`;
+  const blackburrowUrl = `https://calendarbuilder.dev.adurolife.com/ctrt/#/${hash}`;
 
   return (
     <div className="add-custom-challenge-button">
