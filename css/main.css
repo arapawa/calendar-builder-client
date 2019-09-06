@@ -380,6 +380,10 @@ input.form-control {
   vertical-align: middle;
 }
 
+.add-custom-challenge-button {
+  margin: 1em auto;
+}
+
 .colored-border {
   border: 3px solid blue !important;
 }
