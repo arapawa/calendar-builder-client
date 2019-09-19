@@ -264,7 +264,7 @@ function Challenge({
   // Verified/Points Upload/System Awarded Exceptions
   // overriding Verified type for challenges that are Partner Challenges but function like CIEs from the client's perspective (auto awarded)
   let verified = challenge.fields['Verified'];
-  if (challenge.fields['Title'] === 'Connect with a Coach' || challenge.fields['Title'] === 'Hot Topics On the Go!') {
+  if (challenge.fields['Title'] === 'Connect with a Coach' || challenge.fields['Title'] === 'Hot Topics On the Go!' || challenge.fields['Title'] === 'Health & Fitness' || challenge.fields['Title'] === 'Money & Prosperity' || challenge.fields['Title'] === 'Growth & Development' || challenge.fields['Title'] === 'Contribution & Sustainability') {
     verified = 'System Awarded';
   }
 
