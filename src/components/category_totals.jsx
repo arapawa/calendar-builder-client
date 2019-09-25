@@ -32,13 +32,13 @@ function CategoryTotals({ challenges }) {
   return (
     <div id="categoryTotals">
       <h5>Category Totals</h5>
-      <img className="table-icon" src="images/HP_Icon_Health_Fitness.png" title="Health and Fitness" />
+      <img className="table-icon table-icon_spacing" src="images/HP_Icon_Health_Fitness.png" title="Health and Fitness" />
       <span>{healthFitnessTotal}</span>
-      <img className="table-icon" src="images/HP_Icon_Growth_Development.png" title="Growth and Development" />
+      <img className="table-icon table-icon_spacing" src="images/HP_Icon_Growth_Development.png" title="Growth and Development" />
       <span>{growthDevelopmentTotal}</span>
-      <img className="table-icon" src="images/HP_Icon_Contribution_Sustainability.png" title="Contribution and Sustainability" />
+      <img className="table-icon table-icon_spacing" src="images/HP_Icon_Contribution_Sustainability.png" title="Contribution and Sustainability" />
       <span>{contributionSustainabilityTotal}</span>
-      <img className="table-icon" src="images/HP_Icon_Money_Prosperity.png" title="Money and Prosperity" />
+      <img className="table-icon table-icon_spacing" src="images/HP_Icon_Money_Prosperity.png" title="Money and Prosperity" />
       <span>{moneyProsperityTotal}</span>
     </div>
   );

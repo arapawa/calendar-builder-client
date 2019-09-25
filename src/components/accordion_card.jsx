@@ -177,7 +177,7 @@ function AccordionCard({
         <div className="card-body">
           <Droppable droppableId={phaseTitle}>
             {(provided) => (
-              <table className="table table-striped"
+              <table className="table table-striped w-auto"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
@@ -216,7 +216,7 @@ function AccordionCard({
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colSpan="7">
+                    <td colSpan="10">
                       <AddCustomChallengeButton selectedCalendar={selectedCalendar} />
                       <p>or</p>
                       <AddCustomChallenge phaseTitle={phaseTitle} addChallengeToCalendar={addChallengeToCalendar} />

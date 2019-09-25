@@ -13,31 +13,66 @@ input[type="date"]::-webkit-clear-button {
   display: none;
 }
 
-thead tr {
-  line-height: 1;
+/* Table Layout */
+.table {
+  margin-bottom: 1.2em;
+  font-size: 15px;
 }
 
-tbody {
-  border: 1px solid gainsboro;
+.table td, .table th {
+  padding: .5rem;
+  vertical-align: middle;
+  text-align: left;
+}
+
+thead tr th{
+  line-height: 1.5;
 }
 
 tbody tr {
   height: 74px;
 }
 
-/* sets width of title/name column */
 td:nth-of-type(2) {
-  width: 220px;
+  width: 250px;
 }
 
-/* sets width of input form for date and point editing */
-input.form-control {
-  width: 170px;
+.input-dates_width{
+  width: 140px;
+  font-size: 15px;
+}
+
+.input-points-total_width{
+  width: 70px;
+  font-size: 15px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #F5F5F5;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #FFFFFF;
+}
+
+/* Group objects to prevent wrapping */
+.first-column-group{
+  width: 90px;
+  display: block;
+}
+
+.actions-icon-group {
+  width: 102px;
+  display: block;
+}
+
+.actions-icon-group > img{
+  margin: 0 3px;
 }
 
 .container {
   color: #555;
-  max-width: 1180px;
+  max-width: 1250px;
 }
 
 .header {
@@ -108,23 +143,6 @@ input.form-control {
 .mb-0 > a > span:first-child {
   display: inline-block;
   min-width: 80px;
-}
-
-.table {
-  margin-bottom: 1.2em;
-}
-
-.table td, .table th {
-  padding: .75rem .5rem;
-  vertical-align: middle;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #F5F5F5;
-}
-
-.table-striped tbody tr:nth-of-type(even) {
-    background-color: #FFFFFF;
 }
 
 .challenge-title {
@@ -215,18 +233,6 @@ input.form-control {
   opacity: 1;
 }
 
-.start-date {
-  cursor: pointer;
-}
-
-.end-date {
-  cursor: pointer;
-}
-
-.points-text {
-  cursor: pointer;
-}
-
 .edit-icon,
 .upload-icon {
   width: 24px;
@@ -257,19 +263,17 @@ input.form-control {
 }
 
 .table-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 12px;
+  width: 22px;
+  height: 22px;
 }
 
-.table-icon-wide {
+.tile-image {
   width: 64px;
   height: 32px;
-  margin-right: 12px;
   cursor: pointer;
 }
 
-.table-icon-wide:hover {
+.table-tile-image:hover {
   opacity: 0.7;
 }
 
@@ -371,7 +375,7 @@ input.form-control {
 }
 
 #readOnlyDescription {
-  min-height: 300px;
+  min-height: 275px;
 }
 
 .add-custom-challenge .form-control {
@@ -440,6 +444,14 @@ input.form-control {
 
 .right {
   float: right;
+}
+
+.cursor-type_pointer{
+  cursor: pointer;
+}
+
+.table-icon_spacing{
+  margin: 0 5px;
 }
 
 /* Media queries */

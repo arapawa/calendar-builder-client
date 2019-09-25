@@ -105,7 +105,7 @@ function Challenge({
 
   function editStartDate(event, challenge) {
     let td = event.target;
-    td.innerHTML = `<input type="date" class="form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
+    td.innerHTML = `<input type="date" class="input-dates_width form-control" id="editingStartDate" value="${challenge.fields['Start date']}" />`;
 
     $('#editingStartDate').focus();
 
@@ -148,7 +148,7 @@ function Challenge({
 
   function editEndDate(e, challenge) {
     let td = e.target;
-    td.innerHTML = `<input type="date" class="form-control" id="editingEndDate" value="${challenge.fields['End date']}" />`;
+    td.innerHTML = `<input type="date" class="input-dates_width form-control" id="editingEndDate" value="${challenge.fields['End date']}" />`;
 
     $('#editingEndDate').focus();
 
@@ -160,7 +160,7 @@ function Challenge({
 
   function editPoints(event, challenge) {
     let td = event.target;
-    td.innerHTML = `<input type="text" class="form-control" id="editingPoints" value="${challenge.fields['Points']}" />`;
+    td.innerHTML = `<input type="text" class="input-points-total_width form-control" id="editingPoints" value="${challenge.fields['Points']}" />`;
 
     // Since autofocus wasn't working, focus using jquery
     $('#editingPoints').focus();
@@ -301,8 +301,10 @@ function Challenge({
           ref = {provided.innerRef}
         >
           <td>
-            <img className="table-icon drag-icon" {...provided.dragHandleProps} src="images/icon_drag.svg" title="Drag row"/>
-            <img className="table-icon-wide challenge-image" src={ tileImage ? tileImage : 'images/placeholder.svg' } title="View image" onClick={() => openPreviewChallengeModal(challenge)} />
+            <div className="first-column-group">
+              <img className="table-icon drag-icon" {...provided.dragHandleProps} src="images/icon_drag.svg" title="Drag row"/>
+              <img className="tile-image challenge-image" src={ tileImage ? tileImage : 'images/placeholder.svg' } title="View image" onClick={() => openPreviewChallengeModal(challenge)} />
+            </div>
           </td>
           <td scope="row">
             <div className="challenge-title" title="View content" onClick={() => openPreviewChallengeModal(challenge)}>
@@ -316,18 +318,20 @@ function Challenge({
           </td>
           <td className="short-description">{challenge.fields['Instructions']}</td>
           <td title="Tracking type">{verified}</td>
-          <td className="text-center">
-            <img className="table-icon category-icon" src={hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
-            <img className="table-icon team-icon" src={teamImage(challenge.fields['Team Activity'])} title={ isTeam ? 'Team' : 'Individual' } />
+          <td>
+            <img className="table-icon table-icon_spacing category-icon" src={hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
+            <img className="table-icon team-icon table-icon_spacing" src={teamImage(challenge.fields['Team Activity'])} title={ isTeam ? 'Team' : 'Individual' } />
           </td>
-          <td title="Start date" onDoubleClick={(e) => editStartDate(e, challenge)}><span className="start-date">{moment(startDate).format('L')}</span></td>
-          <td title="End date" onDoubleClick={(e) => editEndDate(e, challenge)}><span className="end-date">{moment(endDate).format('L')}</span></td>
+          <td title="Start date" onDoubleClick={(e) => editStartDate(e, challenge)}><span className="cursor-type_pointer">{moment(startDate).format('L')}</span></td>
+          <td title="End date" onDoubleClick={(e) => editEndDate(e, challenge)}><span className="cursor-type_pointer">{moment(endDate).format('L')}</span></td>
           <td title="Reward Occurrence">{challenge.fields['Reward Occurrence']}</td>
-          <td title="Points (Total Points)" onDoubleClick={(e) => editPoints(e, challenge)}><span className="points-text">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
+          <td title="Points (Total Points)" onDoubleClick={(e) => editPoints(e, challenge)}><span className="cursor-type_pointer">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
           <td className="actions text-center">
-            { allowFeatured(challenge) }
-            <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} />
-            <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} />
+            <div className="actions-icon-group">
+              { allowFeatured(challenge) }
+              <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} />
+              <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} />
+              </div>
           </td>
         </tr>
       )}
