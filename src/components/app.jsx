@@ -465,12 +465,15 @@ function App() {
       const [removed] = sourcePhase.splice(source.index, 1);
       removed.fields['Phase'] = destination.droppableId;
 
-      // Update start and end date to match the phase if available in the Calendar object
-      if (selectedCalendar.fields[`${destination.droppableId} Start Date`]) {
-        removed.fields['Start date'] = selectedCalendar.fields[`${destination.droppableId} Start Date`];
-        removed.fields['End date'] = selectedCalendar.fields[`${destination.droppableId} End Date`];
+      // only update the date if challenge is not custom
+      if (removed.fields['Custom Tile Type'] === null || removed.fields['Custom Tile Type'] === undefined || removed.fields['Custom Tile Type'] === '') {
+        // Update start and end date to match the phase if available in the Calendar object
+        if (selectedCalendar.fields[`${destination.droppableId} Start Date`]) {
+          removed.fields['Start date'] = selectedCalendar.fields[`${destination.droppableId} Start Date`];
+          removed.fields['End date'] = selectedCalendar.fields[`${destination.droppableId} End Date`];
+        }
       }
-
+      
       destinationPhase.splice(destination.index, 0, removed);
 
       sourcePhase.map((challenge, index) => {
