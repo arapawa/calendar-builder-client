@@ -140,14 +140,40 @@ function App() {
   }
 
   function addChallengeToCalendar(challengeName, phaseTitle) {
+    // switch for getting the phase dates based on the phaseTitle
+    let phaseStartDate = '';
+    let phaseEndDate = '';
+    switch (phaseTitle) {
+      case 'Yearlong':
+        phaseStartDate = $('#startDateYearlong').text();
+        phaseEndDate = $('#endDateYearlong').text();
+        break;
+      case 'Phase 1':
+        phaseStartDate = $('#startDatePhaseOne').text();
+        phaseEndDate = $('#endDatePhaseOne').text();
+        break;
+      case 'Phase 2':
+        phaseStartDate = $('#startDatePhaseTwo').text();
+        phaseEndDate = $('#endDatePhaseTwo').text();
+        break;
+      case 'Phase 3':
+        phaseStartDate = $('#startDatePhaseThree').text();
+        phaseEndDate = $('#endDatePhaseThree').text();
+        break;
+      case 'Phase 4':
+        phaseStartDate = $('#startDatePhaseFour').text();
+        phaseEndDate = $('#endDatePhaseFour').text();
+        break;
+    }
+
     // Make update in Airtable
     base('Challenges').create({
       'Title': challengeName,
       'Calendar': selectedCalendar.fields['hash'],
       'EmployerName': selectedClient.fields['Limeade e='],
       'Phase': phaseTitle,
-      'Start date': moment().format('YYYY-MM-DD'),
-      'End date': moment().format('YYYY-MM-DD'),
+      'Start date': moment(phaseStartDate).format('YYYY-MM-DD'),
+      'End date': moment(phaseEndDate).format('YYYY-MM-DD'),
       'Verified': 'Placeholder',
       'Team Activity': 'no',
       'Reward Occurrence': 'Once',
@@ -439,12 +465,15 @@ function App() {
       const [removed] = sourcePhase.splice(source.index, 1);
       removed.fields['Phase'] = destination.droppableId;
 
-      // Update start and end date to match the phase if available in the Calendar object
-      if (selectedCalendar.fields[`${destination.droppableId} Start Date`]) {
-        removed.fields['Start date'] = selectedCalendar.fields[`${destination.droppableId} Start Date`];
-        removed.fields['End date'] = selectedCalendar.fields[`${destination.droppableId} End Date`];
+      // only update the date if challenge is not custom
+      if (removed.fields['Custom Tile Type'] === null || removed.fields['Custom Tile Type'] === undefined || removed.fields['Custom Tile Type'] === '') {
+        // Update start and end date to match the phase if available in the Calendar object
+        if (selectedCalendar.fields[`${destination.droppableId} Start Date`]) {
+          removed.fields['Start date'] = selectedCalendar.fields[`${destination.droppableId} Start Date`];
+          removed.fields['End date'] = selectedCalendar.fields[`${destination.droppableId} End Date`];
+        }
       }
-
+      
       destinationPhase.splice(destination.index, 0, removed);
 
       sourcePhase.map((challenge, index) => {

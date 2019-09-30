@@ -157,9 +157,9 @@ function AccordionCard({
           </div>
           <div className="col-md-4">
             <h5 id={'dates' + phaseId} className="phase-dates">
-              <span onDoubleClick={editPhaseStartDate}>{formattedStartDate}</span>
+              <span id={'startDate' + phaseId} onDoubleClick={editPhaseStartDate}>{formattedStartDate}</span>
               <span> - </span>
-              <span onDoubleClick={editPhaseEndDate}>{formattedEndDate}</span>
+              <span id={'endDate' + phaseId} onDoubleClick={editPhaseEndDate}>{formattedEndDate}</span>
             </h5>
           </div>
           <div className="col-md-3">
