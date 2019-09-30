@@ -322,10 +322,11 @@ function Challenge({
             <img className="table-icon table-icon_spacing category-icon" src={hpImage(challenge.fields['Category'])} title={(challenge.fields['Category'])} />
             <img className="table-icon team-icon table-icon_spacing" src={teamImage(challenge.fields['Team Activity'])} title={ isTeam ? 'Team' : 'Individual' } />
           </td>
-          <td title="Start date" onDoubleClick={(e) => editStartDate(e, challenge)}><span className="cursor-type_pointer">{moment(startDate).format('L')}</span></td>
-          <td title="End date" onDoubleClick={(e) => editEndDate(e, challenge)}><span className="cursor-type_pointer">{moment(endDate).format('L')}</span></td>
+          {/* prevent editing of dates and points if challenge is custom */}
+          <td title="Start date" onDoubleClick={(e) => isCustom ? '' : editStartDate(e, challenge)}><span className="cursor-type_pointer">{moment(startDate).format('L')}</span></td>
+          <td title="End date" onDoubleClick={(e) => isCustom ? '' : editEndDate(e, challenge)}><span className="cursor-type_pointer">{moment(endDate).format('L')}</span></td>
           <td title="Reward Occurrence">{challenge.fields['Reward Occurrence']}</td>
-          <td title="Points (Total Points)" onDoubleClick={(e) => editPoints(e, challenge)}><span className="cursor-type_pointer">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
+          <td title="Points (Total Points)" onDoubleClick={(e) => isCustom ? '' : editPoints(e, challenge)}><span className="cursor-type_pointer">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
           <td className="actions text-center">
             <div className="actions-icon-group">
               { allowFeatured(challenge) }
