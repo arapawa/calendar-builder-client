@@ -330,8 +330,8 @@ function Challenge({
           <td className="actions text-center">
             <div className="actions-icon-group">
               { allowFeatured(challenge) }
-              <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} />
-              <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} />
+              { isCustom ? '' : <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} /> }
+              { isCustom ? '' : <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} /> }
               </div>
           </td>
         </tr>
