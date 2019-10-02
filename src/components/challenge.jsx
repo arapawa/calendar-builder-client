@@ -173,7 +173,7 @@ function Challenge({
 
     // When user clicks out of the input, change it back to the original readonly version with the updated data
     $('#editingPoints').blur((event) => {
-      challenge.fields['Points'] = event.target.value;
+      challenge.fields['Points'] = event.target.value ? event.target.value : 0;
       challenge.fields['Total Points'] = challenge.fields['Reward Occurrence'] === 'Weekly' ?
                                          event.target.value * weeks :
                                          event.target.value;
@@ -184,7 +184,7 @@ function Challenge({
       // Update airtable w/ the changes
       $('#saveNotification').show().html('Saving...');
       base('Challenges').update(challenge.id, {
-        'Points': event.target.value
+        'Points': event.target.value ? event.target.value : 0
       }, function(err, record) {
         if (err) {
           console.error(err);
@@ -198,7 +198,7 @@ function Challenge({
     // When user hits enter, also change it back
     $('#editingPoints').on('keypress', (event) => {
       if (event.key === 'Enter') {
-        challenge.fields['Points'] = event.target.value;
+        challenge.fields['Points'] = event.target.value ? event.target.value : 0;
         challenge.fields['Total Points'] = challenge.fields['Reward Occurrence'] === 'Weekly' ?
                                            event.target.value * weeks :
                                            event.target.value;
@@ -209,7 +209,7 @@ function Challenge({
         // Update airtable w/ the changes
         $('#saveNotification').show().html('Saving...');
         base('Challenges').update(challenge.id, {
-          'Points': event.target.value
+          'Points': event.target.value ? event.target.value : 0
         }, function(err, record) {
           if (err) {
             console.error(err);
@@ -251,7 +251,7 @@ function Challenge({
 
   const startDate = moment(challenge.fields['Start date']).format('YYYY-MM-DD');
   const endDate = moment(challenge.fields['End date']).format('YYYY-MM-DD');
-  const points = challenge.fields['Points'];
+  const points = challenge.fields['Points'] ? challenge.fields['Points'] : 0;
   const frequency = challenge.fields['Reward Occurrence'];
   const tileImage = challenge.fields['Header Image'];
 
@@ -330,8 +330,8 @@ function Challenge({
           <td className="actions text-center">
             <div className="actions-icon-group">
               { allowFeatured(challenge) }
-              <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} />
-              <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} />
+              { isCustom ? '' : <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} /> }
+              { isCustom ? '' : <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} /> }
               </div>
           </td>
         </tr>
