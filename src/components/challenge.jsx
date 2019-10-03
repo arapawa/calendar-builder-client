@@ -293,6 +293,23 @@ function Challenge({
     }
   }
 
+  function allowEditing(challenge) {
+    // check if the tile is custom
+    if (challenge.fields['Custom Tile Type']) {
+      // check if the tile is a Placeholder
+      if (challenge.fields['Verified'] === 'Placeholder' || challenge.fields['Verified'] === 'placeholder') {
+        // if it's a placeholder, allow editing
+        return true;
+      } else {
+        // if it's from CTRT, don't allow editing
+        return false;
+      }      
+    } else {
+      // if it's not custom, allow editing
+      return true;
+    }
+  }
+
   return (
     <Draggable draggableId={challenge.id} index={index} key={challenge.id}>
       {(provided) => (
@@ -323,15 +340,15 @@ function Challenge({
             <img className="table-icon team-icon table-icon_spacing" src={teamImage(challenge.fields['Team Activity'])} title={ isTeam ? 'Team' : 'Individual' } />
           </td>
           {/* prevent editing of dates and points if challenge is custom */}
-          <td title="Start date" onDoubleClick={(e) => isCustom ? '' : editStartDate(e, challenge)}><span className="cursor-type_pointer">{moment(startDate).format('L')}</span></td>
-          <td title="End date" onDoubleClick={(e) => isCustom ? '' : editEndDate(e, challenge)}><span className="cursor-type_pointer">{moment(endDate).format('L')}</span></td>
+          <td title="Start date" onDoubleClick={(e) => allowEditing(challenge) === true ? editStartDate(e, challenge) : ''}><span className={ allowEditing(challenge) === true ? 'cursor-type_pointer' : '' }>{moment(startDate).format('L')}</span></td>
+          <td title="End date" onDoubleClick={(e) => allowEditing(challenge) === true ? editEndDate(e, challenge) : ''}><span className={ allowEditing(challenge) === true ? 'cursor-type_pointer' : '' }>{moment(endDate).format('L')}</span></td>
           <td title="Reward Occurrence">{challenge.fields['Reward Occurrence']}</td>
-          <td title="Points (Total Points)" onDoubleClick={(e) => isCustom ? '' : editPoints(e, challenge)}><span className="cursor-type_pointer">{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
+          <td title="Points (Total Points)" onDoubleClick={(e) => allowEditing(challenge) === true ? editPoints(e, challenge) : ''}><span className={ allowEditing(challenge) === true ? 'cursor-type_pointer' : '' }>{challenge.fields['Points']} ({challenge.fields['Total Points']})</span></td>
           <td className="actions text-center">
             <div className="actions-icon-group">
               { allowFeatured(challenge) }
-              { isCustom ? '' : <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} /> }
-              { isCustom ? '' : <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} /> }
+              { allowEditing(challenge) === true ? <img className="table-icon duplicate-icon" src="images/icon_duplicate.svg" title="Duplicate challenge" onClick={() => openDuplicateConfirmModal(challenge)} />  : ''}
+              { allowEditing(challenge) === true ? <img className="table-icon delete-icon" src="images/icon_delete.svg" title="Delete challenge" onClick={() => openDeleteConfirmModal(challenge)} />  : ''}
               </div>
           </td>
         </tr>
