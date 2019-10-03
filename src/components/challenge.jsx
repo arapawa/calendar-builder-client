@@ -277,6 +277,8 @@ function Challenge({
         return <p className="badge custom-badge-rerun">Custom: {challenge.fields['Custom Tile Type']}</p>;
       case 'Revised':
         return <p className="badge custom-badge-revised">Custom: {challenge.fields['Custom Tile Type']}</p>;
+      case 'Placeholder':
+        return <p className="badge custom-badge-placeholder">Custom: {challenge.fields['Custom Tile Type']}</p>;
     }
   }
 

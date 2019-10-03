@@ -182,7 +182,7 @@ function App() {
       'Device Enabled': 'No',
       'Category': 'NA',
       'Challenge Id': '',
-      'Custom Tile Type': 'Net New'
+      'Custom Tile Type': 'Placeholder'
     }, (err, record) => {
       if (err) {
         console.error(err);

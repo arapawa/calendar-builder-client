@@ -182,6 +182,10 @@ td:nth-of-type(2) {
   background-color: #6947bb;
 }
 
+.custom-badge-placeholder {
+  background-color: #493185;
+}
+
 .featured-badge {
   background-color: #83d2e2;
 }
