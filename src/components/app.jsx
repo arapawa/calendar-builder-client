@@ -180,9 +180,9 @@ function App() {
       'Points': '0',
       'Total Points': '0',
       'Device Enabled': 'No',
-      'Category': 'Health and Fitness',
+      'Category': 'NA',
       'Challenge Id': '',
-      'Custom Tile Type': 'Net New'
+      'Custom Tile Type': 'Placeholder'
     }, (err, record) => {
       if (err) {
         console.error(err);
