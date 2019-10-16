@@ -499,8 +499,8 @@ function App() {
         if (challenge.id === draggableId) { // Update values for the dragged challenge
           $('#saveNotification').show().html('Saving...');
 
-          // Update start and end date to match the phase if available in the Calendar object
-          if (selectedCalendar.fields[`${destination.droppableId} Start Date`]) {
+          // Update start and end date to match the phase if available in the Calendar object and the challenge is not custom
+          if (selectedCalendar.fields[`${destination.droppableId} Start Date`] && removed.fields['Custom Tile Type'] === null || removed.fields['Custom Tile Type'] === undefined || removed.fields['Custom Tile Type'] === '') {
             base('Challenges').update(challenge.id, {
               'Index': index,
               'Phase': destination.droppableId,
