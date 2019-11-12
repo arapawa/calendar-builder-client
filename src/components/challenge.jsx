@@ -262,10 +262,10 @@ function Challenge({
   const hasBeenEdited = challenge.fields['Content Changed'] === 'yes';
 
   // Verified/Points Upload/System Awarded Exceptions
-  // overriding Verified type for challenges that are Partner Challenges but function like CIEs from the client's perspective (auto awarded)
+  // overriding Verified type for both Points Upload and System Awarded so they both show to the client as "Verified"
   let verified = challenge.fields['Verified'];
-  if (challenge.fields['Title'] === 'Connect with a Coach' || challenge.fields['Title'] === 'Hot Topics On the Go!' || challenge.fields['Title'] === 'Health & Fitness' || challenge.fields['Title'] === 'Money & Prosperity' || challenge.fields['Title'] === 'Growth & Development' || challenge.fields['Title'] === 'Contribution & Sustainability') {
-    verified = 'System Awarded';
+  if (verified === 'Points Upload' || verified === 'System Awarded') {
+    verified = 'Verified';
   }
 
   // declares which color of custom tile badge will show
